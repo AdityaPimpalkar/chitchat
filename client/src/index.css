@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  @variants responsive {
+    .chatentity {
+      height: calc(100vh - 125px) !important;
+      max-height: calc(100vh - 125px) !important;
+    }
+
+    .chatentity-xl {
+      height: calc(100vh - 135px) !important;
+      max-height: calc(100vh - 135px) !important;
+    }
+
+    .chatentity-2xl {
+      height: calc(100vh - 155px) !important;
+      max-height: calc(100vh - 155px) !important;
+    }
+
+    .chatheight {
+      height: calc(100vh - 180px) !important;
+      max-height: calc(100vh - 180px) !important;
+    }
+
+    .chatheight-xl {
+      height: calc(100vh - 200px) !important;
+      max-height: calc(100vh - 200px) !important;
+    }
+
+    .chatheight-2xl {
+      height: calc(100vh - 230px) !important;
+      max-height: calc(100vh - 230px) !important;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+client/node_modules
+
+client/src/config.js
+
+server/node_modules
+
+server/src/config
