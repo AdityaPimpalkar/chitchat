@@ -13,8 +13,9 @@ export default async function onConnectionEvents(socket) {
 
   //connected user details event
   socket.emit("session", {
-    sessionId: socket.sessionId,
+    token: socket.token,
     userId: socket.userId,
+    image: socket.user.imageUrl,
     username: socket.username,
   });
 

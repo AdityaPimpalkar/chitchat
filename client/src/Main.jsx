@@ -28,10 +28,10 @@ class Main extends Component {
       console.info("Disconnected");
     });
 
-    socket.on("session", ({ sessionId, userId, username }) => {
-      socket.auth = { sessionId: sessionId };
-      localStorage.setItem("sessionId", sessionId);
-      const loggedInUser = { userId, username };
+    socket.on("session", ({ token, userId, username, image }) => {
+      socket.auth = { token };
+      localStorage.setItem("token", token);
+      const loggedInUser = { userId, username, image };
       this.setState({ loggedInUser });
     });
 
@@ -42,18 +42,19 @@ class Main extends Component {
 
   checkIfUserExists = () => {
     const { socket } = this.state;
-    const sessionId = localStorage.getItem("sessionId");
-    if (sessionId) {
-      socket.auth = { sessionId: sessionId };
+    const token = localStorage.getItem("token");
+    if (token) {
+      socket.auth = { token };
       socket.connect();
     }
   };
 
   onLoginSuccess = (response) => {
-    console.log(response);
-    //const { socket, user } = this.state;
-    // socket.auth = { username: user };
-    // socket.connect();
+    const { profileObj, tokenId } =  response;
+    console.log(profileObj)
+    const { socket } = this.state;
+    socket.auth = { user: profileObj, tokenId };
+    socket.connect();
   };
 
   onLoginFailure = () => {

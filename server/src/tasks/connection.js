@@ -11,6 +11,7 @@ export async function connect(socket) {
   await sessionStorage.saveSession(sessionId, {
     userId,
     username,
+    image: socket.user.imageUrl,
     connected: true,
   });
   socket.join(userId);
@@ -28,6 +29,7 @@ export async function disconnect(io, socket) {
     const user = {
       userId: socket.userId,
       username: socket.username,
+      image: socket.user.imageUrl,
       connected: socket.connected,
     };
     //update the connection status of the session
@@ -46,6 +48,7 @@ export async function getUsers(userId) {
       users.push({
         userId: session.userId,
         username: session.username,
+        image: socket.user.imageUrl,
         connected: session.connected,
         messages: userMessages.get(userId) || [],
       });
