@@ -12,16 +12,12 @@ export default async function onConnectionEvents(socket) {
   socket.emit("users", { users, groups });
 
   //connected user details event
+  console.log(socket.user);
   socket.emit("session", {
-    token: socket.token,
-    userId: socket.userId,
-    image: socket.user.imageUrl,
-    username: socket.username,
+    ...socket.user,
+    token: socket.token
   });
 
   //new user event
-  socket.broadcast.emit("user connected", {
-    userId: socket.userId,
-    username: socket.username,
-  });
+  socket.broadcast.emit("user connected", socket.user);
 }

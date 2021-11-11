@@ -7,11 +7,9 @@ const messageStorage = new RedisMessageStorage();
 const groupStorage = new RedisGroupStorage();
 
 export async function connect(socket) {
-  const { sessionId, userId, username } = socket;
+  const { user ,sessionId, userId } = socket;
   await sessionStorage.saveSession(sessionId, {
-    userId,
-    username,
-    image: socket.user.imageUrl,
+    ...user,
     connected: true,
   });
   socket.join(userId);
@@ -22,14 +20,9 @@ export async function disconnect(io, socket) {
   const isDisconnected = matchingSockets.size === 0;
   if (isDisconnected) {
     //notify other users
-    socket.broadcast.emit("user disconnected", {
-      userId: socket.userId,
-      username: socket.username,
-    });
+    socket.broadcast.emit("user disconnected", socket.user);
     const user = {
-      userId: socket.userId,
-      username: socket.username,
-      image: socket.user.imageUrl,
+      ...socket.user,
       connected: socket.connected,
     };
     //update the connection status of the session
@@ -48,7 +41,7 @@ export async function getUsers(userId) {
       users.push({
         userId: session.userId,
         username: session.username,
-        image: socket.user.imageUrl,
+        image: session.imageUrl,
         connected: session.connected,
         messages: userMessages.get(userId) || [],
       });

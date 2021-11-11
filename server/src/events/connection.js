@@ -1,7 +1,7 @@
-import directMessageEvents from "./directMessage";
-import groupMessageEvents from "./groupMessage";
-import onConnectionEvents from "./onConnection";
-import onDisconnectEvents from "./onDisconnect";
+import directMessageEvents from "./directMessage.js";
+import groupMessageEvents from "./groupMessage.js";
+import onConnectionEvents from "./onConnection.js";
+import onDisconnectEvents from "./onDisconnect.js";
 
 export default async function connection(io,socket) {
     onConnectionEvents(socket);

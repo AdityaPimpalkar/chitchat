@@ -46,10 +46,10 @@ export class RedisSessionStorage extends SessionStorage {
       .exec();
   }
 
-  async findSession(sessionId) {
+  async findSession(userId) {
     return await this.redisClient
       .multi()
-      .hget(`session:${sessionId}`, "session")
+      .hget(`sessionId:${userId}`, "sessionId")
       .exec()
       .then(([[err, result]]) => {
         return JSON.parse(result);
