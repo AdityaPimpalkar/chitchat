@@ -3,6 +3,8 @@ import ChatEvents from "./ChatEvents";
 import NewGroup from "./NewGroup";
 import ChatContainer from "../layouts/ChatContainer";
 import ChatWindow from "../layouts/ChatWindow";
+import ChatEntity from "../layouts/ChatEntity";
+import Navigation from "../layouts/Navigation";
 import Users from "../screens/directMessage/Users";
 import DirectMessageBody from "../screens/directMessage/Body";
 import DirectMessageHeader from "../screens/directMessage/Header";
@@ -12,6 +14,7 @@ import Groups from "../screens/group/Groups";
 import GroupHeader from "../screens/group/Header";
 import GroupInput from "../screens/group/Input";
 import GroupBody from "../screens/group/Body";
+
 
 class Chat extends ChatEvents {
   constructor(props) {
@@ -115,44 +118,55 @@ class Chat extends ChatEvents {
     } = this.state;
     return (
       <ChatContainer>
-        <Users
-          user={user}
-          users={users}
-          selectUser={this.selectUser}
-          toggleNewGroup={this.toggleNewGroup}
-        />
+        <Navigation user={user} />
+        
         <ChatWindow>
-          {selectedUser.userId && (
-            <React.Fragment>
-              <DirectMessageHeader user={selectedUser} />
-              <DirectMessageBody user={user} messages={messages} />
-              <DirectMessageInput
-                message={message}
-                setMessage={this.setMessage}
-                sendMessage={this.sendMessage}
+          <Users
+            users={users}
+            selectUser={this.selectUser}
+          />
+          <ChatEntity>
+              <React.Fragment>
+                <DirectMessageHeader user={user} />
+                <DirectMessageBody user={user} messages={messages} />
+                <DirectMessageInput
+                  message={message}
+                  setMessage={this.setMessage}
+                  sendMessage={this.sendMessage}
+                />
+              </React.Fragment>
+            {selectedUser.userId && (
+              <React.Fragment>
+                <DirectMessageHeader user={selectedUser} />
+                <DirectMessageBody user={user} messages={messages} />
+                <DirectMessageInput
+                  message={message}
+                  setMessage={this.setMessage}
+                  sendMessage={this.sendMessage}
+                />
+              </React.Fragment>
+            )}
+            {selectedGroup.groupId && (
+              <React.Fragment>
+                <GroupHeader group={selectedGroup} user={user} />
+                <GroupBody user={user} messages={messages} />
+                <GroupInput
+                  message={message}
+                  setMessage={this.setMessage}
+                  sendGroupMessage={this.sendGroupMessage}
+                />
+              </React.Fragment>
+            )}
+            {newGroup && (
+              <NewGroup
+                users={users}
+                createGroup={this.createGroup}
+                toggleNewGroup={this.toggleNewGroup}
               />
-            </React.Fragment>
-          )}
-          {selectedGroup.groupId && (
-            <React.Fragment>
-              <GroupHeader group={selectedGroup} user={user} />
-              <GroupBody user={user} messages={messages} />
-              <GroupInput
-                message={message}
-                setMessage={this.setMessage}
-                sendGroupMessage={this.sendGroupMessage}
-              />
-            </React.Fragment>
-          )}
-          {newGroup && (
-            <NewGroup
-              users={users}
-              createGroup={this.createGroup}
-              toggleNewGroup={this.toggleNewGroup}
-            />
-          )}
+            )}
+          </ChatEntity>
         </ChatWindow>
-        <Groups user={user} groups={groups} selectGroup={this.selectGroup} />
+        {/* <Groups user={user} groups={groups} selectGroup={this.selectGroup} /> */}
       </ChatContainer>
     );
   }
