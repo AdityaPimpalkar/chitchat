@@ -6,7 +6,7 @@ import redis from "./src/config/ioredis.js";
 import connection from "./src/events/connection.js";
 
 const httpServer = createServer();
-const clientUrl = "http://localhost:3000";
+const clientUrl = "http://localhost:3006";
 
 const io = new Server(httpServer, {
   cors: {

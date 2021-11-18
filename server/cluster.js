@@ -5,9 +5,9 @@ import process from "process";
 import { setupMaster, setupWorker } from "@socket.io/sticky";
 import io from "./index.js";
 
-const WORKERS_COUNT = cpus().length;
+const WORKERS_COUNT = 4;
 
-if (cluster.isPrimary) {
+if (cluster.isMaster) {
   console.log(`Primary ${process.pid} is running`);
 
   for (let i = 0; i < WORKERS_COUNT; i++) {

@@ -15,7 +15,13 @@ const Header = ({ user }) => {
               {user.username}
             </div>
             <div className="w-full flex flex-row items-center lg:mt-auto xl:mt-0">
-              <span className={user.connected ? "lg:h-2 lg:w-2 rounded-full bg-green-400 lg:mr-1 2xl:h-3 2xl:w-3" : "lg:h-2 lg:w-2 rounded-full bg-red-700 lg:mr-1 2xl:h-3 2xl:w-3"}></span>
+              <span
+                className={
+                  user.connected
+                    ? "lg:h-2 lg:w-2 rounded-full bg-green-400 lg:mr-1 2xl:h-3 2xl:w-3"
+                    : "lg:h-2 lg:w-2 rounded-full bg-red-700 lg:mr-1 2xl:h-3 2xl:w-3"
+                }
+              ></span>
               <span className="italic lg:text-xs xl:text-sm 2xl:text-base">
                 {user.connected ? "online" : "offline"}
               </span>

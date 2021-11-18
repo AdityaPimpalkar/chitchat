@@ -15,7 +15,6 @@ import GroupHeader from "../screens/group/Header";
 import GroupInput from "../screens/group/Input";
 import GroupBody from "../screens/group/Body";
 
-
 class Chat extends ChatEvents {
   constructor(props) {
     super(props);
@@ -119,22 +118,18 @@ class Chat extends ChatEvents {
     return (
       <ChatContainer>
         <Navigation user={user} />
-        
         <ChatWindow>
-          <Users
-            users={users}
-            selectUser={this.selectUser}
-          />
+          <Users users={users} selectUser={this.selectUser} />
           <ChatEntity>
-              <React.Fragment>
-                <DirectMessageHeader user={user} />
-                <DirectMessageBody user={user} messages={messages} />
-                <DirectMessageInput
-                  message={message}
-                  setMessage={this.setMessage}
-                  sendMessage={this.sendMessage}
-                />
-              </React.Fragment>
+            <React.Fragment>
+              <GroupHeader group={selectedGroup} user={user} />
+              <GroupBody user={user} messages={messages} />
+              <GroupInput
+                message={message}
+                setMessage={this.setMessage}
+                sendGroupMessage={this.sendGroupMessage}
+              />
+            </React.Fragment>
             {selectedUser.userId && (
               <React.Fragment>
                 <DirectMessageHeader user={selectedUser} />

@@ -51,7 +51,6 @@ class Main extends Component {
 
   onLoginSuccess = (response) => {
     const { profileObj, tokenId } =  response;
-    console.log(profileObj)
     const { socket } = this.state;
     socket.auth = { user: profileObj, tokenId };
     socket.connect();

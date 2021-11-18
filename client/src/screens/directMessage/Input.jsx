@@ -24,7 +24,10 @@ const Input = ({ message, setMessage, sendMessage }) => {
             />
           </div>
         </div>
-        <div className="ml-1 w-5 xl:ml-1 cursor-pointer" onClick={() => sendMessage()}>
+        <div
+          className="ml-1 w-5 xl:ml-1 cursor-pointer"
+          onClick={() => sendMessage()}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="rounded-full shadow-xl bg-yellow-500 lg:py-2 lg:px-2 lg:h-9 lg:w-9 xl:py-3 xl:px-2 xl:h-11 xl:w-11 2xl:h-14 2xl:w-14"
