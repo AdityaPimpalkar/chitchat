@@ -27,7 +27,7 @@ const Groups = ({ user, groups, selectGroup }) => {
             <div className="w-10/12 flex justify-center items-center lg:ml-2 2xl:ml-2">
               <input
                 className="bg-purple-700 w-full focus:outline-none lg:text-sm xl:text-base 2xl:text-lg"
-                placeholder="Search Chats"
+                placeholder="Search Groups"
               />
             </div>
           </div>

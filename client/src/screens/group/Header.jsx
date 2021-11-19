@@ -21,16 +21,16 @@ const Header = ({ group, user }) => {
 
           <div className="flex flex-col w-4/5">
             <div className="lg:text-sm xl:text-base xl:font-semibold 2xl:text-lg 2xl:font-semibold">
-              {group.name} Cool Friends
+              {group.name}
             </div>
             <div className="w-full flex flex-row items-center lg:mt-auto xl:mt-0">
               <span className="truncate italic lg:text-xs xl:text-sm 2xl:text-base">
-                {/* {group.members.map(
+                {group.members.map(
                   (member, index) =>
                     member.userId !== user.userId && (
                       <span key={index}> {member.username}, </span>
                     )
-                )} */}
+                )}
                 You
               </span>
             </div>
