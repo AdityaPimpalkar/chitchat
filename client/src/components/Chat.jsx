@@ -56,7 +56,7 @@ class Chat extends ChatEvents {
     );
   }
 
-  navigate = (name) => {
+  toggleNavigation = (name) => {
     if (name === "chats") {
       this.setState({
         directMessage: true,
@@ -165,7 +165,7 @@ class Chat extends ChatEvents {
       <ChatContainer>
         <Navigation
           user={user}
-          navigate={this.navigate}
+          toggleNavigation={this.toggleNavigation}
           directMessage={directMessage}
           group={group}
           friends={friends}

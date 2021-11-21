@@ -1,6 +1,12 @@
 import React from "react";
 
-const Navigation = ({ user, navigate, directMessage, group, friends }) => {
+const Navigation = ({
+  user,
+  toggleNavigation,
+  directMessage,
+  group,
+  friends,
+}) => {
   return (
     <div className="grid grid-cols-3 w-full bg-purple-900 shadow-xl">
       <div className="flex flex-row items-center">
@@ -25,7 +31,7 @@ const Navigation = ({ user, navigate, directMessage, group, friends }) => {
                 ? "border-b-2 rounded-full border-yellow-500 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
                 : "border-b-2 border-purple-900 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
             }
-            onClick={() => navigate("chats")}
+            onClick={() => toggleNavigation("chats")}
           >
             Chats
           </button>
