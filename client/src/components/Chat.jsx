@@ -14,6 +14,7 @@ import Groups from "../screens/group/Groups";
 import GroupHeader from "../screens/group/Header";
 import GroupInput from "../screens/group/Input";
 import GroupBody from "../screens/group/Body";
+import Friends from "../screens/friends/Friends";
 
 class Chat extends ChatEvents {
   constructor(props) {
@@ -208,6 +209,11 @@ class Chat extends ChatEvents {
                 </React.Fragment>
               )}
             </ChatEntity>
+          </ChatWindow>
+        )}
+        {friends && (
+          <ChatWindow>
+            <Friends />
           </ChatWindow>
         )}
         <ChatEntity>

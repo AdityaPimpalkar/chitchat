@@ -41,7 +41,7 @@ const Navigation = ({
                 ? "border-b-2 rounded-full border-yellow-500 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
                 : "border-b-2 border-purple-900 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
             }
-            onClick={() => navigate("groups")}
+            onClick={() => toggleNavigation("groups")}
           >
             Groups
           </button>
@@ -51,7 +51,7 @@ const Navigation = ({
                 ? "border-b-2 rounded-full border-yellow-500 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
                 : "border-b-2 border-purple-900 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
             }
-            onClick={() => navigate("friends")}
+            onClick={() => toggleNavigation("friends")}
           >
             Friends
           </button>
