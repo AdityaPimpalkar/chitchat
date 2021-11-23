@@ -51,12 +51,6 @@ class ChatEvents extends Component {
     }
   };
 
-  findUser = (userId) => {
-    const users = [...this.state.users];
-    const user = users.find((u) => u.userId === userId);
-    return user;
-  };
-
   handleConnectionStatus = (userId, status) => {
     const users = [...this.state.users];
     const userIndex = users.findIndex((u) => u.userId === userId);
