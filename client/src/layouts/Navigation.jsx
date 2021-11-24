@@ -2,7 +2,9 @@ import React from "react";
 
 const Navigation = ({
   user,
-  toggleNavigation,
+  toggleChats,
+  toggleGroups,
+  toggleFriends,
   directMessage,
   group,
   friends,
@@ -31,7 +33,7 @@ const Navigation = ({
                 ? "border-b-2 rounded-full border-yellow-500 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
                 : "border-b-2 border-purple-900 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
             }
-            onClick={() => toggleNavigation("chats")}
+            onClick={() => toggleChats()}
           >
             Chats
           </button>
@@ -41,7 +43,7 @@ const Navigation = ({
                 ? "border-b-2 rounded-full border-yellow-500 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
                 : "border-b-2 border-purple-900 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
             }
-            onClick={() => toggleNavigation("groups")}
+            onClick={() => toggleGroups()}
           >
             Groups
           </button>
@@ -51,7 +53,7 @@ const Navigation = ({
                 ? "border-b-2 rounded-full border-yellow-500 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
                 : "border-b-2 border-purple-900 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
             }
-            onClick={() => toggleNavigation("friends")}
+            onClick={() => toggleFriends()}
           >
             Friends
           </button>
