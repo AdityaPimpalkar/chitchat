@@ -1,10 +1,12 @@
 import React from "react";
 import socket from "./../www/socket";
 import DirectMessageEvents from "./DirectMessageEvents";
-
+import ChatWindow from "../layouts/ChatWindow";
 import Header from "../screens/directMessage/Header";
 import Body from "../screens/directMessage/Body";
 import Input from "../screens/directMessage/Input";
+import ChatEntity from "../layouts/ChatEntity";
+import Users from "../screens/directMessage/Users";
 
 class DirectMessage extends DirectMessageEvents {
   constructor(props) {
@@ -12,53 +14,39 @@ class DirectMessage extends DirectMessageEvents {
     this.state = {
       socket,
       user: this.props.user,
+      users: this.props.users,
+      selectedUser: {},
       message: "",
       messages: [],
     };
   }
 
   componentDidMount() {
+    socket.on("user connected", (user) => this.userConnected(user));
+    socket.on("user disconnected", (user) => this.userDisconnected(user));
     socket.on("private message", (message) => this.privateMessage(message));
     socket.on("user messages", (messages) => this.userMessages(messages));
   }
 
-  setMessage = (message) => {
-    this.setState({ message });
-  };
-
-  sendMessage = () => {
-    const socket = this.state.socket;
-    const message = this.state.message;
-    const user = { ...this.state.user };
-    const selectedUser = { ...this.state.selectedUser };
-    const messages = [...this.state.messages];
-
-    socket.emit("private message", {
-      content: message,
-      to: selectedUser.userId,
-    });
-
-    const newMessage = {
-      userId: user.userId,
-      username: user.username,
-      message,
-    };
-
-    this.setState({ messages: [...messages, newMessage], message: "" });
-  };
-
   render() {
-    const { user, message, messages } = this.state;
+    const { user, selectedUser, message, users, messages } = this.state;
     return (
-      <React.Fragment>
-        <Header user={user} />
-        <Body user={user} messages={messages} />
-        <Input
-          message={message}
-          setMessage={this.setMessage}
-          sendMessage={this.sendMessage}
-        />
-      </React.Fragment>
+      <ChatWindow>
+        <Users users={users} selectUser={this.selectUser} />
+        <ChatEntity>
+          {selectedUser.userId && (
+            <React.Fragment>
+              <Header user={user} />
+              <Body user={user} messages={messages} />
+              <Input
+                message={message}
+                setMessage={this.setMessage}
+                sendMessage={this.sendMessage}
+              />
+            </React.Fragment>
+          )}
+        </ChatEntity>
+      </ChatWindow>
     );
   }
 }

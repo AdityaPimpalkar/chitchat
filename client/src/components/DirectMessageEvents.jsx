@@ -1,10 +1,11 @@
 import { Component } from "react";
+import socket from "./../www/socket";
 
 class DirectMessageEvents extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: {},
+      socket,
       user: {},
       users: [],
       selectedUser: {},
@@ -12,6 +13,42 @@ class DirectMessageEvents extends Component {
       messages: [],
     };
   }
+
+  setMessage = (message) => {
+    this.setState({ message });
+  };
+
+  sendMessage = () => {
+    const socket = this.state.socket;
+    const message = this.state.message;
+    const user = { ...this.state.user };
+    const selectedUser = { ...this.state.selectedUser };
+    const messages = [...this.state.messages];
+
+    socket.emit("private message", {
+      content: message,
+      to: selectedUser.userId,
+    });
+
+    const newMessage = {
+      userId: user.userId,
+      username: user.username,
+      message,
+    };
+
+    this.setState({ messages: [...messages, newMessage], message: "" });
+  };
+
+  selectUser = (selectedUser) => {
+    this.setState({
+      selectedUser,
+      message: "",
+      messages: [],
+    });
+    const socket = this.state.socket;
+    socket.emit("user messages", selectedUser);
+    this.handleNewMessageStatus(selectedUser.userId, false);
+  };
 
   userMessages = ({ messages }) => {
     console.log("Hi!");
