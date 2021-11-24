@@ -50,28 +50,22 @@ class Main extends Component {
   };
 
   onLoginSuccess = (response) => {
-    const { profileObj, tokenId } =  response;
+    const { profileObj, tokenId } = response;
     const { socket } = this.state;
     socket.auth = { user: profileObj, tokenId };
     socket.connect();
   };
 
   onLoginFailure = () => {
-    console.log("Login Failed!")
+    console.log("Login Failed!");
   };
 
-
   render() {
-    const { socket, users, groups, loggedInUser } = this.state;
+    const { users, groups, loggedInUser } = this.state;
     return (
       <main>
         {loggedInUser.userId && (
-          <Chat
-            socket={socket}
-            user={loggedInUser}
-            users={users}
-            groups={groups}
-          />
+          <Chat user={loggedInUser} users={users} groups={groups} />
         )}
         {!loggedInUser.userId && (
           <Login
