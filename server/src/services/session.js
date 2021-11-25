@@ -43,6 +43,7 @@ export class RedisSessionStorage extends SessionStorage {
         "sessionId",
         JSON.stringify({ userId, sessionId })
       )
+      .hset(`user:${value.email}`, "user", value)
       .exec();
   }
 
