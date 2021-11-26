@@ -14,7 +14,7 @@ export class RedisFriendStorage extends FindFriends {
     this.redisClient = redis;
   }
 
-  AddFriend(fromObj, toObj) {
+  async AddFriend(fromObj, toObj) {
     const from = JSON.stringify(from);
     const to = JSON.stringify(to);
     await this.redisClient
@@ -24,7 +24,7 @@ export class RedisFriendStorage extends FindFriends {
       .exec();
   }
 
-  searchFriend(email) {
+  async searchFriend(email) {
     return await this.redisClient
       .multi()
       .hget(`user:${email}`, "user")
@@ -35,7 +35,7 @@ export class RedisFriendStorage extends FindFriends {
       .catch((error) => console.log(error));
   }
 
-  getFriendRequests(userId) {
+  async getFriendRequests(userId) {
     return await this.redisClient
       .lrange(`receivedRequest:${userId}`, 0, -1)
       .then((results) => {
@@ -43,7 +43,7 @@ export class RedisFriendStorage extends FindFriends {
       });
   }
 
-  getSentRequests(userId) {
+  async getSentRequests(userId) {
     return await this.redisClient
       .lrange(`sentRequest:${userId}`, 0, -1)
       .then((results) => {
@@ -51,7 +51,7 @@ export class RedisFriendStorage extends FindFriends {
       });
   }
 
-  AcceptFriendRequest(fromObj, toObj) {
+  async AcceptFriendRequest(fromObj, toObj) {
     const from = JSON.stringify(from);
     const to = JSON.stringify(to);
     await this.redisClient

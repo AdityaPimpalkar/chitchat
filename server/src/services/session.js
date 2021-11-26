@@ -34,7 +34,7 @@ export class RedisSessionStorage extends SessionStorage {
 
   async saveSession(sessionId, user) {
     const value = JSON.stringify(user);
-    const { userId } = user;
+    const { userId, email } = user;
     await this.redisClient
       .multi()
       .hset(`session:${sessionId}`, "session", value)
@@ -43,7 +43,7 @@ export class RedisSessionStorage extends SessionStorage {
         "sessionId",
         JSON.stringify({ userId, sessionId })
       )
-      .hset(`user:${value.email}`, "user", value)
+      .hset(`user:${email}`, "user", value)
       .exec();
   }
 

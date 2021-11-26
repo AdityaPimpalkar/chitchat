@@ -16,7 +16,8 @@ export async function auth(socket, next) {
         username: jwtToken.username,
         userId: jwtToken.userId,
         sessionId: session.sessionId,
-        image: jwtToken.image
+        email: jwtToken.email,
+        image: jwtToken.image,
       };
       socket.sessionId = session.sessionId;
       socket.userId = jwtToken.userId;
@@ -36,16 +37,17 @@ export async function auth(socket, next) {
   const session = await sessionStorage.findSession(user.googleId);
   let sessionId;
   if (session) {
-    sessionId = session.sessionId
+    sessionId = session.sessionId;
   } else {
     sessionId = uuidv4();
-  } 
+  }
 
   const userObj = {
     username: user.name,
     userId: user.googleId,
+    email: user.email,
     sessionId,
-    image: user.imageUrl
+    image: user.imageUrl,
   };
 
   socket.user = userObj;
