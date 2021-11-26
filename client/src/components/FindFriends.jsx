@@ -1,5 +1,6 @@
 import React from "react";
 import _ from "lodash";
+import socket from "../www/socket";
 import FindFriendsEvents from "./FindFriendsEvents";
 import ChatWindow from "../layouts/ChatWindow";
 import ChatEntity from "../layouts/ChatEntity";
@@ -10,22 +11,25 @@ class FindFriends extends FindFriendsEvents {
   constructor(props) {
     super(props);
     this.state = {
-      friends: [
-        {
-          image: "https://source.unsplash.com/150x150/?person",
-          username: "Aditya Pimpalkar",
-          email: "adipimpalkar@gmail.com",
-          isAdded: true,
-        },
-      ],
+      search: "",
+      friends: [],
       selectedFriend: {},
+      isLoading: false,
     };
   }
+
   render() {
-    const { friends, selectedFriend } = this.state;
+    const { search, friends, selectedFriend, isLoading } = this.state;
     return (
       <ChatWindow>
-        <Friends friends={friends} selectFriend={this.selectFriend} />
+        <Friends
+          search={search}
+          friends={friends}
+          selectFriend={this.selectFriend}
+          setSearch={this.setSearch}
+          searchFriend={this.searchFriend}
+          isLoading={isLoading}
+        />
         <ChatEntity friends={true}>
           {!_.isEmpty(selectedFriend) && (
             <Body selectedFriend={selectedFriend} />
