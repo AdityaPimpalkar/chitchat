@@ -5,6 +5,7 @@ class SessionStorage {
   findSession(sessionId) {}
   findUserSession(userId) {}
   findAllSessions() {}
+  getConversations(userId) {}
 }
 
 export class InMemorySessionStore extends SessionStorage {
@@ -96,6 +97,16 @@ export class RedisSessionStorage extends SessionStorage {
       .exec()
       .then((results) => {
         return results.map(([err, session]) => JSON.parse(session));
+      });
+  }
+
+  async getConversations(userId) {
+    return await this.redisClient
+      .multi()
+      .lrange(`conversation:${userId}`, 0, -1)
+      .exec()
+      .then(([[errors, results]]) => {
+        return results.map((result) => JSON.parse(result));
       });
   }
 }

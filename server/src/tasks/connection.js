@@ -7,7 +7,7 @@ const messageStorage = new RedisMessageStorage();
 const groupStorage = new RedisGroupStorage();
 
 export async function connect(socket) {
-  const { user ,sessionId, userId } = socket;
+  const { user, sessionId, userId } = socket;
   await sessionStorage.saveSession(sessionId, {
     ...user,
     connected: true,
@@ -33,15 +33,16 @@ export async function disconnect(io, socket) {
 export async function getUsers(userId) {
   const users = [];
   const [sessions, userMessages] = await Promise.all([
-    sessionStorage.findAllSessions(),
+    sessionStorage.getConversations(userId),
     getMessagesForUser(userId),
   ]);
+  console.log("sessions", sessions);
   sessions.forEach((session) => {
     if (session.userId !== userId) {
       users.push({
         userId: session.userId,
         username: session.username,
-        image: session.imageUrl,
+        image: session.image,
         connected: session.connected,
         messages: userMessages.get(userId) || [],
       });

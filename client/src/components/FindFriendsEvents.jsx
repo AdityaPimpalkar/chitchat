@@ -28,6 +28,8 @@ class FindFriendsEvents extends Component {
   searchedFriend = (friend) => {
     if (friend) {
       this.setState({ friends: [{ ...friend }] });
+    } else {
+      this.setState({ friends: [] });
     }
     this.setState({ isLoading: false });
   };
