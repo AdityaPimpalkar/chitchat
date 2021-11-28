@@ -1,21 +1,27 @@
-import { connect, getUsers, getGroups } from "../tasks/connection.js";
+import {
+  connect,
+  getUsers,
+  getGroups,
+  getFriendRequests,
+} from "../tasks/connection.js";
 
 export default async function onConnectionEvents(socket) {
   connect(socket);
 
-  const [users, groups] = await Promise.all([
+  const [users, groups, friendRequests] = await Promise.all([
     getUsers(socket.userId),
     getGroups(socket.sessionId),
+    getFriendRequests(socket.userId),
   ]);
 
   //all users event
-  socket.emit("users", { users, groups });
+  socket.emit("users", { users, groups, friendRequests });
 
   //connected user details event
   console.log(socket.user);
   socket.emit("session", {
     ...socket.user,
-    token: socket.token
+    token: socket.token,
   });
 
   //new user event

@@ -1,10 +1,12 @@
 import { RedisSessionStorage } from "../services/session.js";
 import { RedisMessageStorage } from "../services/message.js";
 import { RedisGroupStorage } from "../services/group.js";
+import { RedisFriendStorage } from "../services/Friends.js";
 
 const sessionStorage = new RedisSessionStorage();
 const messageStorage = new RedisMessageStorage();
 const groupStorage = new RedisGroupStorage();
+const FindFriends = new RedisFriendStorage();
 
 export async function connect(socket) {
   const { user, sessionId, userId } = socket;
@@ -54,6 +56,11 @@ export async function getUsers(userId) {
 export async function getGroups(sessionId) {
   const groups = await groupStorage.getGroups(sessionId);
   return groups;
+}
+
+export async function getFriendRequests(userId) {
+  const friends = await FindFriends.getFriendRequests(userId);
+  return friends;
 }
 
 async function getMessagesForUser(userId) {

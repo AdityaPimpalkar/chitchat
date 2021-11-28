@@ -1,5 +1,4 @@
 import { RedisFriendStorage } from "../services/Friends.js";
-import socket from "../config/ioredis.js";
 const FindFriends = new RedisFriendStorage();
 
 export async function searchFriend(socket, email) {
