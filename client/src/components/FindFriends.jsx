@@ -12,23 +12,39 @@ class FindFriends extends FindFriendsEvents {
     super(props);
     this.state = {
       search: "",
+      requests: this.props.friendRequests,
       friends: [],
       selectedFriend: {},
       isLoading: false,
+      findFriends: false,
+      friendRequests: true,
     };
   }
 
   render() {
-    const { search, friends, selectedFriend, isLoading } = this.state;
+    const {
+      search,
+      requests,
+      friends,
+      selectedFriend,
+      isLoading,
+      findFriends,
+      friendRequests,
+    } = this.state;
     return (
       <ChatWindow>
         <Friends
           search={search}
+          requests={requests}
           friends={friends}
           selectFriend={this.selectFriend}
           setSearch={this.setSearch}
           searchFriend={this.searchFriend}
           isLoading={isLoading}
+          findFriends={findFriends}
+          friendRequests={friendRequests}
+          toggleFindFriends={this.toggleFindFriends}
+          toggleFriendRequests={this.toggleFriendRequests}
         />
         <ChatEntity friends={true}>
           {!_.isEmpty(selectedFriend) && (

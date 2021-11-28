@@ -9,6 +9,8 @@ class FindFriendsEvents extends Component {
       friends: [],
       selectedFriend: {},
       isLoading: false,
+      findFriends: false,
+      friendRequests: true,
     };
   }
   componentDidMount() {
@@ -36,6 +38,14 @@ class FindFriendsEvents extends Component {
 
   selectFriend = (friend) => {
     this.setState({ selectedFriend: friend });
+  };
+
+  toggleFindFriends = () => {
+    this.setState({ findFriends: true, friendRequests: false });
+  };
+
+  toggleFriendRequests = () => {
+    this.setState({ friendRequests: true, findFriends: false });
   };
   render() {
     return null;

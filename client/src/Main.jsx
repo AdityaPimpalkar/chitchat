@@ -12,6 +12,7 @@ class Main extends Component {
       loggedInUser: {},
       users: [],
       groups: [],
+      friendRequests: [],
     };
   }
 
@@ -35,8 +36,8 @@ class Main extends Component {
       this.setState({ loggedInUser });
     });
 
-    socket.on("users", ({ users, groups }) => {
-      this.setState({ users, groups });
+    socket.on("users", ({ users, groups, friendRequests }) => {
+      this.setState({ users, groups, friendRequests });
     });
   }
 
@@ -61,11 +62,16 @@ class Main extends Component {
   };
 
   render() {
-    const { users, groups, loggedInUser } = this.state;
+    const { users, groups, friendRequests, loggedInUser } = this.state;
     return (
       <main>
         {loggedInUser.userId && (
-          <Chat user={loggedInUser} users={users} groups={groups} />
+          <Chat
+            user={loggedInUser}
+            users={users}
+            groups={groups}
+            friendRequests={friendRequests}
+          />
         )}
         {!loggedInUser.userId && (
           <Login

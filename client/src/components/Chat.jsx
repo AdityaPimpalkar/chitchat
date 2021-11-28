@@ -14,6 +14,7 @@ class Chat extends Component {
       user: this.props.user,
       users: this.props.users,
       groups: this.props.groups,
+      friendRequests: this.props.friendRequests,
       directMessage: true,
       group: false,
       friends: false,
@@ -33,7 +34,15 @@ class Chat extends Component {
   };
 
   render() {
-    const { user, users, groups, directMessage, group, friends } = this.state;
+    const {
+      user,
+      users,
+      groups,
+      friendRequests,
+      directMessage,
+      group,
+      friends,
+    } = this.state;
     return (
       <ChatContainer>
         <Navigation
@@ -47,7 +56,7 @@ class Chat extends Component {
         />
         {directMessage && <DirectMessage user={user} users={users} />}
         {group && <GroupMessage user={user} users={users} groups={groups} />}
-        {friends && <FindFriends />}
+        {friends && <FindFriends friendRequests={friendRequests} />}
       </ChatContainer>
     );
   }
