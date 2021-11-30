@@ -1,6 +1,6 @@
 import React from "react";
 
-const FindFriends = ({ friends, selectFriend }) => {
+const FindFriends = ({ friends, selectFriend, addFriend }) => {
   return friends.length > 0 ? (
     friends.map((friend, index) => {
       return (
@@ -57,22 +57,6 @@ const FindFriends = ({ friends, selectFriend }) => {
                       clip-rule="evenodd"
                     />
                   </svg>
-                )}
-                {!friend.isAdded && (
-                  <button className="flex flex-fill justify-center items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
                 )}
               </div>
             </div>

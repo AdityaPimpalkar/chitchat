@@ -45,22 +45,40 @@ const FriendRequests = ({ friendRequests, selectFriend }) => {
                 </span>
               </div>
               <div className="flex flex-grow flex-col w-1/4 justify-center items-center border-b-1">
-                <button className="flex flex-fill justify-center items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-                    />
-                  </svg>
-                </button>
+                {friend.isAdded && (
+                  <button className="flex flex-fill justify-center items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                      />
+                    </svg>
+                  </button>
+                )}
+                {!friend.isAdded && (
+                  <button className="flex flex-fill justify-center items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -39,6 +39,11 @@ class DirectMessageEvents extends Component {
     this.setState({ messages: [...messages, newMessage], message: "" });
   };
 
+  newFriend = (friend) => {
+    const users = [...this.state.users];
+    this.setState({ users: [friend, ...users] });
+  };
+
   selectUser = (selectedUser) => {
     this.setState({
       selectedUser,
@@ -51,7 +56,6 @@ class DirectMessageEvents extends Component {
   };
 
   userMessages = ({ messages }) => {
-    console.log("Hi!");
     const chatMessages = [];
     messages.forEach(({ content, from }) => {
       chatMessages.push({ userId: from, message: content });
@@ -66,9 +70,6 @@ class DirectMessageEvents extends Component {
       const user = users.find((user) => user.userId === userId);
       if (user) {
         this.handleConnectionStatus(user.userId, true);
-      } else {
-        const newUser = { userId, username, connected: true };
-        this.setState({ users: [...users, newUser] });
       }
     }
   };

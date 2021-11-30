@@ -48,7 +48,7 @@ class FindFriends extends FindFriendsEvents {
         />
         <ChatEntity friends={true}>
           {!_.isEmpty(selectedFriend) && (
-            <Body selectedFriend={selectedFriend} />
+            <Body selectedFriend={selectedFriend} addFriend={this.addFriend} />
           )}
         </ChatEntity>
       </ChatWindow>

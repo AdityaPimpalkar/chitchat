@@ -40,6 +40,11 @@ class FindFriendsEvents extends Component {
     this.setState({ selectedFriend: friend });
   };
 
+  addFriend = () => {
+    const selectedFriend = this.state.selectedFriend;
+    socket.emit("addFriend", selectedFriend);
+  };
+
   toggleFindFriends = () => {
     this.setState({ findFriends: true, friendRequests: false });
   };

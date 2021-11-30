@@ -1,6 +1,6 @@
 import React from "react";
 
-const Body = ({ selectedFriend }) => {
+const Body = ({ selectedFriend, addFriend }) => {
   return (
     <div className="h-100 overflow-y-auto rounded-xl h-4/5 bg-purple-600 text-left ml-2 mr-5 mt-2">
       <div className="w-100 text-center flex flex-col justify-content items-center">
@@ -53,7 +53,10 @@ const Body = ({ selectedFriend }) => {
           </div>
         )}
         {!selectedFriend.isAdded && (
-          <button className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center hover:bg-yellow-500 hover:shadow-xl">
+          <button
+            className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center hover:bg-yellow-500 hover:shadow-xl"
+            onClick={() => addFriend()}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"

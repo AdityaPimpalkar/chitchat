@@ -26,6 +26,7 @@ class DirectMessage extends DirectMessageEvents {
     socket.on("user disconnected", (user) => this.userDisconnected(user));
     socket.on("private message", (message) => this.privateMessage(message));
     socket.on("user messages", (messages) => this.userMessages(messages));
+    socket.on("newFriend", (friend) => this.newFriend(friend));
   }
 
   render() {
