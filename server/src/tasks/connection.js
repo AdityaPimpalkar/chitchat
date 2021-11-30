@@ -38,7 +38,6 @@ export async function getUsers(userId) {
     sessionStorage.getConversations(userId),
     getMessagesForUser(userId),
   ]);
-  console.log("sessions", sessions);
   sessions.forEach((session) => {
     if (session.userId !== userId) {
       users.push({

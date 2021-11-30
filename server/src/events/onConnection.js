@@ -18,7 +18,6 @@ export default async function onConnectionEvents(socket) {
   socket.emit("users", { users, groups, friendRequests });
 
   //connected user details event
-  console.log(socket.user);
   socket.emit("session", {
     ...socket.user,
     token: socket.token,
