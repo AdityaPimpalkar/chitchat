@@ -45,10 +45,17 @@ class FindFriends extends FindFriendsEvents {
           friendRequests={friendRequests}
           toggleFindFriends={this.toggleFindFriends}
           toggleFriendRequests={this.toggleFriendRequests}
+          acceptRequest={this.acceptRequest}
         />
         <ChatEntity friends={true}>
           {!_.isEmpty(selectedFriend) && (
-            <Body selectedFriend={selectedFriend} addFriend={this.addFriend} />
+            <Body
+              selectedFriend={selectedFriend}
+              addFriend={this.addFriend}
+              findFriends={findFriends}
+              friendRequests={friendRequests}
+              acceptRequest={this.acceptRequest}
+            />
           )}
         </ChatEntity>
       </ChatWindow>

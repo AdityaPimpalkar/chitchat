@@ -37,8 +37,8 @@ class DirectMessage extends DirectMessageEvents {
         <ChatEntity>
           {selectedUser.userId && (
             <React.Fragment>
-              <Header user={user} />
-              <Body user={user} messages={messages} />
+              <Header user={selectedUser} />
+              <Body user={selectedUser} messages={messages} />
               <Input
                 message={message}
                 setMessage={this.setMessage}

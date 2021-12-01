@@ -1,6 +1,6 @@
 import React from "react";
 
-const FriendRequests = ({ friendRequests, selectFriend }) => {
+const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
   return (
     friendRequests.length > 0 &&
     friendRequests.map((friend, index) => {
@@ -8,7 +8,6 @@ const FriendRequests = ({ friendRequests, selectFriend }) => {
         <div
           key={index}
           className="flex flex-row cursor-pointer lg:py-1 pr-2 xl:py-2"
-          onClick={() => selectFriend(friend)}
         >
           <div className="flex flex-col justify-center items-center lg:w-1/6 xl:w-2/12">
             <img
@@ -19,7 +18,10 @@ const FriendRequests = ({ friendRequests, selectFriend }) => {
           </div>
           <div className="flex flex-col  border-b border-purple-400 lg:w-4/5 xl:w-10/12">
             <div className="flex flex-row w-full">
-              <div className="flex flex-col flex-shrink w-3/4">
+              <div
+                className="flex flex-col flex-shrink w-3/4"
+                onClick={() => selectFriend(friend)}
+              >
                 <div className="flex flex-row">
                   <span className="italic my-auto truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-lg 2xl:font-semibold">
                     {friend.username}
@@ -44,12 +46,12 @@ const FriendRequests = ({ friendRequests, selectFriend }) => {
                   Verified
                 </span>
               </div>
-              <div className="flex flex-grow flex-col w-1/4 justify-center items-center border-b-1">
+              <div className="flex flex-grow flex-col w-1/4 justify-center items-end border-b-1">
                 {friend.isAdded && (
                   <button className="flex flex-fill justify-center items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+                      className="mr-2 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -64,10 +66,13 @@ const FriendRequests = ({ friendRequests, selectFriend }) => {
                   </button>
                 )}
                 {!friend.isAdded && (
-                  <button className="flex flex-fill justify-center items-center">
+                  <button
+                    className="flex flex-fill justify-center items-center"
+                    onClick={() => acceptRequest(friend)}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+                      className="mr-2 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >

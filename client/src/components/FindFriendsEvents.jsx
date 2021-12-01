@@ -45,6 +45,10 @@ class FindFriendsEvents extends Component {
     socket.emit("addFriend", selectedFriend);
   };
 
+  acceptRequest = (friend) => {
+    socket.emit("acceptRequest", friend);
+  };
+
   toggleFindFriends = () => {
     this.setState({ findFriends: true, friendRequests: false });
   };

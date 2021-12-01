@@ -1,6 +1,12 @@
 import React from "react";
 
-const Body = ({ selectedFriend, addFriend }) => {
+const Body = ({
+  selectedFriend,
+  addFriend,
+  findFriends,
+  friendRequests,
+  acceptRequest,
+}) => {
   return (
     <div className="h-100 overflow-y-auto rounded-xl h-4/5 bg-purple-600 text-left ml-2 mr-5 mt-2">
       <div className="w-100 text-center flex flex-col justify-content items-center">
@@ -35,24 +41,25 @@ const Body = ({ selectedFriend, addFriend }) => {
         <span className="italic mb-3 text-green-300 truncate lg:text-xs 2xl:text-base">
           Verified
         </span>
-        {selectedFriend.isAdded && (
-          <div className="flex flex-row justify-center items-center bg-yellow-600 rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className=" lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span className="mr-2">Waiting for approval</span>
-          </div>
-        )}
-        {!selectedFriend.isAdded && (
+        {findFriends &&
+          selectedFriend.isAdded(
+            <div className="flex flex-row justify-center items-center bg-yellow-600 rounded-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className=" lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="mr-2">Waiting for approval</span>
+            </div>
+          )}
+        {findFriends && !selectedFriend.isAdded && (
           <button
             className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center hover:bg-yellow-500 hover:shadow-xl"
             onClick={() => addFriend()}
@@ -70,6 +77,26 @@ const Body = ({ selectedFriend, addFriend }) => {
               />
             </svg>
             Add as friend
+          </button>
+        )}
+        {friendRequests && (
+          <button
+            className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center hover:bg-green-500 hover:shadow-xl"
+            onClick={() => acceptRequest(selectedFriend)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Accept friend request
           </button>
         )}
       </div>

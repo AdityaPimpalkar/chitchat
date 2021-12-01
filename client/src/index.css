@@ -35,18 +35,18 @@
     }
 
     .chatheight {
-      height: calc(100vh - 115px) !important;
-      max-height: calc(100vh - 115px) !important;
+      height: calc(100vh - 185px) !important;
+      max-height: calc(100vh - 185px) !important;
     }
 
     .chatheight-xl {
-      height: calc(100vh - 135px) !important;
-      max-height: calc(100vh - 135px) !important;
+      height: calc(100vh - 200px) !important;
+      max-height: calc(100vh - 200px) !important;
     }
 
     .chatheight-2xl {
-      height: calc(100vh - 165px) !important;
-      max-height: calc(100vh - 165px) !important;
+      height: calc(100vh - 235px) !important;
+      max-height: calc(100vh - 235px) !important;
     }
   }
 }

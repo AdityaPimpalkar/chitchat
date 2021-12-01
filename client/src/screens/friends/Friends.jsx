@@ -14,6 +14,7 @@ const Friends = ({
   friendRequests,
   toggleFindFriends,
   toggleFriendRequests,
+  acceptRequest,
 }) => {
   return (
     <div className="w-2/6">
@@ -111,6 +112,7 @@ const Friends = ({
                 <FriendRequests
                   friendRequests={requests}
                   selectFriend={selectFriend}
+                  acceptRequest={acceptRequest}
                 />
               )}
             </div>
