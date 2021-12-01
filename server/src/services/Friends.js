@@ -52,12 +52,13 @@ export class RedisFriendStorage extends FindFriends {
   }
 
   async AcceptFriendRequest(fromObj, toObj) {
-    const from = JSON.stringify(from);
-    const to = JSON.stringify(to);
+    const from = JSON.stringify(fromObj);
+    const to = JSON.stringify(toObj);
     await this.redisClient
       .multi()
       .rpush(`conversation:${fromObj.userId}`, to)
       .rpush(`conversation:${toObj.userId}`, from)
-      .exec();
+      .exec()
+      .then((result) => console.log(result));
   }
 }

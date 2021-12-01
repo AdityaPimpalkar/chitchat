@@ -18,3 +18,10 @@ export async function addFriend(socket, friend) {
   const ok = await FindFriends.AddFriend(currentUser, friend);
   if (ok) socket.emit("newFriend", friend);
 }
+
+export async function acceptRequest(socket, friend) {
+  const currentUser = socket.user;
+  const ok = await FindFriends.AcceptFriendRequest(currentUser, friend);
+  socket.to(socket.userId).emit("newFriend", friend);
+  socket.to(friend.userId).emit("newFriend", currentUser);
+}
