@@ -1,11 +1,7 @@
-import {
-  searchFriend,
-  addFriend,
-  acceptRequest,
-} from "../tasks/FindFriends.js";
+import { searchFriend, addFriend, acceptRequest } from "../tasks/Friends.js";
 //import socket from "../config/ioredis.js";
 
-export default function FindFriendsEvents(socket) {
+export default function FriendsEvents(socket) {
   socket.on("searchFriend", (email) => searchFriend(socket, email));
 
   socket.on("addFriend", (friend) => addFriend(socket, friend));

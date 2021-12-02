@@ -1,5 +1,5 @@
 import directMessageEvents from "./directMessage.js";
-import FindFriendsEvents from "./FindFriendsEvents.js";
+import FriendsEvents from "./Friends.js";
 import groupMessageEvents from "./groupMessage.js";
 
 import onConnectionEvents from "./onConnection.js";
@@ -10,5 +10,5 @@ export default async function connection(io, socket) {
   directMessageEvents(socket);
   groupMessageEvents(socket);
   onDisconnectEvents(io, socket);
-  FindFriendsEvents(socket);
+  FriendsEvents(socket);
 }
