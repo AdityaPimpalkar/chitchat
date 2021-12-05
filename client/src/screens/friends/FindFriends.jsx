@@ -12,7 +12,7 @@ const FindFriends = ({ friends, selectFriend, addFriend }) => {
           <div className="flex flex-col justify-center items-center lg:w-1/6 xl:w-2/12">
             <img
               src={friend.image}
-              className="rounded-full border-2 lg:h-9 lg:w-9 xl:h-12 xl:w-12 2xl:h-14 2xl:w-14"
+              className="rounded-full border-2 lg:h-9 lg:w-9 xl:h-12 xl:w-12 2xl:h-16 2xl:w-16"
               alt="img"
             />
           </div>
@@ -20,13 +20,13 @@ const FindFriends = ({ friends, selectFriend, addFriend }) => {
             <div className="flex flex-row w-full">
               <div className="flex flex-col flex-shrink w-3/4">
                 <div className="flex flex-row">
-                  <span className="italic my-auto truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-lg 2xl:font-semibold">
+                  <span className="italic my-auto truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-xl 2xl:font-semibold">
                     {friend.username}
                   </span>
                   <div className="flex justify-center items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="text-blue-400 ml-2 lg:h-3 lg:w-3 xl:h-5 xl:w-5 2xl:h-10 2xl:w-10"
+                      className="text-blue-400 ml-2 lg:h-3 lg:w-3 xl:h-5 xl:w-5 2xl:h-6 2xl:w-6"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
@@ -39,15 +39,15 @@ const FindFriends = ({ friends, selectFriend, addFriend }) => {
                   </div>
                 </div>
 
-                <span className="italic text-green-300 truncate lg:text-xs 2xl:text-base">
+                <span className="italic text-green-300 truncate lg:text-xs 2xl:text-lg">
                   Verified
                 </span>
               </div>
-              <div className="flex flex-grow flex-col w-1/4 justify-center items-center border-b-1">
+              <div className="flex mr-1 flex-grow flex-col w-1/4 justify-center items-end border-b-1">
                 {friend.isAdded && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="text-yellow-500 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+                    className="text-yellow-500 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-12 2xl:w-12"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >

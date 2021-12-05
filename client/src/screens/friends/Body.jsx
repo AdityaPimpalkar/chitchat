@@ -12,18 +12,18 @@ const Body = ({
       <div className="w-100 text-center flex flex-col justify-content items-center">
         <img
           src={selectedFriend.image}
-          className="rounded-full mt-5 mb-2 mx-auto border-2 lg:h-36 lg:w-36 xl:h-48 xl:w-48 2xl:h-56 2xl:w-56"
+          className="rounded-full mt-5 mb-2 mx-auto border-2 lg:h-36 lg:w-36 xl:h-48 xl:w-48 2xl:h-64 2xl:w-64"
           alt="img"
         />
         <div className="flex flex-row justify-center items-center">
-          <span className="my-auto truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-lg 2xl:font-semibold">
+          <span className="my-auto truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-2xl 2xl:font-semibold">
             {selectedFriend.username}
           </span>
 
           <div className="flex justify-center items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="text-blue-400 ml-1 lg:h-3 lg:w-3 xl:h-5 xl:w-5 2xl:h-10 2xl:w-10"
+              className="text-blue-400 ml-1 lg:h-3 lg:w-3 xl:h-5 xl:w-5 2xl:h-8 2xl:w-8"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -35,38 +35,37 @@ const Body = ({
             </svg>
           </div>
         </div>
-        <span className="italic my-auto mb-1 truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-lg 2xl:font-semibold">
+        <span className="italic my-auto mb-1 truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-xl 2xl:font-semibold">
           {selectedFriend.email}
         </span>
-        <span className="italic mb-3 text-green-300 truncate lg:text-xs 2xl:text-base">
+        <span className="italic mb-3 text-green-300 truncate lg:text-xs 2xl:text-lg">
           Verified
         </span>
-        {findFriends &&
-          selectedFriend.isAdded(
-            <div className="flex flex-row justify-center items-center bg-yellow-600 rounded-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className=" lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="mr-2">Waiting for approval</span>
-            </div>
-          )}
+        {findFriends && selectedFriend.isAdded && (
+          <div className="flex flex-row justify-center items-center bg-yellow-600 rounded-full">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className=" lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="mr-2">Waiting for approval</span>
+          </div>
+        )}
         {findFriends && !selectedFriend.isAdded && (
           <button
-            className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center hover:bg-yellow-500 hover:shadow-xl"
+            className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
             onClick={() => addFriend()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+              className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
               viewBox="0 0 20 20"
               fill="currentColor"
             >

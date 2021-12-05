@@ -62,7 +62,7 @@ const Friends = ({
           <div className="flex flex-row justify-center items-center bg-purple-700 rounded-t-xl">
             <div className="w-full">
               <button
-                className={`w-1/2 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3 lg:h-5 xl:h-8 2xl:h-14 ${
+                className={`w-1/2 p-1 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3  ${
                   friendRequests && "border-b-2 border-yellow-500"
                 }`}
                 onClick={() => toggleFriendRequests()}
@@ -70,7 +70,7 @@ const Friends = ({
                 Friend Requests
               </button>
               <button
-                className={`w-1/2 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3 lg:h-5 xl:h-8 2xl:h-14 ${
+                className={`w-1/2 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3  ${
                   findFriends && "border-b-2 border-yellow-500"
                 }`}
                 onClick={() => toggleFindFriends()}

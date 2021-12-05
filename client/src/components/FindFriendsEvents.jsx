@@ -7,6 +7,7 @@ class FindFriendsEvents extends Component {
     this.state = {
       search: "",
       friends: [],
+      requests: [],
       selectedFriend: {},
       isLoading: false,
       findFriends: false,
@@ -41,20 +42,35 @@ class FindFriendsEvents extends Component {
   };
 
   addFriend = () => {
-    const selectedFriend = this.state.selectedFriend;
+    const { selectedFriend, friends } = this.state;
+    friends.map((friend) =>
+      friend.userId === selectedFriend.userId ? (friend.isAdded = true) : null
+    );
+    this.setState({ friends });
     socket.emit("addFriend", selectedFriend);
   };
 
   acceptRequest = (friend) => {
+    let { requests } = this.state;
+    requests = requests.filter((request) => request.userId !== friend.userId);
     socket.emit("acceptRequest", friend);
+    this.setState({ requests });
   };
 
   toggleFindFriends = () => {
-    this.setState({ findFriends: true, friendRequests: false });
+    this.setState({
+      findFriends: true,
+      friendRequests: false,
+      selectedFriend: {},
+    });
   };
 
   toggleFriendRequests = () => {
-    this.setState({ friendRequests: true, findFriends: false });
+    this.setState({
+      friendRequests: true,
+      findFriends: false,
+      selectedFriend: {},
+    });
   };
   render() {
     return null;

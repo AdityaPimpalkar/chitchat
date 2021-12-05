@@ -29,7 +29,7 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
                   <div className="flex justify-center items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="text-blue-400 ml-2 lg:h-3 lg:w-3 xl:h-5 xl:w-5 2xl:h-10 2xl:w-10"
+                      className="text-blue-400 ml-2 lg:h-3 lg:w-3 xl:h-5 xl:w-5 2xl:h-6 2xl:w-6"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
@@ -42,7 +42,7 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
                   </div>
                 </div>
 
-                <span className="italic text-green-300 truncate lg:text-xs 2xl:text-base">
+                <span className="italic text-green-300 truncate lg:text-xs 2xl:text-sm">
                   Verified
                 </span>
               </div>
@@ -72,7 +72,7 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="mr-2 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+                      className="mr-2 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >

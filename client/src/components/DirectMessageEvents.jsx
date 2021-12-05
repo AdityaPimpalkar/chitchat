@@ -39,11 +39,6 @@ class DirectMessageEvents extends Component {
     this.setState({ messages: [...messages, newMessage], message: "" });
   };
 
-  newFriend = (friend) => {
-    const users = [...this.state.users];
-    this.setState({ users: [friend, ...users] });
-  };
-
   selectUser = (selectedUser) => {
     this.setState({
       selectedUser,

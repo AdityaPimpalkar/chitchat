@@ -21,6 +21,11 @@ class Chat extends Component {
     };
   }
 
+  componentDidMount() {
+    socket.on("newRequest", (friend) => this.newRequest(friend));
+    socket.on("newFriend", (friend) => this.newFriend(friend));
+  }
+
   toggleChats = () => {
     this.setState({ directMessage: true, group: false, friends: false });
   };
@@ -31,6 +36,16 @@ class Chat extends Component {
 
   toggleFriends = () => {
     this.setState({ directMessage: false, group: false, friends: true });
+  };
+
+  newRequest = (friend) => {
+    const { friendRequests } = this.state;
+    this.setState({ friendRequests: [friend, ...friendRequests] });
+  };
+
+  newFriend = (friend) => {
+    let { users } = this.state;
+    this.setState({ users: [friend, ...users] });
   };
 
   render() {
