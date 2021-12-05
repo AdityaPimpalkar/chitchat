@@ -21,7 +21,8 @@ export class RedisFriendStorage extends FindFriends {
       .multi()
       .rpush(`sentRequest:${fromObj.userId}`, to)
       .rpush(`receivedRequest:${toObj.userId}`, from)
-      .exec();
+      .exec()
+      .catch((results) => console.log(results));
   }
 
   async searchFriend(email) {

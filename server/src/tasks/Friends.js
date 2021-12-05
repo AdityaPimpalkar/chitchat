@@ -16,7 +16,7 @@ export async function searchFriend(socket, email) {
 export async function addFriend(socket, friend) {
   const currentUser = socket.user;
   const ok = await FindFriends.AddFriend(currentUser, friend);
-  if (ok) socket.emit("newFriend", friend);
+  socket.to(friend.userId).emit("newRequest", currentUser);
 }
 
 export async function acceptRequest(socket, friend) {
