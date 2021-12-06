@@ -15,8 +15,20 @@ export class RedisFriendStorage extends FindFriends {
   }
 
   async AddFriend(fromObj, toObj) {
-    const from = JSON.stringify(fromObj);
-    const to = JSON.stringify(toObj);
+    const from = JSON.stringify({
+      username: fromObj.username,
+      userId: fromObj.userId,
+      sessionId: fromObj.sessionId,
+      email: fromObj.email,
+      image: fromObj.image,
+    });
+    const to = JSON.stringify({
+      username: toObj.username,
+      userId: toObj.userId,
+      sessionId: toObj.sessionId,
+      email: toObj.email,
+      image: toObj.image,
+    });
     await this.redisClient
       .multi()
       .rpush(`sentRequest:${fromObj.userId}`, to)
@@ -53,15 +65,28 @@ export class RedisFriendStorage extends FindFriends {
   }
 
   async AcceptFriendRequest(fromObj, toObj) {
-    const from = JSON.stringify(fromObj);
-    const to = JSON.stringify(toObj);
+    const from = JSON.stringify({
+      username: fromObj.username,
+      userId: fromObj.userId,
+      sessionId: fromObj.sessionId,
+      email: fromObj.email,
+      image: fromObj.image,
+    });
+    const to = JSON.stringify({
+      username: toObj.username,
+      userId: toObj.userId,
+      sessionId: toObj.sessionId,
+      email: toObj.email,
+      image: toObj.image,
+    });
     await this.redisClient
       .multi()
-      .lrem(`sentRequest:${fromObj.userId}`, to)
-      .lrem(`receivedRequest:${toObj.userId}`, from)
+      .lrem(`sentRequest:${toObj.userId}`, 0, from)
+      .lrem(`receivedRequest:${fromObj.userId}`, 0, to)
       .rpush(`conversation:${fromObj.userId}`, to)
       .rpush(`conversation:${toObj.userId}`, from)
       .exec()
-      .then((result) => console.log(result));
+      .then((result) => console.log(result))
+      .catch((results) => console.log(results));
   }
 }
