@@ -48,6 +48,14 @@ class Chat extends Component {
     this.setState({ users: [friend, ...users] });
   };
 
+  openChat = (friend) => {
+    this.toggleChats();
+  };
+
+  updateRequests = (requests) => {
+    this.setState({ friendRequests: requests });
+  };
+
   render() {
     const {
       user,
@@ -71,7 +79,12 @@ class Chat extends Component {
         />
         {directMessage && <DirectMessage user={user} users={users} />}
         {group && <GroupMessage user={user} users={users} groups={groups} />}
-        {friends && <FindFriends friendRequests={friendRequests} />}
+        {friends && (
+          <FindFriends
+            friendRequests={friendRequests}
+            updateRequests={this.updateRequests}
+          />
+        )}
       </ChatContainer>
     );
   }

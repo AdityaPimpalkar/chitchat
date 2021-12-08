@@ -3,6 +3,7 @@ import React from "react";
 const Body = ({
   selectedFriend,
   addFriend,
+  openChat,
   findFriends,
   friendRequests,
   acceptRequest,
@@ -41,7 +42,7 @@ const Body = ({
         <span className="italic mb-3 text-green-300 truncate lg:text-xs 2xl:text-lg">
           Verified
         </span>
-        {findFriends && selectedFriend.isAdded && (
+        {findFriends && selectedFriend.sentRequest && (
           <div className="flex flex-row justify-center items-center bg-yellow-600 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +59,7 @@ const Body = ({
             <span className="mr-2">Waiting for approval</span>
           </div>
         )}
-        {findFriends && !selectedFriend.isAdded && (
+        {findFriends && !selectedFriend.sentRequest && (
           <button
             className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
             onClick={() => addFriend()}
@@ -78,6 +79,26 @@ const Body = ({
             Add as friend
           </button>
         )}
+        {findFriends && selectedFriend.isAdded && (
+          <button
+            className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
+            onClick={() => openChat(selectedFriend)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Open Chat
+          </button>
+        )}
         {friendRequests && (
           <button
             className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center hover:bg-green-500 hover:shadow-xl"
@@ -85,7 +106,7 @@ const Body = ({
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14"
+              className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
               viewBox="0 0 20 20"
               fill="currentColor"
             >

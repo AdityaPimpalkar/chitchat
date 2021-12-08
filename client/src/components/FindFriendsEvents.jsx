@@ -41,10 +41,16 @@ class FindFriendsEvents extends Component {
     this.setState({ selectedFriend: friend });
   };
 
+  openChat = (friend) => {
+    this.props.openChat(friend);
+  };
+
   addFriend = () => {
     const { selectedFriend, friends } = this.state;
     friends.map((friend) =>
-      friend.userId === selectedFriend.userId ? (friend.isAdded = true) : null
+      friend.userId === selectedFriend.userId
+        ? (friend.sentRequest = true)
+        : null
     );
     this.setState({ friends });
     socket.emit("addFriend", selectedFriend);
@@ -55,6 +61,7 @@ class FindFriendsEvents extends Component {
     requests = requests.filter((request) => request.userId !== friend.userId);
     socket.emit("acceptRequest", friend);
     this.setState({ requests });
+    this.props.updateRequests(requests);
   };
 
   toggleFindFriends = () => {

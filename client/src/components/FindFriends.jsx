@@ -52,6 +52,7 @@ class FindFriends extends FindFriendsEvents {
             <Body
               selectedFriend={selectedFriend}
               addFriend={this.addFriend}
+              openChat={this.openChat}
               findFriends={findFriends}
               friendRequests={friendRequests}
               acceptRequest={this.acceptRequest}

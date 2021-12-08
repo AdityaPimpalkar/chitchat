@@ -44,7 +44,7 @@ const FindFriends = ({ friends, selectFriend, addFriend }) => {
                 </span>
               </div>
               <div className="flex mr-1 flex-grow flex-col w-1/4 justify-center items-end border-b-1">
-                {friend.isAdded && (
+                {friend.sentRequest && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="text-yellow-500 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-12 2xl:w-12"
