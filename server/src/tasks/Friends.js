@@ -9,7 +9,7 @@ export async function searchFriend(socket, email) {
   const request = sentRequests.find(
     (request) => request.userId === friend.userId
   );
-  if (request) friend.isAdded = true;
+  if (request) friend.sentRequest = true;
   socket.emit("searchedFriend", friend);
 }
 
