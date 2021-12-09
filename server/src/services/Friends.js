@@ -6,6 +6,7 @@ class FindFriends {
   getFriendRequests(userId) {}
   getSentRequests(userId) {}
   AcceptFriendRequest(from, to) {}
+  getConversations(userId) {}
 }
 
 export class RedisFriendStorage extends FindFriends {
@@ -88,5 +89,15 @@ export class RedisFriendStorage extends FindFriends {
       .exec()
       .then((result) => console.log(result))
       .catch((results) => console.log(results));
+  }
+
+  async getConversations(userId) {
+    return await this.redisClient
+      .multi()
+      .lrange(`conversation:${userId}`, 0, -1)
+      .exec()
+      .then(([[errors, results]]) => {
+        return results.map((result) => JSON.parse(result));
+      });
   }
 }

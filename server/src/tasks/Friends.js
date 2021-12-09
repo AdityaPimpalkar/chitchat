@@ -2,14 +2,24 @@ import { RedisFriendStorage } from "../services/Friends.js";
 const FindFriends = new RedisFriendStorage();
 
 export async function searchFriend(socket, email) {
-  const [friend, sentRequests] = await Promise.all([
+  const [friend, sentRequests, conversations] = await Promise.all([
     FindFriends.searchFriend(email),
     FindFriends.getSentRequests(socket.user.userId),
+    FindFriends.getConversations(socket.user.userId),
   ]);
   const request = sentRequests.find(
     (request) => request.userId === friend.userId
   );
-  if (request) friend.sentRequest = true;
+  if (request) {
+    friend.sentRequest = true;
+    friend.isAdded = false;
+  } else {
+    const user = conversations.find((user) => user.userId === friend.userId);
+    if (user) {
+      friend.sentRequest = false;
+      friend.isAdded = true;
+    }
+  }
   socket.emit("searchedFriend", friend);
 }
 
