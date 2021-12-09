@@ -40,7 +40,12 @@ class GroupMessage extends GroupMessageEvents {
       this.state;
     return (
       <ChatWindow>
-        <Groups user={user} groups={groups} selectGroup={this.selectGroup} />
+        <Groups
+          user={user}
+          groups={groups}
+          selectGroup={this.selectGroup}
+          toggleNewGroup={this.toggleNewGroup}
+        />
         <ChatEntity>
           {selectedGroup.groupId && (
             <React.Fragment>

@@ -8,6 +8,20 @@ const Body = ({
   friendRequests,
   acceptRequest,
 }) => {
+  let renderAddFriend = false;
+  let renderAwaitingResponse = false;
+  let renderOpenChat = false;
+  if (selectedFriend.sentRequest === false && selectedFriend.isAdded === true) {
+    renderOpenChat = true;
+  } else if (
+    selectedFriend.sentRequest === true &&
+    selectedFriend.isAdded === false
+  ) {
+    renderAwaitingResponse = true;
+  } else {
+    renderAddFriend = true;
+  }
+
   return (
     <div className="h-100 overflow-y-auto rounded-xl h-4/5 bg-purple-600 text-left ml-2 mr-5 mt-2">
       <div className="w-100 text-center flex flex-col justify-content items-center">
@@ -42,7 +56,7 @@ const Body = ({
         <span className="italic mb-3 text-green-300 truncate lg:text-xs 2xl:text-lg">
           Verified
         </span>
-        {findFriends && selectedFriend.sentRequest && (
+        {findFriends && renderAwaitingResponse && (
           <div className="flex flex-row justify-center items-center bg-yellow-600 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +73,7 @@ const Body = ({
             <span className="mr-2">Waiting for approval</span>
           </div>
         )}
-        {findFriends && !selectedFriend.sentRequest && (
+        {findFriends && renderAddFriend && (
           <button
             className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
             onClick={() => addFriend()}
@@ -79,7 +93,7 @@ const Body = ({
             Add as friend
           </button>
         )}
-        {findFriends && selectedFriend.isAdded && (
+        {findFriends && renderOpenChat && (
           <button
             className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
             onClick={() => openChat(selectedFriend)}
