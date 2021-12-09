@@ -1,6 +1,6 @@
 import React from "react";
 
-const Groups = ({ user, groups, selectGroup }) => {
+const Groups = ({ user, groups, selectGroup, toggleNewGroup }) => {
   return (
     <div className="w-2/6">
       <div className="lg:pl-5 pb-0 pt-2 pr-3">
@@ -29,6 +29,27 @@ const Groups = ({ user, groups, selectGroup }) => {
                 className="bg-purple-700 w-full focus:outline-none lg:text-sm xl:text-base 2xl:text-lg"
                 placeholder="Search Groups"
               />
+            </div>
+            <div className="w-1/12 cursor-pointer">
+              <div
+                className="flex flex-col justify-center items-center"
+                onClick={() => toggleNewGroup(true)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="lg:h-9 w-9 xl:h-10 w-10 2xl:h-10 w-10"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
