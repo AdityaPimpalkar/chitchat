@@ -27,35 +27,57 @@ const Navigation = ({
       </div>
       <div className="flex flex-row justify-center items-center">
         <div className="grid grid-cols-3 w-full">
-          <button
-            className={
-              directMessage
-                ? "border-b-2 rounded-full border-yellow-500 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
-                : "border-b-2 border-purple-900 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
-            }
-            onClick={() => toggleChats()}
-          >
-            Chats
+          <button onClick={() => toggleChats()}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`mx-auto ${
+                directMessage
+                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
+                  : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
+              }`}
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                clipRule="evenodd"
+              />
+            </svg>
           </button>
-          <button
-            className={
-              group
-                ? "border-b-2 rounded-full border-yellow-500 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
-                : "border-b-2 border-purple-900 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
-            }
-            onClick={() => toggleGroups()}
-          >
-            Groups
+          <button onClick={() => toggleGroups()}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`mx-auto ${
+                group
+                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
+                  : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
+              }`}
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+            </svg>
           </button>
-          <button
-            className={
-              friends
-                ? "border-b-2 rounded-full border-yellow-500 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
-                : "border-b-2 border-purple-900 lg:text-sm xl:text-base 2xl:text-xl 2xl:border-b-3"
-            }
-            onClick={() => toggleFriends()}
-          >
-            Friends
+          <button onClick={() => toggleFriends()}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`mx-auto ${
+                friends
+                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
+                  : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
+              }`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+              />
+            </svg>
           </button>
         </div>
       </div>

@@ -2,7 +2,6 @@ import React from "react";
 
 const Actions = ({ name, members, cancel, createGroup }) => {
   let btnDisabled = name === "" || members.length === 0;
-  console.log(btnDisabled);
   return (
     <React.Fragment>
       <div className="flex flex-col ml-auto mr-2">
@@ -11,6 +10,7 @@ const Actions = ({ name, members, cancel, createGroup }) => {
             btnDisabled ? "cursor-not-allowed" : ""
           }`}
           onClick={() => createGroup()}
+          disabled={btnDisabled}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
