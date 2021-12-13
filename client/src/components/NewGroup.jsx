@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ScrollableFeed from "react-scrollable-feed";
 import Name from "./../screens/newGroup/Name";
 import Members from "./../screens/newGroup/Members";
 import Actions from "./../screens/newGroup/Actions";
@@ -61,16 +62,17 @@ class NewGroup extends Component {
     const { name, members } = this.state.data;
     const { users } = this.state;
     return (
-      <React.Fragment>
-        <Name name={name} setName={this.setName} />
+      <div className="h-100 overflow-y-auto rounded-xl h-4/5 bg-purple-600 text-left ml-2 mr-5 mt-2 pb-2">
+        <Name name={name} setName={this.setName}>
+          <Actions
+            name={name}
+            members={members}
+            cancel={this.cancel}
+            createGroup={this.createGroup}
+          />
+        </Name>
         <Members selectUser={this.selectUser} users={users} />
-        <Actions
-          name={name}
-          members={members}
-          cancel={this.cancel}
-          createGroup={this.createGroup}
-        />
-      </React.Fragment>
+      </div>
     );
   }
 }

@@ -47,7 +47,7 @@ class FindFriends extends FindFriendsEvents {
           toggleFriendRequests={this.toggleFriendRequests}
           acceptRequest={this.acceptRequest}
         />
-        <ChatEntity friends={true}>
+        <ChatEntity hasSpacing={true}>
           {!_.isEmpty(selectedFriend) && (
             <Body
               selectedFriend={selectedFriend}

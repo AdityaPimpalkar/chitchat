@@ -20,7 +20,7 @@ class GroupMessage extends GroupMessageEvents {
       selectedGroup: {},
       message: "",
       messages: [],
-      newGroup: false,
+      newGroup: true,
     };
   }
 
@@ -46,26 +46,27 @@ class GroupMessage extends GroupMessageEvents {
           selectGroup={this.selectGroup}
           toggleNewGroup={this.toggleNewGroup}
         />
-        <ChatEntity>
-          {selectedGroup.groupId && (
-            <React.Fragment>
-              <Header group={selectedGroup} user={user} />
-              <Body user={user} messages={messages} />
-              <Input
-                message={message}
-                setMessage={this.setMessage}
-                sendGroupMessage={this.sendGroupMessage}
-              />
-            </React.Fragment>
-          )}
-          {newGroup && (
+
+        {selectedGroup.groupId && (
+          <ChatEntity>
+            <Header group={selectedGroup} user={user} />
+            <Body user={user} messages={messages} />
+            <Input
+              message={message}
+              setMessage={this.setMessage}
+              sendGroupMessage={this.sendGroupMessage}
+            />
+          </ChatEntity>
+        )}
+        {newGroup && (
+          <ChatEntity hasSpacing={true}>
             <NewGroup
               users={users}
               createGroup={this.createGroup}
               toggleNewGroup={this.toggleNewGroup}
             />
-          )}
-        </ChatEntity>
+          </ChatEntity>
+        )}
       </ChatWindow>
     );
   }
