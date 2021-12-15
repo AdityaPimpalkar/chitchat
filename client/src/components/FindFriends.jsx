@@ -1,6 +1,5 @@
 import React from "react";
 import _ from "lodash";
-import socket from "../www/socket";
 import FindFriendsEvents from "./FindFriendsEvents";
 import ChatWindow from "../layouts/ChatWindow";
 import ChatEntity from "../layouts/ChatEntity";

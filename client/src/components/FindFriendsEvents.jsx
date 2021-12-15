@@ -52,7 +52,9 @@ class FindFriendsEvents extends Component {
         ? (friend.sentRequest = true)
         : null
     );
-    this.setState({ friends });
+    selectedFriend.sentRequest = true;
+    selectedFriend.isAdded = false;
+    this.setState({ friends, selectedFriend });
     socket.emit("addFriend", selectedFriend);
   };
 

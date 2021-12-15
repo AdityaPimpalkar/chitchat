@@ -48,14 +48,14 @@ const Users = ({ users, selectUser }) => {
                       <div className="flex flex-col justify-center items-center lg:w-1/6 xl:w-2/12">
                         <img
                           src={user.image}
-                          className="rounded-full border-2 lg:h-9 lg:w-9 xl:h-12 xl:w-12 2xl:h-14 2xl:w-14"
+                          className="rounded-full border-2 lg:h-9 lg:w-9 xl:h-12 xl:w-12 2xl:h-16 2xl:w-16"
                           alt="user"
                         />
                       </div>
                       <div className="flex flex-col  border-b border-purple-400 lg:w-4/5 xl:w-10/12">
                         <div className="flex flex-row w-full">
                           <div className="flex flex-col flex-shrink w-3/4">
-                            <span className="italic truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-lg 2xl:font-semibold">
+                            <span className="italic truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-xl 2xl:font-semibold">
                               {user.username}
                             </span>
                             <span className="text-purple-300 truncate lg:text-xs 2xl:text-base">
@@ -63,7 +63,7 @@ const Users = ({ users, selectUser }) => {
                             </span>
                           </div>
                           <div className="flex flex-grow flex-col w-1/4 justify-center items-center border-b-1">
-                            <span className="text-xxs truncate xl:text-xs 2xl:text-sm">
+                            <span className="text-xxs truncate xl:text-xs 2xl:text-base">
                               12:30 PM
                             </span>
                             {user.hasNewMessage && (
