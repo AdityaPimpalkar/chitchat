@@ -7,17 +7,20 @@ export async function searchFriend(socket, email) {
     FindFriends.getSentRequests(socket.user.userId),
     FindFriends.getConversations(socket.user.userId),
   ]);
-  const request = sentRequests.find(
-    (request) => request.userId === friend.userId
-  );
-  if (request) {
-    friend.sentRequest = true;
-    friend.isAdded = false;
-  } else {
-    const user = conversations.find((user) => user.userId === friend.userId);
-    if (user) {
-      friend.sentRequest = false;
-      friend.isAdded = true;
+  if (friend) {
+    const request = sentRequests.find(
+      (request) => request.userId === friend.userId
+    );
+    if (request) {
+      friend.sentRequest = true;
+      friend.isAdded = false;
+    }
+    if (conversations) {
+      const user = conversations.find((user) => user.userId === friend.userId);
+      if (user) {
+        friend.sentRequest = false;
+        friend.isAdded = true;
+      }
     }
   }
   socket.emit("searchedFriend", friend);
