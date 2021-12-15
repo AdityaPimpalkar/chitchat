@@ -25,8 +25,8 @@
     }
 
     .friendentity-xl {
-      height: calc(100vh - 175px) !important;
-      max-height: calc(100vh - 175px) !important;
+      height: calc(100vh - 169px) !important;
+      max-height: calc(100vh - 169px) !important;
     }
 
     .friendentity-2xl {
