@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import socket from "./../www/socket";
 import DirectMessage from "./DirectMessage";
 import GroupMessage from "./GroupMessage";
-import FindFriends from "./FindFriends";
+import FindFriends from "./Friends";
 import ChatContainer from "../layouts/ChatContainer";
 import Navigation from "../layouts/Navigation";
 
@@ -16,8 +16,11 @@ class Chat extends Component {
       groups: this.props.groups,
       friendRequests: this.props.friendRequests,
       directMessage: true,
+      directMessageNotification: false,
       group: false,
+      groupNotification: false,
       friends: false,
+      friendsNotification: false,
     };
   }
 
@@ -27,15 +30,30 @@ class Chat extends Component {
   }
 
   toggleChats = () => {
-    this.setState({ directMessage: true, group: false, friends: false });
+    this.setState({
+      directMessage: true,
+      directMessageNotification: false,
+      group: false,
+      friends: false,
+    });
   };
 
   toggleGroups = () => {
-    this.setState({ directMessage: false, group: true, friends: false });
+    this.setState({
+      directMessage: false,
+      group: true,
+      groupNotification: false,
+      friends: false,
+    });
   };
 
   toggleFriends = () => {
-    this.setState({ directMessage: false, group: false, friends: true });
+    this.setState({
+      directMessage: false,
+      group: false,
+      friends: true,
+      friendsNotification: false,
+    });
   };
 
   newRequest = (friend) => {
@@ -63,8 +81,11 @@ class Chat extends Component {
       groups,
       friendRequests,
       directMessage,
+      directMessageNotification,
       group,
+      groupNotification,
       friends,
+      friendsNotification,
     } = this.state;
     return (
       <ChatContainer>
@@ -74,8 +95,11 @@ class Chat extends Component {
           toggleGroups={this.toggleGroups}
           toggleFriends={this.toggleFriends}
           directMessage={directMessage}
+          directMessageNotification={directMessageNotification}
           group={group}
+          groupNotification={groupNotification}
           friends={friends}
+          friendsNotification={friendsNotification}
         />
         {directMessage && <DirectMessage user={user} users={users} />}
         {group && <GroupMessage user={user} users={users} groups={groups} />}

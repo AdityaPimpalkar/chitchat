@@ -62,13 +62,13 @@ const Users = ({ users, selectUser }) => {
                               Hi there, how are you? Hope everything is alright
                             </span>
                           </div>
-                          <div className="flex flex-grow flex-col w-1/4 justify-center items-center border-b-1">
-                            <span className="text-xxs truncate xl:text-xs 2xl:text-base">
+                          <div className="flex flex-grow flex-col w-1/4  items-center border-b-1">
+                            <span className="my-1 lg:text-xxs truncate xl:text-xs 2xl:text-sm">
                               12:30 PM
                             </span>
                             {user.hasNewMessage && (
-                              <span className="lg:h-4 w-4 rounded-full bg-yellow-500 justify-center flex items-center">
-                                <span className="lg:text-xs font-semibold"></span>
+                              <span className="lg:h-4 lg:w-4 xl:h-5 lg:w-5 2xl:h-6 2xl:w-6 rounded-full bg-yellow-500 justify-center flex items-center">
+                                <span className="lg:text-xs xl:text-sm 2xl:text-base font-semibold"></span>
                               </span>
                             )}
                           </div>

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { Component } from "react";
 import socket from "./../www/socket";
 
@@ -60,6 +61,11 @@ class DirectMessageEvents extends Component {
 
   userConnected = ({ userId, username }) => {
     const user = { ...this.state.user };
+    const selectedUser = { ...this.state.selectedUser };
+    if (selectedUser.userId === userId) {
+      selectedUser.connected = true;
+      this.setState({ selectedUser });
+    }
     if (user.userId !== userId) {
       const users = [...this.state.users];
       const user = users.find((user) => user.userId === userId);
@@ -69,7 +75,14 @@ class DirectMessageEvents extends Component {
     }
   };
 
-  userDisconnected = ({ userId }) => this.handleConnectionStatus(userId, false);
+  userDisconnected = ({ userId }) => {
+    const selectedUser = { ...this.state.selectedUser };
+    if (selectedUser.userId === userId) {
+      selectedUser.connected = false;
+      this.setState({ selectedUser });
+    }
+    this.handleConnectionStatus(userId, false);
+  };
 
   privateMessage = ({ content, from, to }) => {
     const selectedUser = { ...this.state.selectedUser };

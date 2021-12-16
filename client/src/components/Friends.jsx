@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import FindFriendsEvents from "./FindFriendsEvents";
+import FindFriendsEvents from "./FriendsEvents";
 import ChatWindow from "../layouts/ChatWindow";
 import ChatEntity from "../layouts/ChatEntity";
 import Friends from "../screens/friends/Friends";
