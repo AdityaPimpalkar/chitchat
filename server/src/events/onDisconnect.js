@@ -1,5 +1,6 @@
+import { socket } from "../../socket.js";
 import { disconnect } from "../tasks/connection.js";
 
-export default function onDisconnectEvents(io, socket) {
-  socket.on("disconnect", () => disconnect(io, socket));
+export default function onDisconnectEvents() {
+  socket.on("disconnect", () => disconnect());
 }

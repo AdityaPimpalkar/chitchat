@@ -1,5 +1,5 @@
 import redis from "../config/ioredis.js";
-
+import { socket } from "../../socket.js";
 class GroupStorage {
   saveGroup(socket, group) {}
   getGroupMembers(groupId) {}
@@ -12,7 +12,7 @@ export class RedisGroupStorage extends GroupStorage {
     this.redisClient = redis;
   }
 
-  async saveGroup(socket, group, sessions) {
+  async saveGroup(group, sessions) {
     const { groupId, name, members } = group;
     const { sessionId, userId, username } = socket;
 

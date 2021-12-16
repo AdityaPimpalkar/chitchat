@@ -4,9 +4,11 @@ import {
   getGroups,
   getFriendRequests,
 } from "../tasks/connection.js";
+import { socket } from "../../socket.js";
 
-export default async function onConnectionEvents(socket) {
-  connect(socket);
+export default async function onConnectionEvents() {
+  //join socket connection
+  connect();
 
   const [users, groups, friendRequests] = await Promise.all([
     getUsers(socket.userId),

@@ -1,7 +1,8 @@
+import { socket } from "../../socket.js";
 import { RedisFriendStorage } from "../services/Friends.js";
 const FindFriends = new RedisFriendStorage();
 
-export async function searchFriend(socket, email) {
+export async function searchFriend(email) {
   const [friend, sentRequests, conversations] = await Promise.all([
     FindFriends.searchFriend(email),
     FindFriends.getSentRequests(socket.user.userId),
@@ -26,13 +27,13 @@ export async function searchFriend(socket, email) {
   socket.emit("searchedFriend", friend);
 }
 
-export async function addFriend(socket, friend) {
+export async function addFriend(friend) {
   const currentUser = socket.user;
   const ok = await FindFriends.AddFriend(currentUser, friend);
   socket.to(friend.userId).emit("newRequest", currentUser);
 }
 
-export async function acceptRequest(socket, friend) {
+export async function acceptRequest(friend) {
   const currentUser = socket.user;
   const ok = await FindFriends.AcceptFriendRequest(currentUser, friend);
   socket.emit("newFriend", friend);

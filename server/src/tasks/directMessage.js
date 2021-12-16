@@ -1,8 +1,8 @@
 import { RedisMessageStorage } from "../services/message.js";
-
+import { socket } from "../../socket.js";
 const messageStorage = new RedisMessageStorage();
 
-export async function userMessages(socket, { userId, username }) {
+export async function userMessages({ userId, username }) {
   const userMessages = await getMessagesForUser(socket.userId);
   socket.emit("user messages", {
     userId,
@@ -11,7 +11,7 @@ export async function userMessages(socket, { userId, username }) {
   });
 }
 
-export async function privateMessages(socket, { content, to }) {
+export async function privateMessages({ content, to }) {
   const message = {
     from: socket.userId,
     to,

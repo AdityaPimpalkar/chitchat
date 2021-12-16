@@ -3,7 +3,7 @@ import http from "http";
 import { cpus } from "os";
 import process from "process";
 import { setupMaster, setupWorker } from "@socket.io/sticky";
-import io from "./index.js";
+import { io, socket } from "./socket.js";
 
 const WORKERS_COUNT = 4;
 

@@ -1,7 +1,8 @@
+import { socket } from "../../socket.js";
 import { privateMessages, userMessages } from "../tasks/directMessage.js";
 
-export default function directMessageEvents(socket) {
-  socket.on("private message", (message) => privateMessages(socket, message));
+export default function directMessageEvents() {
+  socket.on("private message", (message) => privateMessages(message));
 
-  socket.on("user messages", (user) => userMessages(socket, user));
+  socket.on("user messages", (user) => userMessages(user));
 }

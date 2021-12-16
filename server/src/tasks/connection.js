@@ -1,3 +1,4 @@
+import { io, socket } from "../../socket.js";
 import { RedisSessionStorage } from "../services/session.js";
 import { RedisMessageStorage } from "../services/message.js";
 import { RedisGroupStorage } from "../services/group.js";
@@ -8,7 +9,7 @@ const messageStorage = new RedisMessageStorage();
 const groupStorage = new RedisGroupStorage();
 const FindFriends = new RedisFriendStorage();
 
-export async function connect(socket) {
+export async function connect() {
   const { user, sessionId, userId } = socket;
   await sessionStorage.saveSession(sessionId, {
     ...user,
@@ -17,7 +18,7 @@ export async function connect(socket) {
   socket.join(userId);
 }
 
-export async function disconnect(io, socket) {
+export async function disconnect() {
   const matchingSockets = await io.in(socket.userId).allSockets();
   const isDisconnected = matchingSockets.size === 0;
   if (isDisconnected) {
