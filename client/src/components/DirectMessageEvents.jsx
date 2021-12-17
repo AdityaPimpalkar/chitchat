@@ -51,7 +51,12 @@ class DirectMessageEvents extends Component {
     this.handleNewMessageStatus(selectedUser.userId, false);
   };
 
-  userMessages = ({ messages }) => {
+  userMessages = ({ userId, messages, connected }) => {
+    const selectedUser = { ...this.state.selectedUser };
+    if (selectedUser.userId === userId) {
+      selectedUser.connected = connected;
+      this.setState({ selectedUser });
+    }
     const chatMessages = [];
     messages.forEach(({ content, from }) => {
       chatMessages.push({ userId: from, message: content });
