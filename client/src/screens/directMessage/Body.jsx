@@ -11,15 +11,15 @@ const Body = ({ user, messages }) => {
               key={index}
               className={
                 message.userId === user.userId
-                  ? "chatmessage flex flex-row-reverse w-3/5 ml-auto py-2"
-                  : "chatmessage flex flex-row w-3/5 mr-auto py-2"
+                  ? "chatmessage flex flex-row w-3/5 mr-auto py-2"
+                  : "chatmessage flex flex-row-reverse w-3/5 ml-auto py-2"
               }
             >
               <div
                 className={
                   message.userId === user.userId
-                    ? "inline-block mr-2  bg-yellow-500 rounded-lg shadow-xl lg:py-1 px-4 xl:py-3 px-4"
-                    : "inline-block ml-2 bg-purple-900 rounded-lg shadow-xl lg:py-1 px-4 xl:py-3 px-4"
+                    ? "inline-block ml-2 bg-purple-900 rounded-lg shadow-xl lg:py-1 px-4 xl:py-3 px-4"
+                    : "inline-block mr-2 bg-yellow-500 rounded-lg shadow-xl lg:py-1 px-4 xl:py-3 px-4"
                 }
               >
                 <span className="lg:text-xs xl:text-sm 2xl:text-lg">
