@@ -26,7 +26,7 @@ export async function disconnect() {
     socket.broadcast.emit("user disconnected", socket.user);
     const user = {
       ...socket.user,
-      connected: socket.connected,
+      connected: false,
     };
     //update the connection status of the session
     await sessionStorage.saveSession(socket.sessionId, user);

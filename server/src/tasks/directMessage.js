@@ -1,13 +1,17 @@
 import { RedisMessageStorage } from "../services/message.js";
-import { socket } from "../../socket.js";
+import { io, socket } from "../../socket.js";
 const messageStorage = new RedisMessageStorage();
 
 export async function userMessages({ userId, username }) {
-  const userMessages = await getMessagesForUser(socket.userId);
+  const [userMessages, connectionSocket] = await Promise.all([
+    getMessagesForUser(socket.userId),
+    io.in(userId).allSockets(),
+  ]);
   socket.emit("user messages", {
     userId,
     username,
     messages: userMessages.get(userId) || [],
+    connected: connectionSocket.size === 0 ? false : true,
   });
 }
 
