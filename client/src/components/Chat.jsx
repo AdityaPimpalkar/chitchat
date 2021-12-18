@@ -66,6 +66,22 @@ class Chat extends Component {
     this.setState({ users: [friend, ...users] });
   };
 
+  directMessageNotify = () => {
+    const { directMessage } = this.state;
+    if (directMessage === false) {
+      this.setState({ directMessageNotification: true });
+    }
+  };
+
+  newDirectMessage = (userId, status) => {
+    const users = [...this.state.users];
+    const userIndex = users.findIndex((u) => u.userId === userId);
+    if (userIndex >= 0) {
+      users[userIndex].hasNewMessage = status;
+      this.setState({ users });
+    }
+  };
+
   openChat = (friend) => {
     this.toggleChats();
   };
@@ -101,7 +117,14 @@ class Chat extends Component {
           friends={friends}
           friendsNotification={friendsNotification}
         />
-        {directMessage && <DirectMessage user={user} users={users} />}
+        {directMessage && (
+          <DirectMessage
+            user={user}
+            users={users}
+            directMessageNotify={this.directMessageNotify}
+            newDirectMessage={this.newDirectMessage}
+          />
+        )}
         {group && <GroupMessage user={user} users={users} groups={groups} />}
         {friends && (
           <FindFriends

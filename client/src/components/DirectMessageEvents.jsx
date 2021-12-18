@@ -48,7 +48,7 @@ class DirectMessageEvents extends Component {
     });
     const socket = this.state.socket;
     socket.emit("user messages", selectedUser);
-    this.handleNewMessageStatus(selectedUser.userId, false);
+    this.props.newDirectMessage(selectedUser.userId, false);
   };
 
   userMessages = ({ userId, messages, connected }) => {
@@ -99,8 +99,9 @@ class DirectMessageEvents extends Component {
       const messages = [...this.state.messages];
       this.setState({ messages: [...messages, newMessage] });
     } else {
-      this.handleNewMessageStatus(from, true);
+      this.props.newDirectMessage(from, true);
     }
+    this.props.directMessageNotify();
   };
 
   handleConnectionStatus = (userId, status) => {
@@ -108,15 +109,6 @@ class DirectMessageEvents extends Component {
     const userIndex = users.findIndex((u) => u.userId === userId);
     if (userIndex >= 0) {
       users[userIndex].connected = status;
-      this.setState({ users });
-    }
-  };
-
-  handleNewMessageStatus = (userId, status) => {
-    const users = [...this.state.users];
-    const userIndex = users.findIndex((u) => u.userId === userId);
-    if (userIndex >= 0) {
-      users[userIndex].hasNewMessage = status;
       this.setState({ users });
     }
   };
