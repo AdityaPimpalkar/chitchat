@@ -13,6 +13,8 @@ class Main extends Component {
       users: [],
       groups: [],
       friendRequests: [],
+      isLoading: true,
+      LoadWidth: "w-32",
     };
   }
 
@@ -33,11 +35,11 @@ class Main extends Component {
       socket.auth = { token };
       localStorage.setItem("token", token);
       const loggedInUser = { userId, username, image };
-      this.setState({ loggedInUser });
+      this.setState({ loggedInUser, LoadWidth: "w-96" });
     });
 
     socket.on("users", ({ users, groups, friendRequests }) => {
-      this.setState({ users, groups, friendRequests });
+      this.setState({ users, groups, friendRequests, LoadWidth: "w-64" });
     });
   }
 
@@ -62,7 +64,14 @@ class Main extends Component {
   };
 
   render() {
-    const { users, groups, friendRequests, loggedInUser } = this.state;
+    const {
+      users,
+      groups,
+      friendRequests,
+      loggedInUser,
+      isLoading,
+      LoadWidth,
+    } = this.state;
     return (
       <main>
         {loggedInUser.userId && (
@@ -77,6 +86,8 @@ class Main extends Component {
           <Login
             onSuccess={this.onLoginSuccess}
             onFailure={this.onLoginFailure}
+            isLoading={isLoading}
+            LoadWidth={LoadWidth}
           />
         )}
       </main>

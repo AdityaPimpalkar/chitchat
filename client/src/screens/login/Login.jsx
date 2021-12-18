@@ -2,7 +2,7 @@ import React from "react";
 import GoogleLogin from "react-google-login";
 import config from "../../config.js";
 
-const Login = ({ onSuccess, onFailure }) => {
+const Login = ({ onSuccess, onFailure, isLoading, LoadWidth }) => {
   return (
     <div className="hidden md:hidden lg:block xl:block">
       <div className="w-full h-screen flex items-center justify-center">
@@ -25,20 +25,34 @@ const Login = ({ onSuccess, onFailure }) => {
               render={(renderProps) => (
                 <div className="w-full ">
                   <button
-                    className="w-full flex flex-row px-10 py-3 justify-center items-center rounded-full hover:shadow-xl hover:bg-yellow-500 transition duration-150 ease-in-out"
-                    onClick={renderProps.onClick}
+                    className={` w-full flex flex-row px-10 py-3 justify-center items-center rounded-full ${
+                      isLoading === false &&
+                      "hover:shadow-xl hover:bg-yellow-500 transition duration-150 ease-in-out"
+                    }`}
+                    onClick={isLoading === false ? renderProps.onClick : null}
                     disabled={renderProps.disabled}
                   >
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-                      className="mx-1"
-                      alt="icon"
-                    />
-                    <div className="flex-col">
-                      <span className="text-sm text-white">
-                        Login with Google
-                      </span>
-                    </div>
+                    {isLoading && (
+                      <div className="w-full flex bg-purple-900 justify-start items-center bg-gray-200 h-6">
+                        <div
+                          className={`bg-yellow-600 h-2 transition 2s ${LoadWidth}`}
+                        ></div>
+                      </div>
+                    )}
+                    {!isLoading && (
+                      <React.Fragment>
+                        <img
+                          src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                          className="mx-1"
+                          alt="icon"
+                        />
+                        <div className="flex-col">
+                          <span className="text-sm text-white">
+                            Login with Google
+                          </span>
+                        </div>
+                      </React.Fragment>
+                    )}
                   </button>
                 </div>
               )}
