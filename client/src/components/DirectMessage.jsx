@@ -1,5 +1,5 @@
 import React from "react";
-import socket from "./../www/socket";
+import socket from "../www/socket";
 import DirectMessageEvents from "./DirectMessageEvents";
 import ChatWindow from "../layouts/ChatWindow";
 import Header from "../screens/directMessage/Header";

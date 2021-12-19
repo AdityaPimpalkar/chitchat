@@ -4,7 +4,7 @@ import { ChatAlt2Icon } from "@heroicons/react/solid";
 
 const Navigation = ({ user }) => {
   return (
-    <div className="grid grid-cols-3 w-full bg-purple-900 shadow-xl">
+    <div className="grid grid-cols-3 w-full bg-purple-900 shadow-xl fixed top-0">
       <div className="flex flex-row items-center ">
         <ChatAlt2Icon className="lg:h-6 w-6 mx-2 xl:h-8 w-8 2xl:h-12 w-12" />
         <span className="lg:text-base font-medium xl:text-lg 2xl:text-xl bg-purple-900">

@@ -2,8 +2,8 @@ import React from "react";
 
 const Header = ({ user }) => {
   return (
-    <div className="chatheader w-full py-2 pl-1 pr-5">
-      <div className="lg:p-1 rounded-full bg-purple-600 items-center shadow-lg">
+    <div className="w-full stickey top-0">
+      <div className="lg:p-1 bg-purple-700 items-center shadow-lg">
         <div className="flex flex-row text-left">
           <img
             className="border-2 rounded-full mr-2 lg:h-9 lg:w-9 xl:h-12 xl:w-12 2xl:h-14 2xl:w-14"

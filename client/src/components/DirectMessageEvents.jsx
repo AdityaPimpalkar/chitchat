@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { Component } from "react";
-import socket from "./../www/socket";
+import socket from "../www/socket";
 
 class DirectMessageEvents extends Component {
   constructor(props) {

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ScrollableFeed from "react-scrollable-feed";
-import Name from "./../screens/newGroup/Name";
-import Members from "./../screens/newGroup/Members";
-import Actions from "./../screens/newGroup/Actions";
+import Name from "../screens/newGroup/Name";
+import Members from "../screens/newGroup/Members";
+import Actions from "../screens/newGroup/Actions";
 
 class NewGroup extends Component {
   constructor(props) {

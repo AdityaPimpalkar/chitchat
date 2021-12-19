@@ -2,12 +2,12 @@ import React from "react";
 
 const Input = ({ message, setMessage, sendMessage }) => {
   return (
-    <div className="chatinput bg-purple-600 rounded-b-xl ml-2 mr-5 pt-2 pb-3">
+    <div className="chatinput w-full bg-purple-600 pt-2 pb-3 position-fixed bottom-0 z-10">
       <div className="flex flex-row pl-4">
-        <div className="w-95 flex justify-center items-center">
-          <div className="rounded-full bg-white w-full">
+        <div className=" flex justify-center items-center">
+          <div className="w-full">
             <input
-              className="lg:h-9 xl:h-11 2xl:h-14 border-0 rounded-full px-3 w-full text-black shadow-xl focus:outline-none focus:shadow-xl lg:text-sm 2xl:text-lg"
+              className="lg:h-9 xl:h-11 2xl:h-14 border-0 bg-purple-600 px-3 w-95 text-black shadow-xl focus:outline-none focus:shadow-xl lg:text-sm 2xl:text-lg"
               placeholder="Type your message..."
               name="message"
               autoComplete="off"
@@ -24,10 +24,7 @@ const Input = ({ message, setMessage, sendMessage }) => {
             />
           </div>
         </div>
-        <div
-          className="ml-1 w-5 xl:ml-1 cursor-pointer"
-          onClick={() => sendMessage()}
-        >
+        <div className=" mr-5 cursor-pointer" onClick={() => sendMessage()}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="rounded-full shadow-xl bg-yellow-500 lg:py-2 lg:px-2 lg:h-9 lg:w-9 xl:py-3 xl:px-2 xl:h-11 xl:w-11 2xl:h-14 2xl:w-14"

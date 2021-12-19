@@ -1,19 +1,34 @@
 import React, { Component } from "react";
-import socket from "./../www/socket";
+import _ from "lodash";
+import socket from "../www/socket";
 import DirectMessage from "./DirectMessage";
 import GroupMessage from "./GroupMessage";
 import FindFriends from "./Friends";
+import NavigationButtons from "./NavigationButtons";
+import Chats from "./Chats";
+import Search from "./Search";
+import ChatEvents from "./ChatEvents";
 import ChatContainer from "../layouts/ChatContainer";
+import ChatWindow from "../layouts/ChatWindow";
 import Navigation from "../layouts/Navigation";
 
-class Chat extends Component {
+import Header from "../screens/directMessage/Header";
+import Body from "../screens/directMessage/Body";
+import Input from "../screens/directMessage/Input";
+
+class Chat extends ChatEvents {
   constructor(props) {
     super(props);
     this.state = {
       socket,
       user: this.props.user,
       users: this.props.users,
+      selectedUser: {},
+      message: "",
+      messages: [],
       groups: this.props.groups,
+      selectedGroup: {},
+      newGroup: false,
       friendRequests: this.props.friendRequests,
       directMessage: true,
       directMessageNotification: false,
@@ -25,70 +40,13 @@ class Chat extends Component {
   }
 
   componentDidMount() {
+    socket.on("user connected", (user) => this.userConnected(user));
+    socket.on("user disconnected", (user) => this.userDisconnected(user));
+    socket.on("private message", (message) => this.privateMessage(message));
+    socket.on("user messages", (messages) => this.userMessages(messages));
     socket.on("newRequest", (friend) => this.newRequest(friend));
     socket.on("newFriend", (friend) => this.newFriend(friend));
   }
-
-  toggleChats = () => {
-    this.setState({
-      directMessage: true,
-      directMessageNotification: false,
-      group: false,
-      friends: false,
-    });
-  };
-
-  toggleGroups = () => {
-    this.setState({
-      directMessage: false,
-      group: true,
-      groupNotification: false,
-      friends: false,
-    });
-  };
-
-  toggleFriends = () => {
-    this.setState({
-      directMessage: false,
-      group: false,
-      friends: true,
-      friendsNotification: false,
-    });
-  };
-
-  newRequest = (friend) => {
-    const { friendRequests } = this.state;
-    this.setState({ friendRequests: [friend, ...friendRequests] });
-  };
-
-  newFriend = (friend) => {
-    let { users } = this.state;
-    this.setState({ users: [friend, ...users] });
-  };
-
-  directMessageNotify = () => {
-    const { directMessage } = this.state;
-    if (directMessage === false) {
-      this.setState({ directMessageNotification: true });
-    }
-  };
-
-  newDirectMessage = (userId, status) => {
-    const users = [...this.state.users];
-    const userIndex = users.findIndex((u) => u.userId === userId);
-    if (userIndex >= 0) {
-      users[userIndex].hasNewMessage = status;
-      this.setState({ users });
-    }
-  };
-
-  openChat = (friend) => {
-    this.toggleChats();
-  };
-
-  updateRequests = (requests) => {
-    this.setState({ friendRequests: requests });
-  };
 
   render() {
     const {
@@ -102,22 +60,47 @@ class Chat extends Component {
       groupNotification,
       friends,
       friendsNotification,
+      selectedUser,
+      message,
+      messages,
     } = this.state;
     return (
       <ChatContainer>
-        <Navigation
-          user={user}
-          toggleChats={this.toggleChats}
-          toggleGroups={this.toggleGroups}
-          toggleFriends={this.toggleFriends}
-          directMessage={directMessage}
-          directMessageNotification={directMessageNotification}
-          group={group}
-          groupNotification={groupNotification}
-          friends={friends}
-          friendsNotification={friendsNotification}
-        />
-        {directMessage && (
+        <Navigation user={user} />
+        <ChatWindow>
+          <div className="w-30 overflow-hidden">
+            <Search placeholder="Search..." />
+            <NavigationButtons
+              toggleChats={this.toggleChats}
+              toggleGroups={this.toggleGroups}
+              toggleFriends={this.toggleFriends}
+              directMessage={directMessage}
+              directMessageNotification={directMessageNotification}
+              group={group}
+              groupNotification={groupNotification}
+              friends={friends}
+              friendsNotification={friendsNotification}
+            />
+            {directMessage && (
+              <Chats users={users} selectUser={this.selectUser} />
+            )}
+          </div>
+          <div className="w-70">
+            {_.isEmpty(selectedUser) === false && (
+              <React.Fragment>
+                <Header user={user} />
+                {/* <Body user={selectedUser} messages={messages} /> */}
+                <Input
+                  message={message}
+                  setMessage={this.setMessage}
+                  sendMessage={this.sendMessage}
+                />
+              </React.Fragment>
+            )}
+          </div>
+        </ChatWindow>
+
+        {/* {directMessage && (
           <DirectMessage
             user={user}
             users={users}
@@ -131,7 +114,7 @@ class Chat extends Component {
             friendRequests={friendRequests}
             updateRequests={this.updateRequests}
           />
-        )}
+        )} */}
       </ChatContainer>
     );
   }

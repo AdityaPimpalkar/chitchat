@@ -1,5 +1,5 @@
 import React from "react";
-import socket from "./../www/socket";
+import socket from "../www/socket";
 import GroupMessageEvents from "./GroupMessageEvents";
 import NewGroup from "./NewGroup";
 import ChatEntity from "../layouts/ChatEntity";
