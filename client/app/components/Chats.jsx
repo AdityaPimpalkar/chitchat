@@ -3,7 +3,7 @@ import React from "react";
 const Chats = ({ users, selectUser }) => {
   return (
     <div className="flex h-screen">
-      <div className="h-full flex max-h-screen overflow-y-auto flex-col flex-grow bg-purple-800 ">
+      <div className="h-full flex max-h-screen overflow-y-auto flex-col flex-grow bg-purple-800 no-scrollbar">
         {users.length > 0 ? (
           users.map((user, index) => {
             return (

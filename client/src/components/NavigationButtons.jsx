@@ -1,9 +1,9 @@
+import React from "react";
 import {
   AnnotationIcon,
   UserGroupIcon,
   UserAddIcon,
 } from "@heroicons/react/outline";
-import React from "react";
 
 const NavigationButtons = ({
   toggleChats,
