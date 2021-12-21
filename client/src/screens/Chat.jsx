@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import socket from "../www/socket";
+import ChatEvents from "../events/ChatEvents";
 import Header from "../components/Header";
 import ChatContainer from "../components/ChatContainer";
-import socket from "../www/socket";
-
-class Chat extends React.Component {
+import NavigationButtons from "../components/NavigationButtons";
+import Users from "../components/Users";
+class Chat extends ChatEvents {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,11 +29,43 @@ class Chat extends React.Component {
     };
   }
 
+  componentDidMount() {
+    // socket.on("user connected", (user) => this.userConnected(user));
+    // socket.on("user disconnected", (user) => this.userDisconnected(user));
+    // socket.on("private message", (message) => this.privateMessage(message));
+    socket.on("user messages", (messages) => this.userMessages(messages));
+    // socket.on("newRequest", (friend) => this.newRequest(friend));
+    //socket.on("newFriend", (friend) => this.newFriend(friend));
+  }
+
+  selectUser = (selectedUser) => {
+    this.setState({
+      selectedUser,
+      message: "",
+      messages: [],
+    });
+    const socket = this.state.socket;
+    socket.emit("user messages", selectedUser);
+    this.newDirectMessage(selectedUser.userId, false);
+  };
+
   render() {
     return (
       <ChatContainer>
-        <div class="w-30 flex bg-gray-100">
+        <div class="w-30 flex flex-col bg-gray-100 bg-purple-900">
           <Header user={this.state.user} />
+          <NavigationButtons
+            toggleChats={this.toggleChats}
+            toggleGroups={this.toggleGroups}
+            toggleFriends={this.toggleFriends}
+            directMessage={this.state.directMessage}
+            directMessageNotification={this.state.directMessageNotification}
+            group={this.state.group}
+            groupNotification={this.state.groupNotification}
+            friends={this.state.friends}
+            friendsNotification={this.state.friendsNotification}
+          />
+          <Users users={this.state.users} selectUser={this.selectUser} />
         </div>
         <div class="w-70 flex flex-1 flex-col">
           <div class="flex bg-gray-300 h-16 p-4">Header</div>

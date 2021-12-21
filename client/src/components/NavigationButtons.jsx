@@ -17,7 +17,7 @@ const NavigationButtons = ({
   friendsNotification,
 }) => {
   return (
-    <div className="grid grid-cols-3 w-full postiton-relative bg-purple-800 shadow-xl py-2">
+    <div className="grid grid-cols-3 flex flex-row w-full postiton-relative bg-purple-800 shadow-xl py-2">
       <button onClick={() => toggleChats()}>
         <div className="flex justify-center items-center">
           <div className="relative inline-block py-auto">
