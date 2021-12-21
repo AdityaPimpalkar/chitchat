@@ -69,28 +69,10 @@ body {
   font-size: 0.55rem;
   line-height: 1rem;
 }
+
 .styles_scrollable-div__prSCv {
   height: calc(100vh - 245px) !important;
   max-height: calc(100vh - 245px) !important;
-}
-.w-30 {
-  width: 30%;
-}
-
-.w-70 {
-  width: 70%;
-}
-
-.h-90 {
-  height: 90%;
-}
-
-.w-95 {
-  width: 93%;
-}
-
-.w-5 {
-  width: 5%;
 }
 
 .isSelected {
