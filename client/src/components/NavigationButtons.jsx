@@ -24,7 +24,7 @@ const NavigationButtons = ({
             <AnnotationIcon
               className={
                 directMessage
-                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
+                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-11 2xl:w-11"
                   : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
               }
             />
@@ -43,7 +43,7 @@ const NavigationButtons = ({
             <UserGroupIcon
               className={
                 group
-                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
+                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-11 2xl:w-11"
                   : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
               }
             />
@@ -62,7 +62,7 @@ const NavigationButtons = ({
             <UserAddIcon
               className={
                 friends
-                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10"
+                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-11 2xl:w-11"
                   : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
               }
             />

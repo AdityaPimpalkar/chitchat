@@ -50,9 +50,10 @@ class Chat extends ChatEvents {
   };
 
   render() {
+    console.log(this.state.users);
     return (
       <ChatContainer>
-        <div class="w-30 flex flex-col bg-gray-100 bg-purple-900">
+        <div className="w-30 flex flex-col bg-gray-100 bg-purple-900">
           <Header user={this.state.user} />
           <NavigationButtons
             toggleChats={this.toggleChats}
