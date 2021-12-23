@@ -4,7 +4,10 @@ import ChatEvents from "../events/ChatEvents";
 import Header from "../components/Header";
 import ChatContainer from "../components/ChatContainer";
 import NavigationButtons from "../components/NavigationButtons";
+import Search from "../components/Search";
 import Users from "../components/Users";
+import ChatInput from "../components/ChatInput";
+
 class Chat extends ChatEvents {
   constructor(props) {
     super(props);
@@ -66,6 +69,7 @@ class Chat extends ChatEvents {
             friends={this.state.friends}
             friendsNotification={this.state.friendsNotification}
           />
+          <Search />
           <Users users={this.state.users} selectUser={this.selectUser} />
         </div>
         <div class="w-70 flex flex-1 flex-col">
@@ -199,9 +203,14 @@ class Chat extends ChatEvents {
             another so it will be a bit different. You also won't know exactly
             how many sentences will appear in the random paragraph.
           </div>
-          <div class="flex">Footer</div>
+          <div class="flex">
+            <ChatInput
+              message={this.state.message}
+              setMessage={this.setMessage}
+              sendMessage={this.sendMessage}
+            />
+          </div>
         </div>
-        {/* <div class="flex">Footer</div> */}
       </ChatContainer>
     );
   }

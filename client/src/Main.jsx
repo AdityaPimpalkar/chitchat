@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import socket from "./www/socket";
-// import Login from "./screens/login/Login";
+import Login from "./screens/Login";
 import Chat from "./screens/Chat";
 
 class Main extends Component {
@@ -82,14 +82,14 @@ class Main extends Component {
             friendRequests={friendRequests}
           />
         )}
-        {/* {!loggedInUser.userId && (
+        {!loggedInUser.userId && (
           <Login
             onSuccess={this.onLoginSuccess}
             onFailure={this.onLoginFailure}
             isLoading={isLoading}
             LoadWidth={LoadWidth}
           />
-        )} */}
+        )}
       </main>
     );
   }

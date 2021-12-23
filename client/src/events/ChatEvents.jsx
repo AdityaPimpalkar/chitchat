@@ -73,6 +73,31 @@ class ChatEvents extends Component {
     this.setState({ messages: chatMessages });
   };
 
+  setMessage = (message) => {
+    this.setState({ message });
+  };
+
+  sendMessage = () => {
+    const socket = this.state.socket;
+    const message = this.state.message;
+    const user = { ...this.state.user };
+    const selectedUser = { ...this.state.selectedUser };
+    const messages = [...this.state.messages];
+
+    // socket.emit("private message", {
+    //   content: message,
+    //   to: selectedUser.userId,
+    // });
+
+    const newMessage = {
+      userId: user.userId,
+      username: user.username,
+      message,
+    };
+
+    this.setState({ messages: [...messages, newMessage], message: "" });
+  };
+
   render() {
     return null;
   }
