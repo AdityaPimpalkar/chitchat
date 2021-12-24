@@ -3,6 +3,7 @@ import {
   AnnotationIcon,
   UserGroupIcon,
   UserAddIcon,
+  ZoomInIcon,
 } from "@heroicons/react/outline";
 
 const NavigationButtons = ({
@@ -17,7 +18,7 @@ const NavigationButtons = ({
   friendsNotification,
 }) => {
   return (
-    <div className="grid grid-cols-3 flex flex-row w-full postiton-relative bg-purple-800 shadow-xl py-2">
+    <div className="grid grid-cols-4 flex flex-row w-full postiton-relative bg-purple-800 py-2">
       <button onClick={() => toggleChats()}>
         <div className="flex justify-center items-center">
           <div className="relative inline-block py-auto">
@@ -72,6 +73,19 @@ const NavigationButtons = ({
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
               </span>
             )}
+          </div>
+        </div>
+      </button>
+      <button onClick={() => toggleFriends()}>
+        <div className="flex justify-center items-center">
+          <div className="relative inline-block py-auto">
+            <ZoomInIcon
+              className={
+                friends
+                  ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-11 2xl:w-11"
+                  : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
+              }
+            />
           </div>
         </div>
       </button>

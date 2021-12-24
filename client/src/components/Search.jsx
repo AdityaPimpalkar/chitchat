@@ -2,7 +2,7 @@ import React from "react";
 
 const Search = ({}) => {
   return (
-    <div className="flex flex-row p-2 shadow-xl">
+    <div className="flex flex-row p-2">
       <div className="flex flex-col justify-center items-center bg-transparent mr-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"

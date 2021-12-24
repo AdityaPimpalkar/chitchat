@@ -2,7 +2,7 @@ import React from "react";
 
 const ChatInput = ({ message, setMessage, sendMessage }) => {
   return (
-    <div className="flex flex-row w-full p-2">
+    <div className="flex flex-row w-full bg-purple-900 p-2">
       <div className="flex justify-center items-center w-full">
         <div className="flex flex-1">
           <input
