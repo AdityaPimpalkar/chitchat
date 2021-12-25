@@ -75,24 +75,26 @@ class Chat extends ChatEvents {
           <Users users={this.state.users} selectUser={this.selectUser} />
         </div>
         <div className="w-70 flex flex-1 flex-col">
-          <div className="flex">
-            <ChatHeader user={this.state.user} />
-          </div>
-          <div className="flex flex-1 overflow-y-auto paragraph px-4">
-            {!_.isEmpty(this.state.selectedUser) && (
-              <DiretMessages
-                user={this.state.user}
-                messages={this.state.messages}
-              />
-            )}
-          </div>
-          <div className="flex">
-            <ChatInput
-              message={this.state.message}
-              setMessage={this.setMessage}
-              sendMessage={this.sendMessage}
-            />
-          </div>
+          {!_.isEmpty(this.state.selectedUser) && (
+            <React.Fragment>
+              <div className="flex">
+                <ChatHeader user={this.state.selectedUser} />
+              </div>
+              <div className="flex flex-1 overflow-y-auto paragraph px-4">
+                <DiretMessages
+                  user={this.state.user}
+                  messages={this.state.messages}
+                />
+              </div>
+              <div className="flex">
+                <ChatInput
+                  message={this.state.message}
+                  setMessage={this.setMessage}
+                  sendMessage={this.sendMessage}
+                />
+              </div>
+            </React.Fragment>
+          )}
         </div>
       </ChatContainer>
     );

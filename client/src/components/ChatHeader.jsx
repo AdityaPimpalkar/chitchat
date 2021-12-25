@@ -2,7 +2,7 @@ import React from "react";
 
 const ChatHeader = ({ user }) => {
   return (
-    <div className="flex flex-row text-left w-full py-3 bg-purple-900 lg:h-12 xl:h-16 2xl:h-20">
+    <div className="flex flex-row justify-start items-center text-left w-full bg-purple-900 lg:h-12 xl:h-16 2xl:h-20">
       <img
         className="border-2 rounded-full mx-2 lg:h-9 lg:w-9 xl:h-12 xl:w-12 2xl:h-14 2xl:w-14"
         src={user.image}
