@@ -2,14 +2,17 @@ import React, { Component } from "react";
 import _ from "lodash";
 import socket from "../www/socket";
 import ChatEvents from "../events/ChatEvents";
+import Container from "../layouts/Container";
+import Sidebar from "../layouts/Sidebar";
+import Content from "../layouts/Content";
 import Header from "../components/Header";
-import ChatContainer from "../components/ChatContainer";
 import NavigationButtons from "../components/NavigationButtons";
 import Search from "../components/Search";
 import Users from "../components/Users";
 import ChatInput from "../components/ChatInput";
 import DiretMessages from "../components/DirectMessages";
 import ChatHeader from "../components/ChatHeader";
+import FriendRequests from "../components/FriendRequests";
 
 class Chat extends ChatEvents {
   constructor(props) {
@@ -57,8 +60,8 @@ class Chat extends ChatEvents {
 
   render() {
     return (
-      <ChatContainer>
-        <div className="w-30 flex flex-col bg-gray-100 bg-purple-900">
+      <Container>
+        <Sidebar>
           <Header user={this.state.user} />
           <NavigationButtons
             toggleChats={this.toggleChats}
@@ -72,31 +75,30 @@ class Chat extends ChatEvents {
             friendsNotification={this.state.friendsNotification}
           />
           <Search />
-          <Users users={this.state.users} selectUser={this.selectUser} />
-        </div>
-        <div className="w-70 flex flex-1 flex-col">
+          {this.state.directMessage && (
+            <Users users={this.state.users} selectUser={this.selectUser} />
+          )}
+          {this.state.friends && (
+            <FriendRequests friendRequests={this.state.users} />
+          )}
+        </Sidebar>
+        <Content>
           {!_.isEmpty(this.state.selectedUser) && (
             <React.Fragment>
-              <div className="flex">
-                <ChatHeader user={this.state.selectedUser} />
-              </div>
-              <div className="flex flex-1 overflow-y-auto paragraph px-4">
-                <DiretMessages
-                  user={this.state.user}
-                  messages={this.state.messages}
-                />
-              </div>
-              <div className="flex">
-                <ChatInput
-                  message={this.state.message}
-                  setMessage={this.setMessage}
-                  sendMessage={this.sendMessage}
-                />
-              </div>
+              <ChatHeader user={this.state.selectedUser} />
+              <DiretMessages
+                user={this.state.user}
+                messages={this.state.messages}
+              />
+              <ChatInput
+                message={this.state.message}
+                setMessage={this.setMessage}
+                sendMessage={this.sendMessage}
+              />
             </React.Fragment>
           )}
-        </div>
-      </ChatContainer>
+        </Content>
+      </Container>
     );
   }
 }
