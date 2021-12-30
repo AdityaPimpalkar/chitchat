@@ -9,6 +9,7 @@ class ChatEvents extends Component {
       users: this.props.users,
       groups: this.props.groups,
       friendRequests: this.props.friendRequests,
+      searchedFriends: [],
       selectedUser: {},
       selectedGroup: {},
       directMessage: true,
@@ -18,6 +19,7 @@ class ChatEvents extends Component {
       newGroup: false,
       friends: false,
       friendsNotification: false,
+      searchFriends: false,
       message: "",
       messages: [],
       search: "",
@@ -30,6 +32,7 @@ class ChatEvents extends Component {
       directMessageNotification: false,
       group: false,
       friends: false,
+      searchFriends: false,
     });
   };
 
@@ -39,6 +42,7 @@ class ChatEvents extends Component {
       group: true,
       groupNotification: false,
       friends: false,
+      searchFriends: false,
     });
   };
 
@@ -48,6 +52,16 @@ class ChatEvents extends Component {
       group: false,
       friends: true,
       friendsNotification: false,
+      searchFriends: false,
+    });
+  };
+
+  toggleSearchFriends = () => {
+    this.setState({
+      directMessage: false,
+      group: false,
+      friends: false,
+      searchFriends: true,
     });
   };
 
