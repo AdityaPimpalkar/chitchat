@@ -1,5 +1,10 @@
 import React from "react";
-import { BadgeCheckIcon, ClockIcon } from "@heroicons/react/solid";
+import {
+  BadgeCheckIcon,
+  ClockIcon,
+  PlusIcon,
+  AnnotationIcon,
+} from "@heroicons/react/solid";
 const SearchFriends = ({ users, selectFriend }) => {
   return (
     <div className="flex flex-row overflow-y-auto w-full">
@@ -33,8 +38,14 @@ const SearchFriends = ({ users, selectFriend }) => {
                       </div>
                     </div>
                     <div className="flex flex-col items-center border-b border-purple-400 flex-1">
-                      {user.sentRequest && (
+                      {user.sentRequest === false && user.isAdded === false && (
+                        <PlusIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-12 2xl:w-12" />
+                      )}
+                      {user.sentRequest === true && user.isAdded === false && (
                         <ClockIcon className="text-yellow-500 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-12 2xl:w-12" />
+                      )}
+                      {user.sentRequest === false && user.isAdded === true && (
+                        <AnnotationIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-12 2xl:w-12" />
                       )}
                     </div>
                   </div>

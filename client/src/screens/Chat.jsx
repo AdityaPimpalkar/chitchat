@@ -13,6 +13,7 @@ import ChatInput from "../components/ChatInput";
 import DiretMessages from "../components/DirectMessages";
 import ChatHeader from "../components/ChatHeader";
 import FriendRequests from "../components/FriendRequests";
+import SearchFriends from "../components/SearchFriends";
 
 class Chat extends ChatEvents {
   constructor(props) {
@@ -23,6 +24,7 @@ class Chat extends ChatEvents {
       users: this.props.users,
       groups: this.props.groups,
       friendRequests: this.props.friendRequests,
+      searchedFriends: [],
       selectedUser: {},
       selectedGroup: {},
       directMessage: true,
@@ -32,6 +34,7 @@ class Chat extends ChatEvents {
       newGroup: false,
       friends: false,
       friendsNotification: false,
+      searchFriends: false,
       message: "",
       messages: [],
       search: "",
@@ -67,12 +70,14 @@ class Chat extends ChatEvents {
             toggleChats={this.toggleChats}
             toggleGroups={this.toggleGroups}
             toggleFriends={this.toggleFriends}
+            toggleSearchFriends={this.toggleSearchFriends}
             directMessage={this.state.directMessage}
             directMessageNotification={this.state.directMessageNotification}
             group={this.state.group}
             groupNotification={this.state.groupNotification}
             friends={this.state.friends}
             friendsNotification={this.state.friendsNotification}
+            searchFriends={this.state.searchFriends}
           />
           <Search />
           {this.state.directMessage && (
@@ -80,6 +85,9 @@ class Chat extends ChatEvents {
           )}
           {this.state.friends && (
             <FriendRequests friendRequests={this.state.users} />
+          )}
+          {this.state.searchFriends && (
+            <SearchFriends users={this.state.users} />
           )}
         </Sidebar>
         <Content>
