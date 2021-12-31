@@ -1,6 +1,6 @@
 import React from "react";
 import { SearchCircleIcon } from "@heroicons/react/outline";
-const Search = ({}) => {
+const Search = ({ placeholder, value, onChange, onKeyPress }) => {
   return (
     <div className="flex flex-row p-2">
       <div className="flex flex-col justify-center items-center bg-transparent mr-2">
@@ -8,7 +8,16 @@ const Search = ({}) => {
       </div>
       <input
         className="bg-transparent w-full focus:outline-none lg:text-sm xl:text-base 2xl:text-lg"
-        placeholder="Search"
+        placeholder={placeholder}
+        value={value}
+        onChange={({ currentTarget: input }) => onChange(input.value)}
+        onKeyPress={(e) =>
+          e.code === "Enter"
+            ? e.currentTarget.value !== ""
+              ? onKeyPress()
+              : null
+            : null
+        }
       />
     </div>
   );
