@@ -46,6 +46,7 @@ class Chat extends ChatEvents {
     // socket.on("user disconnected", (user) => this.userDisconnected(user));
     // socket.on("private message", (message) => this.privateMessage(message));
     socket.on("user messages", (messages) => this.userMessages(messages));
+    socket.on("searchedFriend", (friend) => this.searchedFriend(friend));
     // socket.on("newRequest", (friend) => this.newRequest(friend));
     //socket.on("newFriend", (friend) => this.newFriend(friend));
   }
@@ -79,7 +80,12 @@ class Chat extends ChatEvents {
             friendsNotification={this.state.friendsNotification}
             searchFriends={this.state.searchFriends}
           />
-          <Search />
+          <Search
+            placeholder="Search"
+            value={this.state.search}
+            onChange={this.setSearch}
+            onKeyPress={this.onSearch}
+          />
           {this.state.directMessage && (
             <Users users={this.state.users} selectUser={this.selectUser} />
           )}

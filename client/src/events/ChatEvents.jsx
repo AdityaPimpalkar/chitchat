@@ -65,6 +65,33 @@ class ChatEvents extends Component {
     });
   };
 
+  setSearch = (text) => {
+    this.setState({ search: text });
+  };
+
+  onSearch = () => {
+    const search = this.state.search;
+    const directMessage = this.state.directMessage;
+    const group = this.state.group;
+    const friends = this.state.friends;
+
+    if (directMessage) {
+    } else if (group) {
+    } else if (friends) {
+    } else {
+      socket.emit("searchFriend", search);
+    }
+  };
+
+  searchedFriend = (friend) => {
+    if (friend) {
+      this.setState({ searchedFriends: [{ ...friend }] });
+    } else {
+      this.setState({ searchedFriends: [] });
+    }
+    this.setState({ isLoading: false });
+  };
+
   newDirectMessage = (userId, status) => {
     const users = [...this.state.users];
     const userIndex = users.findIndex((u) => u.userId === userId);
