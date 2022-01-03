@@ -26,7 +26,13 @@ const Groups = ({ groups, selectGroup }) => {
                         {group.name}
                       </span>
                       <span className="text-purple-300 truncate lg:text-xs 2xl:text-base">
-                        Hi there, how are you? Hope everything is alright
+                        {group.members.map(
+                          (member, index) =>
+                            member.userId !== user.userId && (
+                              <span key={index}> {member.username}, </span>
+                            )
+                        )}
+                        You
                       </span>
                     </div>
                     <div className="flex flex-col items-center border-b border-purple-400 flex-1">

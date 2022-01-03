@@ -9,6 +9,7 @@ import Header from "../components/Header";
 import NavigationButtons from "../components/NavigationButtons";
 import Search from "../components/Search";
 import Users from "../components/Users";
+import Groups from "../components/Groups";
 import ChatInput from "../components/ChatInput";
 import DiretMessages from "../components/DirectMessages";
 import ChatHeader from "../components/ChatHeader";
@@ -49,18 +50,16 @@ class Chat extends ChatEvents {
     socket.on("searchedFriend", (friend) => this.searchedFriend(friend));
     // socket.on("newRequest", (friend) => this.newRequest(friend));
     //socket.on("newFriend", (friend) => this.newFriend(friend));
-  }
 
-  selectUser = (selectedUser) => {
-    this.setState({
-      selectedUser,
-      message: "",
-      messages: [],
-    });
-    const socket = this.state.socket;
-    socket.emit("user messages", selectedUser);
-    this.newDirectMessage(selectedUser.userId, false);
-  };
+    socket.on("new group", (group) => this.newGroup(group));
+    socket.on("group created", (group) => this.groupCreated(group));
+    socket.on("group message", (groupMessage) =>
+      this.groupMessage(groupMessage)
+    );
+    socket.on("group messages", (groupMessages) =>
+      this.groupMessages(groupMessages)
+    );
+  }
 
   render() {
     return (
@@ -88,6 +87,9 @@ class Chat extends ChatEvents {
           />
           {this.state.directMessage && (
             <Users users={this.state.users} selectUser={this.selectUser} />
+          )}
+          {this.state.group && (
+            <Groups groups={this.state.groups} selectGroup={this.selectGroup} />
           )}
           {this.state.friends && (
             <FriendRequests friendRequests={this.state.users} />
