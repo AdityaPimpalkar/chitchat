@@ -5,7 +5,8 @@ import {
   PlusIcon,
   AnnotationIcon,
 } from "@heroicons/react/solid";
-const SearchFriends = ({ users, selectFriend }) => {
+
+const SearchFriends = ({ users, selectFriend, openChat }) => {
   return (
     <div className="flex flex-row overflow-y-auto w-full">
       <div className="w-full">
@@ -15,9 +16,11 @@ const SearchFriends = ({ users, selectFriend }) => {
               <div
                 key={index}
                 className="flex flex-row cursor-pointer w-full lg:py-1 pr-2 xl:py-2"
-                onClick={() => selectFriend(user)}
               >
-                <div className="flex flex-col justify-center items-center">
+                <div
+                  className="flex flex-col justify-center items-center"
+                  onClick={() => selectFriend(user)}
+                >
                   <img
                     src={user.image}
                     className="rounded-full border-2 lg:mx-2 xl:mx-2 2xl:mx-4 lg:h-11 lg:w-11 xl:h-12 xl:w-12 2xl:h-16 2xl:w-16"
@@ -26,7 +29,10 @@ const SearchFriends = ({ users, selectFriend }) => {
                 </div>
                 <div className="flex flex-col flex-1 justify-center items-center lg:w-80">
                   <div className="flex flex-row w-full">
-                    <div className="flex flex-col border-b border-purple-400 flex-shrink w-3/4">
+                    <div
+                      className="flex flex-col border-b border-purple-400 flex-shrink w-3/4"
+                      onClick={() => selectFriend(user)}
+                    >
                       <span className="text-left italic truncate lg:text-sm lg:font-medium xl:text-base xl:font-semibold 2xl:text-xl 2xl:font-semibold">
                         {user.username}
                       </span>
@@ -45,7 +51,10 @@ const SearchFriends = ({ users, selectFriend }) => {
                         <ClockIcon className="text-yellow-500 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-12 2xl:w-12" />
                       )}
                       {user.sentRequest === false && user.isAdded === true && (
-                        <AnnotationIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-12 2xl:w-12" />
+                        <AnnotationIcon
+                          className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-12 2xl:w-12"
+                          onClick={() => openChat(user)}
+                        />
                       )}
                     </div>
                   </div>
@@ -54,9 +63,7 @@ const SearchFriends = ({ users, selectFriend }) => {
             );
           })
         ) : (
-          <div className="d-flex h-100 justify-content-center align-items-center chat-window">
-            No results found.
-          </div>
+          <div className="d-flex h-100 text-center">No results found.</div>
         )}
       </div>
     </div>

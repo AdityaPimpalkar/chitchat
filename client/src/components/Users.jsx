@@ -45,9 +45,7 @@ const Users = ({ users, selectUser }) => {
             );
           })
         ) : (
-          <div className="d-flex h-100 justify-content-center align-items-center chat-window">
-            No users connected
-          </div>
+          <div className="d-flex h-100 text-center">No users connected</div>
         )}
       </div>
     </div>

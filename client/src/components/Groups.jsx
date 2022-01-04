@@ -1,6 +1,6 @@
 import React from "react";
 
-const Groups = ({ groups, selectGroup }) => {
+const Groups = ({ user, groups, selectGroup }) => {
   return (
     <div className="flex flex-row overflow-y-auto w-full">
       <div className="w-full">
@@ -51,9 +51,7 @@ const Groups = ({ groups, selectGroup }) => {
             );
           })
         ) : (
-          <div className="d-flex h-100 justify-content-center align-items-center chat-window">
-            No groups found
-          </div>
+          <div className="d-flex h-100 text-center">No groups found</div>
         )}
       </div>
     </div>

@@ -43,9 +43,7 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
             );
           })
         ) : (
-          <div className="d-flex h-100 justify-content-center align-items-center chat-window">
-            No requests found.
-          </div>
+          <div className="d-flex h-100 text-center">No requests found.</div>
         )}
       </div>
     </div>

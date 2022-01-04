@@ -89,13 +89,20 @@ class Chat extends ChatEvents {
             <Users users={this.state.users} selectUser={this.selectUser} />
           )}
           {this.state.group && (
-            <Groups groups={this.state.groups} selectGroup={this.selectGroup} />
+            <Groups
+              user={this.state.user}
+              groups={this.state.groups}
+              selectGroup={this.selectGroup}
+            />
           )}
           {this.state.friends && (
-            <FriendRequests friendRequests={this.state.users} />
+            <FriendRequests friendRequests={this.state.friendRequests} />
           )}
           {this.state.searchFriends && (
-            <SearchFriends users={this.state.users} />
+            <SearchFriends
+              users={this.state.searchedFriends}
+              openChat={this.openChat}
+            />
           )}
         </Sidebar>
         <Content>

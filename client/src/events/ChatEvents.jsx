@@ -29,6 +29,8 @@ class ChatEvents extends Component {
   toggleChats = () => {
     this.setState({
       directMessage: true,
+      selectedUser: {},
+      selectedGroup: {},
       directMessageNotification: false,
       group: false,
       friends: false,
@@ -39,6 +41,8 @@ class ChatEvents extends Component {
   toggleGroups = () => {
     this.setState({
       directMessage: false,
+      selectedUser: {},
+      selectedGroup: {},
       group: true,
       groupNotification: false,
       friends: false,
@@ -49,6 +53,8 @@ class ChatEvents extends Component {
   toggleFriends = () => {
     this.setState({
       directMessage: false,
+      selectedUser: {},
+      selectedGroup: {},
       group: false,
       friends: true,
       friendsNotification: false,
@@ -59,6 +65,8 @@ class ChatEvents extends Component {
   toggleSearchFriends = () => {
     this.setState({
       directMessage: false,
+      selectedUser: {},
+      selectedGroup: {},
       group: false,
       friends: false,
       searchFriends: true,
@@ -230,6 +238,12 @@ class ChatEvents extends Component {
       groups[groupIndex].hasNewMessage = status;
       this.setState({ groups });
     }
+  };
+
+  openChat = (friend) => {
+    this.toggleChats();
+    this.setState({ search: "", searchedFriends: [] });
+    this.selectUser(friend);
   };
 
   render() {
