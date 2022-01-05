@@ -15,6 +15,7 @@ import DiretMessages from "../components/DirectMessages";
 import ChatHeader from "../components/ChatHeader";
 import FriendRequests from "../components/FriendRequests";
 import SearchFriends from "../components/SearchFriends";
+import UserDetails from "../components/UserDetails";
 
 class Chat extends ChatEvents {
   constructor(props) {
@@ -36,6 +37,7 @@ class Chat extends ChatEvents {
       friends: false,
       friendsNotification: false,
       searchFriends: false,
+      userDetail: {},
       message: "",
       messages: [],
       search: "",
@@ -47,9 +49,12 @@ class Chat extends ChatEvents {
     // socket.on("user disconnected", (user) => this.userDisconnected(user));
     // socket.on("private message", (message) => this.privateMessage(message));
     socket.on("user messages", (messages) => this.userMessages(messages));
+
+    // SEARCH FRIENDS
     socket.on("searchedFriend", (friend) => this.searchedFriend(friend));
-    // socket.on("newRequest", (friend) => this.newRequest(friend));
-    //socket.on("newFriend", (friend) => this.newFriend(friend));
+    socket.on("newRequest", (friend) => this.newRequest(friend));
+
+    socket.on("newFriend", (friend) => this.newFriend(friend));
 
     socket.on("new group", (group) => this.newGroup(group));
     socket.on("group created", (group) => this.groupCreated(group));
@@ -86,7 +91,11 @@ class Chat extends ChatEvents {
             onKeyPress={this.onSearch}
           />
           {this.state.directMessage && (
-            <Users users={this.state.users} selectUser={this.selectUser} />
+            <Users
+              loggedInUser={this.state.user}
+              users={this.state.users}
+              selectUser={this.selectUser}
+            />
           )}
           {this.state.group && (
             <Groups
@@ -102,6 +111,7 @@ class Chat extends ChatEvents {
             <SearchFriends
               users={this.state.searchedFriends}
               openChat={this.openChat}
+              selectFriend={this.moreUserDetails}
             />
           )}
         </Sidebar>
@@ -119,6 +129,13 @@ class Chat extends ChatEvents {
                 sendMessage={this.sendMessage}
               />
             </React.Fragment>
+          )}
+          {!_.isEmpty(this.state.userDetail) && (
+            <UserDetails
+              user={this.state.userDetail}
+              addFriend={this.addFriend}
+              openChat={this.openChat}
+            />
           )}
         </Content>
       </Container>

@@ -20,6 +20,7 @@ class ChatEvents extends Component {
       friends: false,
       friendsNotification: false,
       searchFriends: false,
+      userDetail: {},
       message: "",
       messages: [],
       search: "",
@@ -242,8 +243,46 @@ class ChatEvents extends Component {
 
   openChat = (friend) => {
     this.toggleChats();
-    this.setState({ search: "", searchedFriends: [] });
+    this.setState({ search: "", searchedFriends: [], userDetail: {} });
     this.selectUser(friend);
+  };
+
+  moreUserDetails = (user) => {
+    console.log("clicked", user);
+    this.setState({ userDetail: user });
+  };
+
+  acceptRequest = (friend) => {
+    let { friendRequests } = this.state;
+    friendRequests = friendRequests.filter(
+      (request) => request.userId !== friend.userId
+    );
+    socket.emit("acceptRequest", friend);
+    this.setState({ friendRequests });
+  };
+
+  newRequest = (friend) => {
+    const { friendRequests } = this.state;
+    this.setState({ friendRequests: [friend, ...friendRequests] });
+  };
+
+  addFriend = () => {
+    const selectedFriend = { ...this.state.selectedFriend };
+    const searchedFriends = [...this.state.searchedFriends];
+    searchedFriends.map((friend) =>
+      friend.userId === selectedFriend.userId
+        ? (friend.sentRequest = true)
+        : null
+    );
+    selectedFriend.sentRequest = true;
+    selectedFriend.isAdded = false;
+    this.setState({ searchedFriends, selectedFriend });
+    socket.emit("addFriend", selectedFriend);
+  };
+
+  newFriend = (friend) => {
+    let { users } = this.state;
+    this.setState({ users: [friend, ...users] });
   };
 
   render() {
