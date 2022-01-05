@@ -35,18 +35,20 @@ export async function disconnect() {
 
 export async function getUsers(userId) {
   const users = [];
-  const [sessions, userMessages] = await Promise.all([
+  const [conversations, userMessages] = await Promise.all([
     sessionStorage.getConversations(userId),
     getMessagesForUser(userId),
   ]);
-  sessions.forEach((session) => {
+  conversations.forEach((session) => {
     if (session.userId !== userId) {
+      const messages = userMessages.get(session.userId) || [];
+      const lastMessage = messages[messages.length - 1] || {};
       users.push({
         userId: session.userId,
         username: session.username,
         image: session.image,
         connected: session.connected,
-        messages: userMessages.get(userId) || [],
+        lastMessage,
       });
     }
   });
