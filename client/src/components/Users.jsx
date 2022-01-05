@@ -1,6 +1,6 @@
 import React from "react";
 
-const Users = ({ users, selectUser }) => {
+const Users = ({ loggedInUser, users, selectUser }) => {
   return (
     <div className="flex flex-row overflow-y-auto w-full">
       <div className="w-full">
@@ -26,7 +26,10 @@ const Users = ({ users, selectUser }) => {
                         {user.username}
                       </span>
                       <span className="text-purple-300 truncate lg:text-xs 2xl:text-base">
-                        Hi there, how are you? Hope everything is alright
+                        {user.lastMessage.from === loggedInUser.userId
+                          ? "You"
+                          : user.lastMessage.from}
+                        : {user.lastMessage.content}
                       </span>
                     </div>
                     <div className="flex flex-col items-center border-b border-purple-400 flex-1">
