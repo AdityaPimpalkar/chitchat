@@ -1,6 +1,60 @@
 import React from "react";
 
 const ChatHeader = ({ user }) => {
+  let status = "Offline";
+  if (user.lastSeen) {
+    status = `Last seen ${formatDate(user.lastSeen)}`;
+  }
+
+  function formatDate(dateVal) {
+    let lastSeenDate = new Date(dateVal);
+    let today = new Date();
+
+    let sMonth = padValue(lastSeenDate.getMonth() + 1);
+    let sDay = padValue(lastSeenDate.getDate());
+    let sYear = lastSeenDate.getFullYear();
+    let sHour = lastSeenDate.getHours();
+    let sMinute = padValue(lastSeenDate.getMinutes());
+    let sAMPM = "AM";
+
+    let iHourCheck = parseInt(sHour);
+
+    if (iHourCheck > 12) {
+      sAMPM = "PM";
+      sHour = iHourCheck - 12;
+    } else if (iHourCheck === 0) {
+      sHour = "12";
+    }
+
+    sHour = padValue(sHour);
+
+    if (lastSeenDate.getFullYear() === today.getFullYear()) {
+      if (sDay === padValue(today.getDate())) {
+        return `last seen today at ${sHour}:${sMinute}${sAMPM}`;
+      }
+      if (sDay === padValue(today.getDate() - 1)) {
+        return `last seen yesterday at ${sHour}:${sMinute}${sAMPM}`;
+      }
+    }
+    return (
+      sMonth +
+      "/" +
+      sDay +
+      "/" +
+      sYear +
+      " " +
+      sHour +
+      ":" +
+      sMinute +
+      " " +
+      sAMPM
+    );
+  }
+
+  function padValue(value) {
+    return value < 10 ? "0" + value : value;
+  }
+
   return (
     <div className="flex">
       <div className="flex flex-row justify-start items-center text-left w-full bg-purple-900 lg:h-12 xl:h-16 2xl:h-20">
@@ -22,7 +76,7 @@ const ChatHeader = ({ user }) => {
               }
             ></span>
             <span className="italic lg:text-xs xl:text-sm 2xl:text-base">
-              {user.connected ? "online" : "offline"}
+              {user.connected ? "online" : status}
             </span>
           </div>
         </div>
