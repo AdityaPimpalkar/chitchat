@@ -35,7 +35,7 @@ class Main extends Component {
       socket.auth = { token };
       localStorage.setItem("token", token);
       const loggedInUser = { userId, username, image };
-      this.setState({ loggedInUser, LoadWidth: "w-96" });
+      this.setState({ loggedInUser, LoadWidth: "w-96", isLoading: false });
     });
 
     socket.on("users", ({ users, groups, friendRequests }) => {
@@ -49,6 +49,8 @@ class Main extends Component {
     if (token) {
       socket.auth = { token };
       socket.connect();
+    } else {
+      this.setState({ LoadWidth: "w-96", isLoading: false });
     }
   };
 

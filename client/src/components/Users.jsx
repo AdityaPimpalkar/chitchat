@@ -26,10 +26,7 @@ const Users = ({ loggedInUser, users, selectUser }) => {
                         {user.username}
                       </span>
                       <span className="text-purple-300 truncate lg:text-xs 2xl:text-base">
-                        {user.lastMessage.from === loggedInUser.userId
-                          ? "You"
-                          : user.lastMessage.from}
-                        : {user.lastMessage.content}
+                        {user.lastMessage.content}
                       </span>
                     </div>
                     <div className="flex flex-col items-center border-b border-purple-400 flex-1">
