@@ -101,6 +101,41 @@ class ChatEvents extends Component {
     this.setState({ isLoading: false });
   };
 
+  userConnected = ({ userId, username }) => {
+    const user = { ...this.state.user };
+    const selectedUser = { ...this.state.selectedUser };
+    if (selectedUser.userId === userId) {
+      selectedUser.connected = true;
+      this.setState({ selectedUser });
+    }
+    if (user.userId !== userId) {
+      const users = [...this.state.users];
+      const user = users.find((user) => user.userId === userId);
+      if (user) {
+        this.handleConnectionStatus(user.userId, true);
+      }
+    }
+  };
+
+  userDisconnected = ({ userId, lastSeen }) => {
+    const selectedUser = { ...this.state.selectedUser };
+    if (selectedUser.userId === userId) {
+      selectedUser.connected = false;
+      selectedUser.lastSeen = lastSeen;
+      this.setState({ selectedUser });
+    }
+    this.handleConnectionStatus(userId, false);
+  };
+
+  handleConnectionStatus = (userId, status) => {
+    const users = [...this.state.users];
+    const userIndex = users.findIndex((u) => u.userId === userId);
+    if (userIndex >= 0) {
+      users[userIndex].connected = status;
+      this.setState({ users });
+    }
+  };
+
   selectUser = (selectedUser) => {
     this.setState({
       selectedUser,
