@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import _ from "lodash";
 import socket from "../www/socket";
 import ChatEvents from "../events/ChatEvents";
@@ -47,7 +47,7 @@ class Chat extends ChatEvents {
   componentDidMount() {
     socket.on("user connected", (user) => this.userConnected(user));
     socket.on("user disconnected", (user) => this.userDisconnected(user));
-    // socket.on("private message", (message) => this.privateMessage(message));
+    socket.on("private message", (message) => this.privateMessage(message));
     socket.on("user messages", (messages) => this.userMessages(messages));
 
     // SEARCH FRIENDS

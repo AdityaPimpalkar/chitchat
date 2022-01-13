@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import socket from "../www/socket";
 class ChatEvents extends Component {
   constructor(props) {
@@ -147,10 +147,11 @@ class ChatEvents extends Component {
     this.newDirectMessage(selectedUser.userId, false);
   };
 
-  userMessages = ({ userId, messages, connected }) => {
+  userMessages = ({ userId, messages, connected, lastSeen }) => {
     const selectedUser = { ...this.state.selectedUser };
     if (selectedUser.userId === userId) {
       selectedUser.connected = connected;
+      selectedUser.lastSeen = lastSeen;
       this.setState({ selectedUser });
     }
     const chatMessages = [];
@@ -160,11 +161,34 @@ class ChatEvents extends Component {
     this.setState({ messages: chatMessages });
   };
 
-  newDirectMessage = (userId, status) => {
+  privateMessage = ({ content, from, to }) => {
+    const selectedUser = { ...this.state.selectedUser };
+    if (selectedUser.userId === from) {
+      const newMessage = {
+        userId: from,
+        message: content,
+      };
+      const messages = [...this.state.messages];
+      this.setState({ messages: [...messages, newMessage] });
+      this.newDirectMessage(from, false, content);
+    } else {
+      this.newDirectMessage(from, true, content);
+    }
+
+    const directMessage = this.state.directMessage;
+    if (directMessage === false) {
+      this.setState({ directMessageNotification: true });
+    }
+  };
+
+  newDirectMessage = (userId, status, content) => {
     const users = [...this.state.users];
     const userIndex = users.findIndex((u) => u.userId === userId);
     if (userIndex >= 0) {
       users[userIndex].hasNewMessage = status;
+      if (content) {
+        users[userIndex].lastMessage = { content };
+      }
       this.setState({ users });
     }
   };
@@ -190,7 +214,7 @@ class ChatEvents extends Component {
       username: user.username,
       message,
     };
-
+    this.newDirectMessage(selectedUser.userId, false, message);
     this.setState({ messages: [...messages, newMessage], message: "" });
   };
 
