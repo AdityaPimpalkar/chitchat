@@ -34,7 +34,7 @@ const Users = ({ loggedInUser, users, selectUser }) => {
                         12:30 PM
                       </span>
                       {user.hasNewMessage && (
-                        <span className="lg:h-4 lg:w-4 xl:h-5 lg:w-5 2xl:h-6 2xl:w-6 rounded-full bg-yellow-500 justify-center flex items-center">
+                        <span className="lg:h-2 lg:w-2 xl:h-3 lg:w-3 2xl:h-4 2xl:w-4 rounded-full bg-yellow-500 ">
                           <span className="lg:text-xs xl:text-sm 2xl:text-base font-semibold"></span>
                         </span>
                       )}

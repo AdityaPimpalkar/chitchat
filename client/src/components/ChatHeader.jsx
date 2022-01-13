@@ -3,7 +3,7 @@ import React from "react";
 const ChatHeader = ({ user }) => {
   let status = "Offline";
   if (user.lastSeen) {
-    status = `Last seen ${formatDate(user.lastSeen)}`;
+    status = formatDate(user.lastSeen);
   }
 
   function formatDate(dateVal) {
@@ -30,19 +30,20 @@ const ChatHeader = ({ user }) => {
 
     if (lastSeenDate.getFullYear() === today.getFullYear()) {
       if (sDay === padValue(today.getDate())) {
-        return `last seen today at ${sHour}:${sMinute}${sAMPM}`;
+        return `Last seen today at ${sHour}:${sMinute}${sAMPM}`;
       }
       if (sDay === padValue(today.getDate() - 1)) {
-        return `last seen yesterday at ${sHour}:${sMinute}${sAMPM}`;
+        return `Last seen yesterday at ${sHour}:${sMinute}${sAMPM}`;
       }
     }
     return (
-      sMonth +
-      "/" +
+      "Last seen " +
       sDay +
       "/" +
+      sMonth +
+      "/" +
       sYear +
-      " " +
+      " at " +
       sHour +
       ":" +
       sMinute +
