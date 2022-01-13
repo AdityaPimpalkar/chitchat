@@ -5,6 +5,7 @@ class SessionStorage {
   findSession(sessionId) {}
   findUserSession(userId) {}
   findAllSessions() {}
+  getLastSeen(userId) {}
   getConversations(userId) {}
 }
 
@@ -35,10 +36,15 @@ export class RedisSessionStorage extends SessionStorage {
 
   async saveSession(sessionId, user) {
     const value = JSON.stringify(user);
-    const { userId, email } = user;
+    const { userId, email, lastSeen } = user;
     await this.redisClient
       .multi()
       .hset(`session:${sessionId}`, "session", value)
+      .hset(
+        `lastSeen:${userId}`,
+        "lastSeen",
+        JSON.stringify({ lastSeen: lastSeen })
+      )
       .hset(
         `sessionId:${userId}`,
         "sessionId",
@@ -98,6 +104,17 @@ export class RedisSessionStorage extends SessionStorage {
       .then((results) => {
         return results.map(([err, session]) => JSON.parse(session));
       });
+  }
+
+  async getLastSeen(userId) {
+    return await this.redisClient
+      .multi()
+      .hget(`lastSeen:${userId}`, "lastSeen")
+      .exec()
+      .then(([[err, result]]) => {
+        return JSON.parse(result);
+      })
+      .catch((error) => console.log(error));
   }
 
   async getConversations(userId) {

@@ -1,9 +1,13 @@
 import { RedisMessageStorage } from "../services/message.js";
+import { RedisSessionStorage } from "../services/session.js";
 import { io, socket } from "../../socket.js";
+
 const messageStorage = new RedisMessageStorage();
+const sessionStorage = new RedisSessionStorage();
 
 export async function userMessages({ userId, username }) {
-  const [userMessages, connectionSocket] = await Promise.all([
+  const [session, userMessages, connectionSocket] = await Promise.all([
+    sessionStorage.getLastSeen(userId),
     getMessagesForUser(socket.userId),
     io.in(userId).allSockets(),
   ]);
@@ -12,6 +16,7 @@ export async function userMessages({ userId, username }) {
     username,
     messages: userMessages.get(userId) || [],
     connected: connectionSocket.size === 0 ? false : true,
+    lastSeen: session.lastSeen != null ? new Date(session.lastSeen) : null,
   });
 }
 

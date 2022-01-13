@@ -14,6 +14,7 @@ export async function connect() {
   await sessionStorage.saveSession(sessionId, {
     ...user,
     connected: true,
+    lastSeen: null,
   });
   socket.join(userId);
 }
@@ -23,11 +24,13 @@ export async function disconnect() {
   const isDisconnected = matchingSockets.size === 0;
   if (isDisconnected) {
     //notify other users
-    socket.broadcast.emit("user disconnected", socket.user);
     const user = {
       ...socket.user,
       connected: false,
+      lastSeen: new Date(),
     };
+
+    socket.broadcast.emit("user disconnected", user);
     //update the connection status of the session
     await sessionStorage.saveSession(socket.sessionId, user);
   }
@@ -48,6 +51,7 @@ export async function getUsers(userId) {
         username: session.username,
         image: session.image,
         connected: session.connected,
+        lastSeen: session.lastSeen,
         lastMessage,
       });
     }
