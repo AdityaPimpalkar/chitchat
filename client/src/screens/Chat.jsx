@@ -26,6 +26,7 @@ class Chat extends ChatEvents {
       users: this.props.users,
       groups: this.props.groups,
       friendRequests: this.props.friendRequests,
+      isConnected: this.props.isConnected,
       searchedFriends: [],
       selectedUser: {},
       selectedGroup: {},
@@ -70,7 +71,7 @@ class Chat extends ChatEvents {
     return (
       <Container>
         <Sidebar>
-          <Header user={this.state.user} />
+          <Header user={this.state.user} isConnected={this.state.isConnected} />
           <NavigationButtons
             toggleChats={this.toggleChats}
             toggleGroups={this.toggleGroups}
@@ -131,6 +132,7 @@ class Chat extends ChatEvents {
                 message={this.state.message}
                 setMessage={this.setMessage}
                 sendMessage={this.sendMessage}
+                isConnected={this.state.isConnected}
               />
             </React.Fragment>
           )}

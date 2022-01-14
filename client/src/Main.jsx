@@ -15,6 +15,7 @@ class Main extends Component {
       friendRequests: [],
       isLoading: true,
       LoadWidth: "w-32",
+      isConnected: false,
     };
   }
 
@@ -24,11 +25,11 @@ class Main extends Component {
     const { socket } = this.state;
 
     socket.on("connect", () => {
-      console.info("connected");
+      this.setState({ isConnected: true });
     });
 
     socket.on("disconnect", () => {
-      console.info("Disconnected");
+      this.setState({ isConnected: false });
     });
 
     socket.on("session", ({ token, userId, username, image }) => {
@@ -73,6 +74,7 @@ class Main extends Component {
       loggedInUser,
       isLoading,
       LoadWidth,
+      isConnected,
     } = this.state;
     return (
       <main>
@@ -82,6 +84,7 @@ class Main extends Component {
             users={users}
             groups={groups}
             friendRequests={friendRequests}
+            isConnected={isConnected}
           />
         )}
         {!loggedInUser.userId && (

@@ -1,8 +1,8 @@
 import React from "react";
 
-import { ChatAlt2Icon } from "@heroicons/react/solid";
+import { ChatAlt2Icon, ExclamationIcon } from "@heroicons/react/solid";
 
-const Navigation = ({ user }) => {
+const Navigation = ({ user, isConnected }) => {
   return (
     <div className="grid grid-cols-2 flex flex-row w-full bg-purple-900 shadow-xl  lg:h-12 xl:h-16 2xl:h-20">
       <div className="flex flex-row items-center">
@@ -18,8 +18,13 @@ const Navigation = ({ user }) => {
           alt="user"
         />
         <span className="lg:text-sm xl:text-base 2xl:text-lg">
-          {/* {user.username} */}
+          {isConnected === false && (
+            <span className="text-red-600">Disconnected</span>
+          )}
         </span>
+        {isConnected === false && (
+          <ExclamationIcon className="text-red-600 lg:h-5 lg:w-5 xl:h-6 xl:w-6 2xl:h-7 w-7" />
+        )}
       </div>
     </div>
   );
