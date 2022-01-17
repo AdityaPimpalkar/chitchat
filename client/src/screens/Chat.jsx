@@ -7,7 +7,7 @@ import Sidebar from "../layouts/Sidebar";
 import Content from "../layouts/Content";
 import Header from "../components/Header";
 import NavigationButtons from "../components/NavigationButtons";
-import Search from "../components/Search";
+import Search from "../components/common/Search";
 import Users from "../components/Users";
 import Groups from "../components/Groups";
 import ChatInput from "../components/ChatInput";
@@ -16,6 +16,7 @@ import ChatHeader from "../components/ChatHeader";
 import FriendRequests from "../components/FriendRequests";
 import SearchFriends from "../components/SearchFriends";
 import UserDetails from "../components/UserDetails";
+import NewGroup from "../components/NewGroup";
 
 class Chat extends ChatEvents {
   constructor(props) {
@@ -30,11 +31,11 @@ class Chat extends ChatEvents {
       searchedFriends: [],
       selectedUser: {},
       selectedGroup: {},
-      directMessage: true,
+      directMessage: false,
       directMessageNotification: false,
-      group: false,
+      group: true,
       groupNotification: false,
-      newGroup: false,
+      newGroup: true,
       friends: false,
       friendsNotification: false,
       searchFriends: false,
@@ -103,6 +104,8 @@ class Chat extends ChatEvents {
               user={this.state.user}
               groups={this.state.groups}
               selectGroup={this.selectGroup}
+              toggleNewGroup={this.toggleNewGroup}
+              newGroup={this.state.newGroup}
             />
           )}
           {this.state.friends && (
@@ -135,6 +138,12 @@ class Chat extends ChatEvents {
                 isConnected={this.state.isConnected}
               />
             </React.Fragment>
+          )}
+          {this.state.newGroup && (
+            <NewGroup
+              users={this.state.users}
+              toggleNewGroup={this.toggleNewGroup}
+            />
           )}
           {!_.isEmpty(this.state.userDetail) && (
             <UserDetails

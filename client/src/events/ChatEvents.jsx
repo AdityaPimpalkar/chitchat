@@ -229,6 +229,15 @@ class ChatEvents extends Component {
     }
   };
 
+  toggleNewGroup = (status) => {
+    this.setState({
+      newGroup: status,
+      selectedGroup: {},
+      message: "",
+      messages: [],
+    });
+  };
+
   selectGroup = (selectedGroup) => {
     this.setState({
       selectedGroup,
