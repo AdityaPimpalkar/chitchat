@@ -8,7 +8,7 @@ const Groups = ({ user, groups, toggleNewGroup, selectGroup }) => {
         className="flex items-center w-full mt-1"
         onClick={() => toggleNewGroup(true)}
       >
-        <PlusCircleIcon className="2xl:h-10 2xl:w-10 m-0" />
+        <PlusCircleIcon className="lg:mx-2 xl:mx-2 2xl:mx-0 lg:h-6 lg:w-6 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10" />
         <span>New Group</span>
       </button>
       <div className="flex flex-row overflow-y-auto w-full">

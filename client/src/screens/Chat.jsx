@@ -31,11 +31,11 @@ class Chat extends ChatEvents {
       searchedFriends: [],
       selectedUser: {},
       selectedGroup: {},
-      directMessage: false,
+      directMessage: true,
       directMessageNotification: false,
-      group: true,
+      group: false,
       groupNotification: false,
-      newGroup: true,
+      newGroup: false,
       friends: false,
       friendsNotification: false,
       searchFriends: false,
@@ -117,7 +117,7 @@ class Chat extends ChatEvents {
           )}
           {this.state.searchFriends && (
             <SearchFriends
-              users={this.state.searchedFriends}
+              searchedFriends={this.state.searchedFriends}
               openChat={this.openChat}
               selectFriend={this.moreUserDetails}
             />

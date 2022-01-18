@@ -6,12 +6,12 @@ import {
   AnnotationIcon,
 } from "@heroicons/react/solid";
 
-const SearchFriends = ({ users, selectFriend, openChat }) => {
+const SearchFriends = ({ searchedFriends, selectFriend, openChat }) => {
   return (
     <div className="flex flex-row overflow-y-auto w-full">
       <div className="w-full">
-        {users.length > 0 ? (
-          users.map((user, index) => {
+        {searchedFriends.length > 0 ? (
+          searchedFriends.map((user, index) => {
             return (
               <div
                 key={index}

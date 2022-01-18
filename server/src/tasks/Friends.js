@@ -21,6 +21,9 @@ export async function searchFriend(email) {
       if (user) {
         friend.sentRequest = false;
         friend.isAdded = true;
+      } else {
+        friend.sentRequest = false;
+        friend.isAdded = false;
       }
     }
   }
