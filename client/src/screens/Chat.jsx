@@ -120,6 +120,7 @@ class Chat extends ChatEvents {
               searchedFriends={this.state.searchedFriends}
               openChat={this.openChat}
               selectFriend={this.moreUserDetails}
+              addFriend={this.addFriend}
             />
           )}
         </Sidebar>

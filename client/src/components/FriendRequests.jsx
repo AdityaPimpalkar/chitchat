@@ -26,7 +26,7 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
                         {friend.username}
                       </span>
                       <div className="flex justify-start items-center">
-                        <BadgeCheckIcon className="text-blue-400 lg:h-3 lg:w-3 xl:h-5 xl:w-5 2xl:h-6 2xl:w-6" />
+                        <BadgeCheckIcon className="text-blue-400 lg:h-3 lg:w-3 xl:h-4 xl:w-4 2xl:h-6 2xl:w-6" />
                         <span className="text-green-300 truncate lg:text-xs 2xl:text-base">
                           Verified
                         </span>
@@ -34,7 +34,7 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
                     </div>
                     <div className="flex flex-col items-center border-b border-purple-400 flex-1">
                       <button onClick={() => acceptRequest(friend)}>
-                        <CheckIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-11 2xl:w-11" />
+                        <CheckIcon className="lg:h-5 lg:w-5 xl:h-11 xl:w-9 2xl:h-9 2xl:w-11" />
                       </button>
                     </div>
                   </div>

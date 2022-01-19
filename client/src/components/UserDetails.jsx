@@ -13,6 +13,7 @@ const UserDetails = ({
   openChat,
   searchFriends,
 }) => {
+  if (searchFriends === false) user.hasRequested = true;
   return (
     <div className="h-full bg-purple-700 text-left">
       <div className="w-full h-full text-center flex flex-col justify-center items-center">
@@ -65,21 +66,26 @@ const UserDetails = ({
             </div>
           )}
 
-        {user.sentRequest === true &&
-          user.isAdded === false &&
-          searchFriends === false && (
-            <button
-              className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
-              onClick={() => acceptRequest()}
-            >
-              <CheckIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14" />
-              Accept request
-            </button>
-          )}
+        {user.hasRequested === true && searchFriends === true && (
+          <div className="flex flex-row justify-center items-center text-black bg-white rounded-full">
+            <ClockIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14" />
+            <span className="mr-2">Please check your friend requests</span>
+          </div>
+        )}
+
+        {user.hasRequested === true && searchFriends === false && (
+          <button
+            className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
+            onClick={() => acceptRequest(user)}
+          >
+            <CheckIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14" />
+            Accept request
+          </button>
+        )}
         {user.sentRequest === false && user.isAdded === false && (
           <button
             className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
-            onClick={() => addFriend()}
+            onClick={() => addFriend(user)}
           >
             <PlusIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14" />
             Add as friend
