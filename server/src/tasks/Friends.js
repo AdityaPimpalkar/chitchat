@@ -3,11 +3,13 @@ import { RedisFriendStorage } from "../services/Friends.js";
 const FindFriends = new RedisFriendStorage();
 
 export async function searchFriend(email) {
-  const [friend, sentRequests, conversations] = await Promise.all([
-    FindFriends.searchFriend(email),
-    FindFriends.getSentRequests(socket.user.userId),
-    FindFriends.getConversations(socket.user.userId),
-  ]);
+  const [friend, sentRequests, receivedRequests, conversations] =
+    await Promise.all([
+      FindFriends.searchFriend(email),
+      FindFriends.getSentRequests(socket.user.userId),
+      FindFriends.getFriendRequests(socket.user.userId),
+      FindFriends.getConversations(socket.user.userId),
+    ]);
   if (friend) {
     const request = sentRequests.find(
       (request) => request.userId === friend.userId
@@ -15,15 +17,23 @@ export async function searchFriend(email) {
     if (request) {
       friend.sentRequest = true;
       friend.isAdded = false;
-    }
-    if (conversations) {
-      const user = conversations.find((user) => user.userId === friend.userId);
-      if (user) {
-        friend.sentRequest = false;
-        friend.isAdded = true;
+    } else {
+      const friendRequest = receivedRequests.find(
+        (request) => request.userId === friend.userId
+      );
+      if (friendRequest) {
+        friend.hasRequested = true;
       } else {
-        friend.sentRequest = false;
-        friend.isAdded = false;
+        const user = conversations.find(
+          (user) => user.userId === friend.userId
+        );
+        if (user) {
+          friend.sentRequest = false;
+          friend.isAdded = true;
+        } else {
+          friend.sentRequest = false;
+          friend.isAdded = false;
+        }
       }
     }
   }
