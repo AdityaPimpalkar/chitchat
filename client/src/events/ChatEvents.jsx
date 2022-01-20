@@ -328,8 +328,7 @@ class ChatEvents extends Component {
     friendRequests = friendRequests.filter(
       (request) => request.userId !== friend.userId
     );
-    console.log(friendRequests);
-    //socket.emit("acceptRequest", friend);
+    socket.emit("acceptRequest", friend);
     this.setState({ friendRequests, userDetail: {} });
   };
 
@@ -353,10 +352,12 @@ class ChatEvents extends Component {
   };
 
   newFriend = (friend) => {
-    console.log(friend);
     let { users } = this.state;
     friend.hasNewMessage = true;
-    this.setState({ users: [friend, ...users] });
+    this.setState({
+      directMessageNotification: true,
+      users: [friend, ...users],
+    });
   };
 
   render() {

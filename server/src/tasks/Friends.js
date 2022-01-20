@@ -49,6 +49,8 @@ export async function addFriend(friend) {
 export async function acceptRequest(friend) {
   const currentUser = socket.user;
   const ok = await FindFriends.AcceptFriendRequest(currentUser, friend);
+  friend.lastMessage = {};
   socket.emit("newFriend", friend);
+  currentUser.lastMessage = {};
   socket.to(friend.userId).emit("newFriend", currentUser);
 }
