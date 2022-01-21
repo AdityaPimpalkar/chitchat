@@ -39,7 +39,7 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
                     </div>
                     <div className="flex flex-col items-center border-b border-purple-400 flex-1">
                       <button onClick={() => acceptRequest(friend)}>
-                        <CheckIcon className="lg:h-5 lg:w-5 xl:h-11 xl:w-9 2xl:h-9 2xl:w-11" />
+                        <CheckIcon className="lg:h-5 lg:w-5 xl:h-9 xl:w-9 2xl:h-11 2xl:w-11" />
                       </button>
                     </div>
                   </div>

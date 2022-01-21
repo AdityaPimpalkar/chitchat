@@ -30,6 +30,7 @@ class ChatEvents extends Component {
   toggleChats = () => {
     this.setState({
       directMessage: true,
+      searchedFriends: [],
       selectedUser: {},
       selectedGroup: {},
       userDetail: {},
@@ -43,6 +44,7 @@ class ChatEvents extends Component {
   toggleGroups = () => {
     this.setState({
       directMessage: false,
+      searchedFriends: [],
       selectedUser: {},
       selectedGroup: {},
       userDetail: {},
@@ -56,6 +58,7 @@ class ChatEvents extends Component {
   toggleFriends = () => {
     this.setState({
       directMessage: false,
+      searchedFriends: [],
       selectedUser: {},
       selectedGroup: {},
       userDetail: {},
@@ -69,6 +72,7 @@ class ChatEvents extends Component {
   toggleSearchFriends = () => {
     this.setState({
       directMessage: false,
+      searchedFriends: [],
       selectedUser: {},
       selectedGroup: {},
       userDetail: {},
@@ -231,6 +235,13 @@ class ChatEvents extends Component {
     } else if (group) {
       this.sendGroupMessage();
     }
+  };
+
+  addEmoji = (emoji) => {
+    console.log(emoji);
+    let message = this.state.message;
+    message = `${message}${emoji}`;
+    this.setState({ message });
   };
 
   toggleNewGroup = (status) => {

@@ -136,6 +136,7 @@ class Chat extends ChatEvents {
                 message={this.state.message}
                 setMessage={this.setMessage}
                 sendMessage={this.sendMessage}
+                addEmoji={this.addEmoji}
                 isConnected={this.state.isConnected}
               />
             </React.Fragment>

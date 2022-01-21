@@ -85,3 +85,7 @@ body {
   border: 2px #fff solid;
   border-radius: 50%;
 }
+
+.emoji-mart-preview {
+  display: none;
+}
