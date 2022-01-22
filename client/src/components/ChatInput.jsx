@@ -59,7 +59,7 @@ const ChatInput = ({
           <Picker
             set="apple"
             theme="dark"
-            onSelect={(emoji) => addEmoji(emoji.colons)}
+            onSelect={(emoji) => addEmoji(emoji.native)}
             style={{ width: "100%" }}
           />
         </div>

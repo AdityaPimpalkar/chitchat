@@ -238,7 +238,6 @@ class ChatEvents extends Component {
   };
 
   addEmoji = (emoji) => {
-    console.log(emoji);
     let message = this.state.message;
     message = `${message}${emoji}`;
     this.setState({ message });
