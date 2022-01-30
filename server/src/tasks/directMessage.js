@@ -25,6 +25,7 @@ export async function privateMessages({ content, to }) {
     from: socket.userId,
     to,
     content,
+    sentOn: new Date(),
   };
   socket.to(to).emit("private message", message);
   await messageStorage.saveMessage(message);

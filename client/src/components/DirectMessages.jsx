@@ -26,7 +26,11 @@ const DiretMessages = ({ user, messages }) => {
                 </span>
                 <div className="flex flex-row-reverse">
                   <span className="text-xxs xl:text-xs 2xl:text-sm">
-                    12:24 PM
+                    {new Date(message.sentOn).toLocaleString("en-IN", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                    })}
                   </span>
                 </div>
               </div>

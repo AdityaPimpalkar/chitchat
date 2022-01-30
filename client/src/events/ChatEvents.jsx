@@ -163,8 +163,8 @@ class ChatEvents extends Component {
       this.setState({ selectedUser });
     }
     const chatMessages = [];
-    messages.forEach(({ content, from }) => {
-      chatMessages.push({ userId: from, message: content });
+    messages.forEach(({ content, from, sentOn }) => {
+      chatMessages.push({ userId: from, message: content, sentOn });
     });
     this.setState({ messages: chatMessages });
   };
