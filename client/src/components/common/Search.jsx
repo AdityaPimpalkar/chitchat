@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { SearchCircleIcon } from "@heroicons/react/outline";
-const Search = ({ placeholder, value, onChange, onKeyPress }) => {
+const Search = ({ placeholder, value, onChange, onKeyPress, isClear }) => {
+  const [search, setSearch] = useState("");
+
+  const onChangeInput = (value) => {
+    setSearch(value);
+    if (value === "") isClear();
+  };
   return (
     <div className="flex flex-row border-b p-2">
       <div className="flex flex-col justify-center items-center bg-transparent mr-2">
@@ -8,13 +14,13 @@ const Search = ({ placeholder, value, onChange, onKeyPress }) => {
       </div>
       <input
         className="bg-transparent w-full focus:outline-none lg:text-sm xl:text-base 2xl:text-lg"
-        placeholder={placeholder}
-        value={value}
-        onChange={({ currentTarget: input }) => onChange(input.value)}
+        placeholder="search"
+        value={search}
+        onChange={({ currentTarget: input }) => onChangeInput(input.value)}
         onKeyPress={(e) =>
           e.code === "Enter"
             ? e.currentTarget.value !== ""
-              ? onKeyPress()
+              ? onKeyPress(e.currentTarget.value)
               : null
             : null
         }

@@ -86,12 +86,6 @@ class Chat extends ChatEvents {
             friendsNotification={this.state.friendsNotification}
             searchFriends={this.state.searchFriends}
           />
-          <Search
-            placeholder="Search"
-            value={this.state.search}
-            onChange={this.setSearch}
-            onKeyPress={this.onSearch}
-          />
           {this.state.directMessage && (
             <Users
               loggedInUser={this.state.user}
@@ -120,7 +114,6 @@ class Chat extends ChatEvents {
               searchedFriends={this.state.searchedFriends}
               openChat={this.openChat}
               selectFriend={this.moreUserDetails}
-              addFriend={this.addFriend}
             />
           )}
         </Sidebar>
