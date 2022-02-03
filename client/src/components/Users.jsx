@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import Search from "./common/Search";
 
 const Users = ({ loggedInUser, users, selectUser }) => {
-  const [search, setSearch] = useState("");
-  const [chats, setChats] = useState(users);
+  const [chats] = useState(users);
+  const [searchedChats, setSearchedChats] = useState([]);
   const [searchResults, setsearchResults] = useState(false);
 
-  const onSearch = () => {
+  const onSearch = (value) => {
     setsearchResults(true);
-    const searchedUsers = chats.find((chats) => chats.username === search);
-    setChats(searchedUsers || []);
+    const searchedUsers = chats.filter(
+      (chat) => chat.username.toLowerCase() === value
+    );
+    setSearchedChats(searchedUsers || []);
+  };
+
+  const isClear = () => {
+    setsearchResults(false);
+    setSearchedChats([]);
   };
 
   const RenderUsers = ({ users }) => {
@@ -68,16 +75,14 @@ const Users = ({ loggedInUser, users, selectUser }) => {
   return (
     <React.Fragment>
       <Search
-        placeholder="Search"
-        value={search}
-        onChange={setSearch}
-        onKeyPress={() => onSearch}
+        onKeyPress={(value) => onSearch(value)}
+        isClear={() => isClear()}
       />
       <div className="flex flex-row overflow-y-auto w-full">
         <div className="w-full">
           {searchResults === true &&
-            (chats.length > 0 ? (
-              <RenderUsers users={chats} />
+            (searchedChats.length > 0 ? (
+              <RenderUsers users={searchedChats} />
             ) : (
               <div className="d-flex h-100 text-center">No users found!</div>
             ))}
