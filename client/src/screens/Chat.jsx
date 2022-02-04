@@ -7,16 +7,13 @@ import Sidebar from "../layouts/Sidebar";
 import Content from "../layouts/Content";
 import Header from "../components/Header";
 import NavigationButtons from "../components/NavigationButtons";
-import Search from "../components/common/Search";
 import Users from "../components/Users";
 import Groups from "../components/Groups";
-import ChatInput from "../components/ChatInput";
-import DiretMessages from "../components/DirectMessages";
-import ChatHeader from "../components/ChatHeader";
 import FriendRequests from "../components/FriendRequests";
 import SearchFriends from "../components/SearchFriends";
 import UserDetails from "../components/UserDetails";
 import NewGroup from "../components/NewGroup";
+import Conversations from "../components/Conversations";
 
 class Chat extends ChatEvents {
   constructor(props) {
@@ -119,20 +116,25 @@ class Chat extends ChatEvents {
         </Sidebar>
         <Content>
           {!_.isEmpty(this.state.selectedUser) && (
-            <React.Fragment>
-              <ChatHeader user={this.state.selectedUser} />
-              <DiretMessages
-                user={this.state.user}
-                messages={this.state.messages}
-              />
-              <ChatInput
-                message={this.state.message}
-                setMessage={this.setMessage}
-                sendMessage={this.sendMessage}
-                addEmoji={this.addEmoji}
-                isConnected={this.state.isConnected}
-              />
-            </React.Fragment>
+            // <React.Fragment>
+            //   <ChatHeader user={this.state.selectedUser} />
+            //   <DiretMessages
+            //     user={this.state.user}
+            //     messages={this.state.messages}
+            //   />
+            //   <ChatInput
+            //     message={this.state.message}
+            //     setMessage={this.setMessage}
+            //     sendMessage={this.sendMessage}
+            //     addEmoji={this.addEmoji}
+            //     isConnected={this.state.isConnected}
+            //   />
+            // </React.Fragment>
+            <Conversations
+              selectedUser={this.state.selectedUser}
+              loggedInUser={this.state.user}
+              isConnected={this.state.isConnected}
+            />
           )}
           {this.state.newGroup && (
             <NewGroup

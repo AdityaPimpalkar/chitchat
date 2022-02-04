@@ -4,14 +4,18 @@ import { EmojiHappyIcon } from "@heroicons/react/outline";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 
-const ChatInput = ({
-  message,
-  setMessage,
-  sendMessage,
-  addEmoji,
-  isConnected,
-}) => {
+const ChatInput = ({ sendMessage, isConnected }) => {
+  const [message, setMessage] = useState("");
   const [emojiPicker, setEmojiPicker] = useState(false);
+
+  const onChangeInput = (value) => {
+    setMessage(value);
+  };
+
+  const addEmoji = (emoji) => {
+    setMessage(`${message}${emoji}`);
+  };
+
   return (
     <React.Fragment>
       <div className="flex">
@@ -32,12 +36,14 @@ const ChatInput = ({
                 autoCapitalize="on"
                 value={message}
                 disabled={isConnected ? false : true}
-                onChange={({ currentTarget: input }) => setMessage(input.value)}
+                onChange={({ currentTarget: input }) =>
+                  onChangeInput(input.value)
+                }
                 onKeyPress={(e) =>
                   e.code === "Enter"
                     ? e.currentTarget.value !== ""
                       ? isConnected
-                        ? sendMessage()
+                        ? sendMessage(e.currentTarget.value)
                         : null
                       : null
                     : null
@@ -48,7 +54,7 @@ const ChatInput = ({
           <button
             disabled={isConnected ? false : true}
             className={isConnected ? "" : "cursor-not-allowed"}
-            onClick={() => sendMessage()}
+            onClick={() => sendMessage(message)}
           >
             <PaperAirplaneIcon className="rounded-full ml-2 shadow-xl bg-yellow-500 lg:py-2 lg:px-2 lg:h-9 lg:w-9 xl:py-3 xl:px-2 xl:h-11 xl:w-11 2xl:h-14 2xl:w-14" />
           </button>
