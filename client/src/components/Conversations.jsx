@@ -25,6 +25,7 @@ const Conversations = ({ selectedUser, loggedInUser, isConnected }) => {
     };
     socket.emit("private message", message);
     setMessages([...messages, message]);
+    //TODO - update users last message and message status to true
     //this.newDirectMessage(selectedUser.userId, false, message);
   };
   return (

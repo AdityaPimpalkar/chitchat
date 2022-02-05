@@ -103,7 +103,6 @@ class Chat extends ChatEvents {
             <FriendRequests
               friendRequests={this.state.friendRequests}
               selectFriend={this.moreUserDetails}
-              acceptRequest={this.acceptRequest}
             />
           )}
           {this.state.searchFriends && (
