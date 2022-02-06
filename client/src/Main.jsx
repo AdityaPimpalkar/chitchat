@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import socket from "./www/socket";
 import Login from "./screens/Login";
 import Chat from "./screens/Chat";
-
+import Chats from "./screens/Chats";
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -79,7 +79,7 @@ class Main extends Component {
     return (
       <main>
         {loggedInUser.userId && (
-          <Chat
+          <Chats
             user={loggedInUser}
             users={users}
             groups={groups}

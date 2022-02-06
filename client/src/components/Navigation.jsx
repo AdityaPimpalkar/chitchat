@@ -6,32 +6,26 @@ import {
   ZoomInIcon,
 } from "@heroicons/react/outline";
 
-const NavigationButtons = ({
-  toggleChats,
-  toggleGroups,
-  toggleFriends,
-  toggleSearchFriends,
-  directMessage,
-  directMessageNotification,
-  group,
-  groupNotification,
-  friends,
-  friendsNotification,
-  searchFriends,
+const Navigation = ({
+  navigation,
+  toggleNavigation,
+  newChatMessage,
+  newGroupMessage,
+  newFriendRequest,
 }) => {
   return (
     <div className="grid grid-cols-4 flex flex-row w-full postiton-relative bg-purple-800 py-2">
-      <button onClick={() => toggleChats()}>
+      <button onClick={() => toggleNavigation("CHATS")}>
         <div className="flex justify-center items-center">
           <div className="relative inline-block py-auto">
             <AnnotationIcon
               className={
-                directMessage
+                navigation === "CHATS"
                   ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-11 2xl:w-11"
                   : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
               }
             />
-            {directMessageNotification && (
+            {newChatMessage && (
               <span class="flex absolute h-3 w-3 top-0 right-0 -mr-2">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-600 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
@@ -40,17 +34,17 @@ const NavigationButtons = ({
           </div>
         </div>
       </button>
-      <button onClick={() => toggleGroups()}>
+      <button onClick={() => toggleNavigation("GROUPS")}>
         <div className="flex justify-center items-center">
           <div className="relative inline-block py-auto">
             <UserGroupIcon
               className={
-                group
+                navigation === "GROUPS"
                   ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-11 2xl:w-11"
                   : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
               }
             />
-            {groupNotification && (
+            {newGroupMessage && (
               <span class="flex absolute h-3 w-3 top-0 right-0 -mr-2">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-600 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
@@ -59,17 +53,17 @@ const NavigationButtons = ({
           </div>
         </div>
       </button>
-      <button onClick={() => toggleFriends()}>
+      <button onClick={() => toggleNavigation("REQUESTS")}>
         <div className="flex justify-center items-center">
           <div className="relative inline-block py-auto">
             <UserAddIcon
               className={
-                friends
+                navigation === "REQUESTS"
                   ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-11 2xl:w-11"
                   : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
               }
             />
-            {friendsNotification && (
+            {newFriendRequest && (
               <span class="flex absolute h-3 w-3 top-0 right-0 -mr-2">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-600 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
@@ -78,12 +72,12 @@ const NavigationButtons = ({
           </div>
         </div>
       </button>
-      <button onClick={() => toggleSearchFriends()}>
+      <button onClick={() => toggleNavigation("SEARCH")}>
         <div className="flex justify-center items-center">
           <div className="relative inline-block py-auto">
             <ZoomInIcon
               className={
-                searchFriends
+                navigation === "SEARCH"
                   ? "text-yellow-500 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-11 2xl:w-11"
                   : "lg:h-6 lg:w-6 xl:h-7 xl:w-7 2xl:h-8 2xl:w-8"
               }
@@ -95,4 +89,4 @@ const NavigationButtons = ({
   );
 };
 
-export default NavigationButtons;
+export default Navigation;

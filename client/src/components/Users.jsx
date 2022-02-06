@@ -51,11 +51,15 @@ const Users = ({ loggedInUser, users, selectUser }) => {
                 </div>
                 <div className="flex flex-col items-center border-b border-purple-400 flex-1">
                   <span className="my-1 mx-2 lg:text-xxs truncate xl:text-xs 2xl:text-sm">
-                    {new Date(user.lastMessage.sentOn).toLocaleString("en-IN", {
-                      hour: "numeric",
-                      minute: "numeric",
-                      hour12: true,
-                    })}
+                    {user.lastMessage.sentOn &&
+                      new Date(user.lastMessage.sentOn).toLocaleString(
+                        "en-IN",
+                        {
+                          hour: "numeric",
+                          minute: "numeric",
+                          hour12: true,
+                        }
+                      )}
                   </span>
                   {user.hasNewMessage && (
                     <span className="lg:h-2 lg:w-2 xl:h-3 lg:w-3 2xl:h-4 2xl:w-4 rounded-full bg-yellow-500 ">

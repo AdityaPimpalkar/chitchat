@@ -6,7 +6,7 @@ import Container from "../layouts/Container";
 import Sidebar from "../layouts/Sidebar";
 import Content from "../layouts/Content";
 import Header from "../components/Header";
-import NavigationButtons from "../components/NavigationButtons";
+import Navigation from "../components/Navigation";
 import Users from "../components/Users";
 import Groups from "../components/Groups";
 import FriendRequests from "../components/FriendRequests";
@@ -70,7 +70,7 @@ class Chat extends ChatEvents {
       <Container>
         <Sidebar>
           <Header user={this.state.user} isConnected={this.state.isConnected} />
-          <NavigationButtons
+          <Navigation
             toggleChats={this.toggleChats}
             toggleGroups={this.toggleGroups}
             toggleFriends={this.toggleFriends}
