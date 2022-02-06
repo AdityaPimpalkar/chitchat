@@ -16,7 +16,7 @@ export async function userMessages({ userId, username }) {
     username,
     messages: userMessages.get(userId) || [],
     connected: connectionSocket.size === 0 ? false : true,
-    lastSeen: session.lastSeen != null ? new Date(session.lastSeen) : null,
+    lastSeen: session?.lastSeen != null ? new Date(session.lastSeen) : null,
   });
 }
 
