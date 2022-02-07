@@ -55,14 +55,20 @@ export class RedisSessionStorage extends SessionStorage {
   }
 
   async findSession(userId) {
-    return await this.redisClient
-      .multi()
-      .hget(`sessionId:${userId}`, "sessionId")
-      .exec()
-      .then(([[err, result]]) => {
-        return JSON.parse(result);
-      })
-      .catch((error) => console.log(error));
+    if (userId) {
+      return await this.redisClient
+        .multi()
+        .hget(`sessionId:${userId}`, "sessionId")
+        .exec()
+        .then(([[err, result]]) => {
+          return JSON.parse(result);
+        })
+        .catch((error) => {
+          throw new Error(error);
+        });
+    } else {
+      throw new Error("No userId was passed");
+    }
   }
 
   async findUserSession(users) {
