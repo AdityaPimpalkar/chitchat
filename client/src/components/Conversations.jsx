@@ -6,7 +6,6 @@ import DiretMessages from "../components/DirectMessages";
 import socket from "../www/socket";
 
 const Conversations = ({ selectedUser, loggedInUser, isConnected }) => {
-  console.log(selectedUser);
   const [user, setUser] = useState(selectedUser);
   const [messages, setMessages] = useState([]);
 
@@ -22,6 +21,10 @@ const Conversations = ({ selectedUser, loggedInUser, isConnected }) => {
       socket.off(SocketEvents.USER_MESSAGES);
     };
   }, [user]);
+
+  useEffect(() => {
+    setUser(selectedUser);
+  }, [selectedUser]);
 
   const sendMessage = (value) => {
     const message = {

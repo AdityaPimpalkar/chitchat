@@ -14,7 +14,7 @@ const Chats = (props) => {
   const [chats, setChats] = useState(props.users);
   const [groups, setGroups] = useState(props.groups);
   const [requests, setRequests] = useState(props.friendRequests);
-  const [isConnected] = useState(props.isConnected);
+  const [isConnected, setIsConnected] = useState(props.isConnected);
   const [selectedUser, setSelectedUser] = useState({});
   const [selectedGroup, setSelectedGroup] = useState({});
   const [userDetail, setUserDetail] = useState({});
@@ -26,12 +26,31 @@ const Chats = (props) => {
   const userConnectionStatus = useCallback(
     (connectedUser, status) => {
       if (selectedUser.userId === connectedUser.userId) {
-        selectedUser.connected = status;
-        setSelectedUser(selectedUser);
+        setSelectedUser({ ...selectedUser, connected: status });
       }
     },
     [selectedUser]
   );
+
+  useEffect(() => {
+    socket.on(SocketEvents.CONNECT, () => {
+      setIsConnected(true);
+    });
+
+    socket.on(SocketEvents.DISCONNECT, () => {
+      setIsConnected(false);
+    });
+
+    socket.on(SocketEvents.CONNECT_ERROR, function (err) {
+      setIsConnected(false);
+    });
+
+    return () => {
+      socket.off(SocketEvents.CONNECT);
+      socket.off(SocketEvents.DISCONNECT);
+      socket.off(SocketEvents.CONNECT_ERROR);
+    };
+  }, []);
 
   useEffect(() => {
     socket.on(SocketEvents.USER_CONNECTED, (user) =>
