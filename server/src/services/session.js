@@ -37,7 +37,7 @@ export class RedisSessionStorage extends SessionStorage {
   async saveSession(sessionId, user) {
     const value = JSON.stringify(user);
     const { userId, email, lastSeen } = user;
-    await this.redisClient
+    return await this.redisClient
       .multi()
       .hset(`session:${sessionId}`, "session", value)
       .hset(
@@ -51,7 +51,16 @@ export class RedisSessionStorage extends SessionStorage {
         JSON.stringify({ userId, sessionId })
       )
       .hset(`user:${email}`, "user", value)
-      .exec();
+      .exec()
+      .then(([[session], [lastSeen], [sessionId], [user]]) => {
+        if (session != null) throw new Error(`Error saving session`);
+        if (lastSeen != null) throw new Error(`Error saving last seen`);
+        if (sessionId != null) throw new Error(`Error saving session Id`);
+        if (user != null) throw new Error(`Error saving user`);
+      })
+      .catch((error) => {
+        throw new Error(error.message);
+      });
   }
 
   async findSession(userId) {
@@ -128,8 +137,20 @@ export class RedisSessionStorage extends SessionStorage {
       .multi()
       .lrange(`conversation:${userId}`, 0, -1)
       .exec()
-      .then(([[errors, results]]) => {
-        return results.map((result) => JSON.parse(result));
+      .then(([[error, results]]) => {
+        if (error != null) throw new Error(error);
+        return {
+          result: true,
+          error: null,
+          data: results.map((result) => JSON.parse(result)),
+        };
+      })
+      .catch((error) => {
+        return {
+          result: false,
+          error: new Error(error.message),
+          data: null,
+        };
       });
   }
 }
