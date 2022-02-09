@@ -40,6 +40,10 @@ const Main = () => {
       setIsConnected(false);
     });
 
+    socket.on("server_error", (err) => {
+      console.log(err);
+    });
+
     socket.on(SocketEvents.SESSION, ({ token, userId, username, image }) => {
       socket.auth = { token };
       localStorage.setItem("token", token);
