@@ -16,6 +16,11 @@ const ChatInput = ({ sendMessage, isConnected }) => {
     setMessage(`${message}${emoji}`);
   };
 
+  const onEnter = (value) => {
+    setMessage("");
+    sendMessage(value);
+  };
+
   return (
     <React.Fragment>
       <div className="flex">
@@ -43,7 +48,7 @@ const ChatInput = ({ sendMessage, isConnected }) => {
                   e.code === "Enter"
                     ? e.currentTarget.value !== ""
                       ? isConnected
-                        ? sendMessage(e.currentTarget.value)
+                        ? onEnter(e.currentTarget.value)
                         : null
                       : null
                     : null

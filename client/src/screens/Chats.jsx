@@ -26,7 +26,11 @@ const Chats = (props) => {
   const userConnectionStatus = useCallback(
     (connectedUser, status) => {
       if (selectedUser.userId === connectedUser.userId) {
-        setSelectedUser({ ...selectedUser, connected: status });
+        setSelectedUser({
+          ...selectedUser,
+          connected: status,
+          lastSeen: connectedUser.lastSeen,
+        });
       }
     },
     [selectedUser]
@@ -56,9 +60,9 @@ const Chats = (props) => {
     socket.on(SocketEvents.USER_CONNECTED, (user) =>
       userConnectionStatus(user, true)
     );
-    socket.on(SocketEvents.USER_DISCONNECTED, (user) =>
-      userConnectionStatus(user, false)
-    );
+    socket.on(SocketEvents.USER_DISCONNECTED, (user) => {
+      userConnectionStatus(user, false);
+    });
     return () => {
       socket.off(SocketEvents.USER_CONNECTED);
       socket.off(SocketEvents.USER_DISCONNECTED);
@@ -75,7 +79,18 @@ const Chats = (props) => {
   const selectUser = (user) => {
     setSelectedUser(user);
     socket.emit(SocketEvents.USER_MESSAGES, user);
-    //this.newDirectMessage(selectedUser.userId, false);
+    newDirectMessage(selectedUser.userId, false);
+  };
+
+  const newDirectMessage = (userId, status, content) => {
+    const userIndex = chats.findIndex((u) => u.userId === userId);
+    if (userIndex >= 0) {
+      chats[userIndex].hasNewMessage = status;
+      if (content) {
+        chats[userIndex].lastMessage = { content };
+      }
+      setChats([...chats]);
+    }
   };
 
   return (
@@ -102,6 +117,7 @@ const Chats = (props) => {
           <Conversations
             selectedUser={selectedUser}
             loggedInUser={loggedInUser}
+            newDirectMessage={() => newDirectMessage()}
             isConnected={isConnected}
           />
         )}

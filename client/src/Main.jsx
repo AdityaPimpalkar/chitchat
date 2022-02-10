@@ -40,7 +40,7 @@ const Main = () => {
       setIsConnected(false);
     });
 
-    socket.on("server_error", (err) => {
+    socket.on(SocketEvents.SERVER_ERROR, (err) => {
       console.log(err);
     });
 
@@ -52,7 +52,7 @@ const Main = () => {
       setLoggedInUser({ userId, username, image });
     });
 
-    socket.on(SocketEvents.USERS, ({ users, groups, friendRequests }) => {
+    socket.on(SocketEvents.LOAD_DATA, ({ users, groups, friendRequests }) => {
       setUsers(users);
       setGroups(groups);
       setFriendRequests(friendRequests);

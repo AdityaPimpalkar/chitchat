@@ -5,7 +5,12 @@ import ChatInput from "../components/ChatInput";
 import DiretMessages from "../components/DirectMessages";
 import socket from "../www/socket";
 
-const Conversations = ({ selectedUser, loggedInUser, isConnected }) => {
+const Conversations = ({
+  selectedUser,
+  loggedInUser,
+  newDirectMessage,
+  isConnected,
+}) => {
   const [user, setUser] = useState(selectedUser);
   const [messages, setMessages] = useState([]);
 
@@ -30,11 +35,12 @@ const Conversations = ({ selectedUser, loggedInUser, isConnected }) => {
     const message = {
       content: value,
       to: user.userId,
+      from: loggedInUser.userId,
+      sentOn: new Date(),
     };
-    socket.emit(SocketEvents.PRIVATE_MESSAGE, message);
+    //socket.emit(SocketEvents.PRIVATE_MESSAGE, message);
     setMessages([...messages, message]);
-    //TODO - update users last message and message status to true
-    //this.newDirectMessage(selectedUser.userId, false, message);
+    newDirectMessage(selectedUser.userId, false, message);
   };
   return (
     <React.Fragment>
