@@ -76,7 +76,18 @@ export class RedisGroupStorage extends GroupStorage {
     return await this.redisClient
       .lrange(`group:${sessionId}`, 0, -1)
       .then((results) => {
-        return results.map((result) => JSON.parse(result));
+        return {
+          result: true,
+          error: null,
+          data: results.map((result) => JSON.parse(result)),
+        };
+      })
+      .catch((error) => {
+        return {
+          result: false,
+          error: new Error(error),
+          data: null,
+        };
       });
   }
 }

@@ -1,4 +1,5 @@
 import { io, socket } from "../../socket.js";
+import socketEvents from "../config/socketEvents.js";
 import { RedisSessionStorage } from "../services/session.js";
 import { RedisMessageStorage } from "../services/message.js";
 import { RedisGroupStorage } from "../services/group.js";
@@ -20,7 +21,7 @@ export async function disconnect() {
       lastSeen: new Date(),
     };
 
-    socket.broadcast.emit("user disconnected", user);
+    socket.broadcast.emit(socketEvents.USER_DISCONNECTED, user);
     //update the connection status of the session
     await sessionStorage.saveSession(socket.sessionId, user);
   }
@@ -64,13 +65,23 @@ async function getConversations(userId) {
 }
 
 export async function getGroups(sessionId) {
-  const groups = await groupStorage.getGroups(sessionId);
-  return groups;
+  try {
+    const groups = await groupStorage.getGroups(sessionId);
+    if (groups.result) return groups.data;
+    else throw groups.error;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function getFriendRequests(userId) {
-  const friends = await FindFriends.getFriendRequests(userId);
-  return friends;
+  try {
+    const friends = await FindFriends.getFriendRequests(userId);
+    if (friends.result) return friends.data;
+    else throw friends.error;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function getMessagesForUser(userId) {

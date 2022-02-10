@@ -126,10 +126,21 @@ export class RedisSessionStorage extends SessionStorage {
       .multi()
       .hget(`lastSeen:${userId}`, "lastSeen")
       .exec()
-      .then(([[err, result]]) => {
-        return JSON.parse(result);
+      .then(([[error, result]]) => {
+        if (error != null) throw new Error(error);
+        return {
+          result: true,
+          error: null,
+          data: JSON.parse(result),
+        };
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        return {
+          result: false,
+          error,
+          data: null,
+        };
+      });
   }
 
   async getConversations(userId) {
@@ -148,7 +159,7 @@ export class RedisSessionStorage extends SessionStorage {
       .catch((error) => {
         return {
           result: false,
-          error: new Error(error.message),
+          error,
           data: null,
         };
       });

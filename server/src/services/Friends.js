@@ -53,7 +53,18 @@ export class RedisFriendStorage extends FindFriends {
     return await this.redisClient
       .lrange(`receivedRequest:${userId}`, 0, -1)
       .then((results) => {
-        return results.map((res) => JSON.parse(res));
+        return {
+          result: true,
+          error: null,
+          data: results.map((res) => JSON.parse(res)),
+        };
+      })
+      .catch((error) => {
+        return {
+          result: false,
+          error: new Error(error),
+          data: null,
+        };
       });
   }
 
