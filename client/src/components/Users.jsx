@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Search from "./common/Search";
 
 const Users = ({ loggedInUser, users, selectUser }) => {
   const [chats] = useState(users);
   const [searchedChats, setSearchedChats] = useState([]);
   const [searchResults, setsearchResults] = useState(false);
+
+  useEffect(() => {
+    return () => {};
+  }, [chats]);
 
   const onSearch = (value) => {
     setsearchResults(true);

@@ -87,7 +87,7 @@ const Chats = (props) => {
     if (userIndex >= 0) {
       chats[userIndex].hasNewMessage = status;
       if (content) {
-        chats[userIndex].lastMessage = { content };
+        chats[userIndex].lastMessage = { ...content };
       }
       setChats([...chats]);
     }
@@ -117,7 +117,9 @@ const Chats = (props) => {
           <Conversations
             selectedUser={selectedUser}
             loggedInUser={loggedInUser}
-            newDirectMessage={() => newDirectMessage()}
+            newDirectMessage={(userId, status, content) =>
+              newDirectMessage(userId, status, content)
+            }
             isConnected={isConnected}
           />
         )}
