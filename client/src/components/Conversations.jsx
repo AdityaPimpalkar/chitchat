@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import SocketEvents from "../events/constants";
 import ChatHeader from "../components/ChatHeader";
 import ChatInput from "../components/ChatInput";
@@ -22,10 +22,30 @@ const Conversations = ({
         setMessages(messages);
       }
     );
+
     return () => {
       socket.off(SocketEvents.USER_MESSAGES);
     };
   }, [user]);
+
+  useEffect(() => {
+    socket.on(SocketEvents.PRIVATE_MESSAGE, ({ content, from, to, sentOn }) => {
+      const newMessage = {
+        content,
+        from,
+        to,
+        sentOn,
+      };
+      if (user.userId === from) {
+        setMessages([...messages, newMessage]);
+        newDirectMessage(selectedUser.userId, false, newMessage);
+      }
+    });
+
+    return () => {
+      socket.off(SocketEvents.PRIVATE_MESSAGE);
+    };
+  }, [user, messages]);
 
   useEffect(() => {
     setUser(selectedUser);
@@ -38,7 +58,7 @@ const Conversations = ({
       from: loggedInUser.userId,
       sentOn: new Date(),
     };
-    //socket.emit(SocketEvents.PRIVATE_MESSAGE, message);
+    socket.emit(SocketEvents.PRIVATE_MESSAGE, message);
     setMessages([...messages, message]);
     newDirectMessage(selectedUser.userId, false, message);
   };

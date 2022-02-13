@@ -36,6 +36,23 @@ const Chats = (props) => {
     [selectedUser]
   );
 
+  const newPrivateMessage = useCallback(
+    ({ content, from, to, sentOn }) => {
+      if (selectedUser.userId !== from) {
+        const userIndex = chats.findIndex((u) => u.userId === from);
+        if (userIndex >= 0) {
+          chats[userIndex].hasNewMessage = true;
+          if (content) {
+            chats[userIndex].lastMessage = { content, from, to, sentOn };
+          }
+          setChats([...chats]);
+        }
+        if (newChatMessage === false) setNewChatMessage(true);
+      }
+    },
+    [selectedUser, chats, newChatMessage]
+  );
+
   useEffect(() => {
     socket.on(SocketEvents.CONNECT, () => {
       setIsConnected(true);
@@ -60,17 +77,30 @@ const Chats = (props) => {
     socket.on(SocketEvents.USER_CONNECTED, (user) =>
       userConnectionStatus(user, true)
     );
-    socket.on(SocketEvents.USER_DISCONNECTED, (user) => {
-      userConnectionStatus(user, false);
-    });
+    socket.on(SocketEvents.USER_DISCONNECTED, (user) =>
+      userConnectionStatus(user, false)
+    );
     return () => {
       socket.off(SocketEvents.USER_CONNECTED);
       socket.off(SocketEvents.USER_DISCONNECTED);
     };
   }, [userConnectionStatus]);
 
+  useEffect(() => {
+    socket.on(SocketEvents.PRIVATE_MESSAGE, (message) =>
+      newPrivateMessage(message)
+    );
+
+    return () => {
+      socket.off(SocketEvents.PRIVATE_MESSAGE);
+    };
+  }, [newPrivateMessage]);
+
   const toggleNavigation = (tab) => {
     setNavigation(tab);
+    setSelectedUser({});
+    setSelectedGroup({});
+    setUserDetail({});
     if (tab === "CHATS") setNewChatMessage(false);
     else if (tab === "GROUPS") setNewGroupMessage(false);
     else if (tab === "REQUESTS") setNewFriendRequest(false);
@@ -79,7 +109,7 @@ const Chats = (props) => {
   const selectUser = (user) => {
     setSelectedUser(user);
     socket.emit(SocketEvents.USER_MESSAGES, user);
-    newDirectMessage(selectedUser.userId, false);
+    newDirectMessage(user.userId, false);
   };
 
   const newDirectMessage = (userId, status, content) => {
@@ -91,6 +121,7 @@ const Chats = (props) => {
       }
       setChats([...chats]);
     }
+    if (newChatMessage === false && status === true) setNewChatMessage(true);
   };
 
   return (
