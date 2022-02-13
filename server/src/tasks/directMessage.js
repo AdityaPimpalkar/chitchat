@@ -8,9 +8,9 @@ const messageStorage = new RedisMessageStorage();
 const sessionStorage = new RedisSessionStorage();
 
 export async function userMessages({ userId, username }) {
-  try {
-    const isValid = decodeToken(socket.token);
-    if (isValid) {
+  const isValid = decodeToken(socket.token);
+  if (isValid) {
+    try {
       const [session, userMessages, connectionSocket] = await Promise.all([
         getLastSeen(userId),
         getMessagesForUser(socket.userId),
@@ -23,21 +23,32 @@ export async function userMessages({ userId, username }) {
         connected: connectionSocket.size === 0 ? false : true,
         lastSeen: session?.lastSeen != null ? new Date(session.lastSeen) : null,
       });
+    } catch (error) {
+      throw error;
     }
-  } catch (error) {
-    throw error;
+  } else {
+    throw new Error("Invalid request");
   }
 }
 
 export async function privateMessages({ content, to }) {
-  const message = {
-    from: socket.userId,
-    to,
-    content,
-    sentOn: new Date(),
-  };
-  socket.to(to).emit(socketEvents.PRIVATE_MESSAGE, message);
-  await messageStorage.saveMessage(message);
+  const isValid = decodeToken(socket.token);
+  if (isValid) {
+    try {
+      const message = {
+        from: socket.userId,
+        to,
+        content,
+        sentOn: new Date(),
+      };
+      await messageStorage.saveMessage(message);
+      socket.to(to).emit(socketEvents.PRIVATE_MESSAGE, message);
+    } catch (error) {
+      throw error;
+    }
+  } else {
+    throw new Error("Invalid request");
+  }
 }
 
 export async function getLastSeen(userId) {

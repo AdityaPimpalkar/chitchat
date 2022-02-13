@@ -32,11 +32,17 @@ export class RedisMessageStorage extends MessageStorage {
 
   async saveMessage(message) {
     const value = JSON.stringify(message);
-    await this.redisClient
+    return await this.redisClient
       .multi()
       .rpush(`messages:${message.from}`, value)
       .rpush(`messages:${message.to}`, value)
-      .exec();
+      .exec((error, [[from], [to]]) => {
+        if (from) throw new Error("Error saving message in sender list");
+        if (to) throw new Error("Error saving message in receipient list");
+      })
+      .catch((error) => {
+        throw error;
+      });
   }
 
   async findMessagesForUser(userId) {
