@@ -7,13 +7,12 @@ import Sidebar from "../layouts/Sidebar";
 import Content from "../layouts/Content";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
-import Users from "../components/Users";
+import Conversations from "../components/directMessage/Conversations";
 import Groups from "../components/Groups";
 import FriendRequests from "../components/FriendRequests";
 import SearchFriends from "../components/SearchFriends";
 import UserDetails from "../components/UserDetails";
 import NewGroup from "../components/NewGroup";
-import Conversations from "../components/Conversations";
 
 class Chat extends ChatEvents {
   constructor(props) {
@@ -84,7 +83,7 @@ class Chat extends ChatEvents {
             searchFriends={this.state.searchFriends}
           />
           {this.state.directMessage && (
-            <Users
+            <Conversations
               loggedInUser={this.state.user}
               users={this.state.users}
               selectUser={this.selectUser}

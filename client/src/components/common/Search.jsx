@@ -14,7 +14,7 @@ const Search = ({ placeholder, value, onChange, onKeyPress, isClear }) => {
       </div>
       <input
         className="bg-transparent w-full focus:outline-none lg:text-sm xl:text-base 2xl:text-lg"
-        placeholder="search"
+        placeholder="Search"
         value={search}
         onChange={({ currentTarget: input }) => onChangeInput(input.value)}
         onKeyPress={(e) =>

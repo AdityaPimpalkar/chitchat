@@ -6,8 +6,8 @@ import Sidebar from "../layouts/Sidebar";
 import Content from "../layouts/Content";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
-import Users from "../components/Users";
-import Conversations from "../components/Conversations";
+import Conversations from "../components/directMessage/Conversations";
+import DirectMessage from "../components/DirectMessage";
 
 const Chats = (props) => {
   const [loggedInUser] = useState(props.user);
@@ -136,7 +136,7 @@ const Chats = (props) => {
           newFriendRequest={newFriendRequest}
         />
         {navigation === "CHATS" && (
-          <Users
+          <Conversations
             loggedInUser={loggedInUser}
             users={chats}
             selectUser={(user) => selectUser(user)}
@@ -145,7 +145,7 @@ const Chats = (props) => {
       </Sidebar>
       <Content>
         {selectedUser.userId && (
-          <Conversations
+          <DirectMessage
             selectedUser={selectedUser}
             loggedInUser={loggedInUser}
             newDirectMessage={(userId, status, content) =>
