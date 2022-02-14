@@ -3,7 +3,7 @@ import socketEvents from "../config/socketEvents.js";
 import { RedisSessionStorage } from "../services/session.js";
 import { RedisMessageStorage } from "../services/message.js";
 import { RedisGroupStorage } from "../services/group.js";
-import { RedisFriendStorage } from "../services/Friends.js";
+import { RedisFriendStorage } from "../services/friends.js";
 
 const sessionStorage = new RedisSessionStorage();
 const messageStorage = new RedisMessageStorage();

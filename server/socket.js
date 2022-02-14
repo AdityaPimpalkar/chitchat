@@ -4,7 +4,11 @@ import { createAdapter } from "socket.io-redis";
 import { auth } from "./src/middleware/auth.js";
 import { socketConnection } from "./src/middleware/socketConnection.js";
 import redis from "./src/config/ioredis.js";
-import connection from "./src/events/connection.js";
+import onConnectionEvents from "./src/events/onConnection.js";
+import onDisconnectEvents from "./src/events/onDisconnect.js";
+import directMessageEvents from "./src/events/directMessage.js";
+import groupMessageEvents from "./src/events/groupMessage.js";
+import friendsEvents from "./src/events/friends.js";
 
 const httpServer = createServer();
 const clientUrl = "http://localhost:3006";
@@ -27,7 +31,11 @@ let socket = null;
 
 io.on("connection", (socketObj) => {
   socket = socketObj;
-  connection();
+  onConnectionEvents();
+  onDisconnectEvents();
+  directMessageEvents();
+  groupMessageEvents();
+  friendsEvents();
 });
 
 export { io, socket };
