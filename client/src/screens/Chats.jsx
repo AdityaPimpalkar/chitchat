@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import Navigation from "../components/Navigation";
 import Conversations from "../components/directMessage/Conversations";
 import DirectMessage from "../components/DirectMessage";
+import SearchFriends from "../components/SearchFriends";
 
 const Chats = (props) => {
   const [loggedInUser] = useState(props.user);
@@ -107,9 +108,18 @@ const Chats = (props) => {
   };
 
   const selectUser = (user) => {
-    setSelectedUser(user);
+    setSelectedUser({ ...user });
     socket.emit(SocketEvents.USER_MESSAGES, user);
     newDirectMessage(user.userId, false);
+  };
+
+  const selectFriend = (user) => {
+    setUserDetail(user);
+  };
+
+  const openChat = (user) => {
+    setNavigation("CHATS");
+    selectUser(user);
   };
 
   const newDirectMessage = (userId, status, content) => {
@@ -140,6 +150,12 @@ const Chats = (props) => {
             loggedInUser={loggedInUser}
             users={chats}
             selectUser={(user) => selectUser(user)}
+          />
+        )}
+        {navigation === "SEARCH" && (
+          <SearchFriends
+            selectFriend={(user) => selectFriend(user)}
+            openChat={(user) => openChat(user)}
           />
         )}
       </Sidebar>

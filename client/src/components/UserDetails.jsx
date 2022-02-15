@@ -13,7 +13,6 @@ const UserDetails = ({
   openChat,
   searchFriends,
 }) => {
-  if (searchFriends === false) user.hasRequested = true;
   return (
     <div className="h-full bg-purple-700 text-left">
       <div className="w-full h-full text-center flex flex-col justify-center items-center">
