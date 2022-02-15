@@ -44,9 +44,20 @@ export class RedisFriendStorage extends FindFriends {
       .hget(`user:${email}`, "user")
       .exec()
       .then(([[err, result]]) => {
-        return JSON.parse(result);
+        if (err) throw new Error("Error searching a friend.");
+        return {
+          result: true,
+          error: null,
+          data: JSON.parse(result),
+        };
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        return {
+          result: false,
+          error,
+          data: null,
+        };
+      });
   }
 
   async getFriendRequests(userId) {
@@ -72,7 +83,18 @@ export class RedisFriendStorage extends FindFriends {
     return await this.redisClient
       .lrange(`sentRequest:${userId}`, 0, -1)
       .then((results) => {
-        return results.map((res) => JSON.parse(res));
+        return {
+          result: true,
+          error: null,
+          data: results.map((res) => JSON.parse(res)),
+        };
+      })
+      .catch((error) => {
+        return {
+          result: false,
+          error: new Error(error),
+          data: null,
+        };
       });
   }
 
@@ -108,7 +130,19 @@ export class RedisFriendStorage extends FindFriends {
       .lrange(`conversation:${userId}`, 0, -1)
       .exec()
       .then(([[errors, results]]) => {
-        return results.map((result) => JSON.parse(result));
+        if (errors) new Error("Error retreiving conversations.");
+        return {
+          result: true,
+          error: null,
+          data: results.map((result) => JSON.parse(result)),
+        };
+      })
+      .catch((error) => {
+        return {
+          result: false,
+          error,
+          data: null,
+        };
       });
   }
 }
