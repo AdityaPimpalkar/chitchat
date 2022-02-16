@@ -1,7 +1,6 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import socket from "./www/socket";
 import Login from "./screens/Login";
-import Chat from "./screens/Chat";
 import Chats from "./screens/Chats";
 import SocketEvents from "./events/constants";
 
