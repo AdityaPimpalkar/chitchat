@@ -36,9 +36,9 @@ export class RedisMessageStorage extends MessageStorage {
       .multi()
       .rpush(`messages:${message.from}`, value)
       .rpush(`messages:${message.to}`, value)
-      .exec((error, [[from], [to]]) => {
-        if (from) throw new Error("Error saving message in sender list");
-        if (to) throw new Error("Error saving message in receipient list");
+      .exec((error, [[fromError], [toError]]) => {
+        if (fromError) throw new Error("Error saving message in sender list");
+        if (toError) throw new Error("Error saving message in receipient list");
       })
       .catch((error) => {
         throw error;

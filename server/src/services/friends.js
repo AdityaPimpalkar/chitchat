@@ -30,12 +30,17 @@ export class RedisFriendStorage extends FindFriends {
       email: toObj.email,
       image: toObj.image,
     });
-    await this.redisClient
+    return await this.redisClient
       .multi()
       .rpush(`sentRequest:${fromObj.userId}`, to)
       .rpush(`receivedRequest:${toObj.userId}`, from)
-      .exec()
-      .catch((results) => console.log(results));
+      .exec((error, [[fromError], [toError]]) => {
+        if (fromError) throw new Error("Error sending request");
+        if (toError) throw new Error("Error sending request");
+      })
+      .catch((error) => {
+        throw error;
+      });
   }
 
   async searchFriend(email) {
