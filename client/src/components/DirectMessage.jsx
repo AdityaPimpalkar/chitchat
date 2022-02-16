@@ -38,29 +38,34 @@ const DirectMessage = ({
       };
       if (user.userId === from) {
         setMessages([...messages, newMessage]);
-        newDirectMessage(selectedUser.userId, false, newMessage);
+        newDirectMessage(user.userId, false, newMessage);
       }
     });
 
     return () => {
       socket.off(SocketEvents.PRIVATE_MESSAGE);
     };
-  }, [user, messages]);
+  }, [user, messages, newDirectMessage]);
 
   useEffect(() => {
     setUser(selectedUser);
   }, [selectedUser]);
 
   const sendMessage = (value) => {
+    const messageArr = [...messages];
     const message = {
       content: value,
       to: user.userId,
       from: loggedInUser.userId,
       sentOn: new Date(),
     };
-    socket.emit(SocketEvents.PRIVATE_MESSAGE, message);
-    setMessages([...messages, message]);
-    newDirectMessage(selectedUser.userId, false, message);
+    socket.emit(SocketEvents.PRIVATE_MESSAGE, message, ({ result, error }) => {
+      if (result) {
+        setMessages([...messages, message]);
+        newDirectMessage(user.userId, false, message);
+      }
+      if (error) setMessages([...messageArr]);
+    });
   };
   return (
     <React.Fragment>
