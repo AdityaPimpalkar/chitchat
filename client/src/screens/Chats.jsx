@@ -9,6 +9,7 @@ import Navigation from "../components/Navigation";
 import Conversations from "../components/directMessage/Conversations";
 import DirectMessage from "../components/DirectMessage";
 import SearchFriends from "../components/SearchFriends";
+import UserDetails from "../components/UserDetails";
 
 const Chats = (props) => {
   const [loggedInUser] = useState(props.user);
@@ -111,15 +112,7 @@ const Chats = (props) => {
     setSelectedUser({ ...user });
     socket.emit(SocketEvents.USER_MESSAGES, user);
     newDirectMessage(user.userId, false);
-  };
-
-  const selectFriend = (user) => {
-    setUserDetail(user);
-  };
-
-  const openChat = (user) => {
-    setNavigation("CHATS");
-    selectUser(user);
+    setNewChatMessage(false);
   };
 
   const newDirectMessage = (userId, status, content) => {
@@ -131,8 +124,34 @@ const Chats = (props) => {
       }
       setChats([...chats]);
     }
-    if (newChatMessage === false && status === true) setNewChatMessage(true);
+    if (navigation !== "CHATS" && status === true) setNewChatMessage(true);
   };
+
+  const selectFriend = (user) => {
+    setUserDetail(user);
+  };
+
+  const openChat = (user) => {
+    setNavigation("CHATS");
+    selectUser(user);
+  };
+
+  const acceptRequest = (friend) => {
+    const requestsArr = [...requests];
+    const friendRequests = requests.filter(
+      (request) => request.userId !== friend.userId
+    );
+    setRequests([...friendRequests]);
+    setUserDetail({});
+    socket.emit(SocketEvents.ACCEPT_REQUEST, friend, ({ result, error }) => {
+      if (error) {
+        setRequests([...requestsArr]);
+        setUserDetail(friend);
+      }
+    });
+  };
+
+  const addFriend = (friend) => {};
 
   return (
     <Container>
@@ -168,6 +187,15 @@ const Chats = (props) => {
               newDirectMessage(userId, status, content)
             }
             isConnected={isConnected}
+          />
+        )}
+        {userDetail.userId && (
+          <UserDetails
+            user={userDetail}
+            searchFriends={navigation === "SEARCH"}
+            acceptRequest={(user) => acceptRequest(user)}
+            addFriend={(friend) => addFriend(friend)}
+            openChat={(user) => openChat(user)}
           />
         )}
       </Content>
