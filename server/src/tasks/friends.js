@@ -93,10 +93,21 @@ async function getConversations(userId) {
   }
 }
 
-export async function addFriend(friend) {
-  const currentUser = socket.user;
-  const ok = await FindFriends.AddFriend(currentUser, friend);
-  socket.to(friend.userId).emit("newRequest", currentUser);
+export async function addFriend(friend, callback) {
+  try {
+    const currentUser = socket.user;
+    await FindFriends.AddFriend(currentUser, friend);
+    socket.to(friend.userId).emit("newRequest", currentUser);
+    callback({
+      result: true,
+      error: null,
+    });
+  } catch (error) {
+    callback({
+      result: false,
+      error,
+    });
+  }
 }
 
 export async function acceptRequest(friend) {

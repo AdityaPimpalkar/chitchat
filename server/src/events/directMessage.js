@@ -11,7 +11,7 @@ export default function directMessageEvents() {
 
     socket.on(
       socketEvents.PRIVATE_MESSAGE,
-      async (message) => await privateMessages(message)
+      async (message, callback) => await privateMessages(message, callback)
     );
   } catch (error) {
     socket.emit(socketEvents.SERVER_ERROR, error.message);

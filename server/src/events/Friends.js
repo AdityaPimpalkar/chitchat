@@ -11,7 +11,7 @@ export default function friendsEvents() {
 
     socket.on(
       socketEvents.ADD_FRIEND,
-      async (friend) => await addFriend(friend)
+      async (friend, callback) => await addFriend(friend, callback)
     );
 
     socket.on("acceptRequest", async (friend) => await acceptRequest(friend));

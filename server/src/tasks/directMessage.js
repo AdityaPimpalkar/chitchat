@@ -31,7 +31,7 @@ export async function userMessages({ userId, username }) {
   }
 }
 
-export async function privateMessages({ content, to }) {
+export async function privateMessages({ content, to }, callback) {
   const isValid = decodeToken(socket.token);
   if (isValid) {
     try {
@@ -43,8 +43,9 @@ export async function privateMessages({ content, to }) {
       };
       await messageStorage.saveMessage(message);
       socket.to(to).emit(socketEvents.PRIVATE_MESSAGE, message);
+      callback({ result: true, error: null });
     } catch (error) {
-      throw error;
+      callback({ result: false, error });
     }
   } else {
     throw new Error("Invalid request");
