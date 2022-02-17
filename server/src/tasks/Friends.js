@@ -5,48 +5,58 @@ import { RedisFriendStorage } from "../services/friends.js";
 
 const FindFriends = new RedisFriendStorage();
 
-export async function searchFriend(email) {
+export async function searchFriend(email, callback) {
   const isValid = decodeToken(socket.token);
   if (isValid) {
     try {
-      const [friend, sentRequests, receivedRequests, conversations] =
-        await Promise.all([
-          searchedFriend(email),
-          getSentRequests(socket.user.userId),
-          getFriendRequests(socket.user.userId),
-          getConversations(socket.user.userId),
-        ]);
-      if (friend) {
+      const user = await searchedFriend(email);
+      //if searched email exists in database
+      if (user) {
+        const sentRequests = await getSentRequests(socket.user.userId);
+        //check if sender has already sent a request to the searched user.
         const request = sentRequests.find(
-          (request) => request.userId === friend.userId
+          (request) => request.userId === user.userId
         );
         if (request) {
-          friend.sentRequest = true;
-          friend.isAdded = false;
+          //if requests exists add sent request check
+          user.sentRequest = true;
+          user.isAdded = false;
         } else {
+          const receivedRequests = await getFriendRequests(socket.user.userId);
+          //check if sender already has a friend request sent by the user
           const friendRequest = receivedRequests.find(
-            (request) => request.userId === friend.userId
+            (request) => request.userId === user.userId
           );
           if (friendRequest) {
-            friend.hasRequested = true;
+            //if friend request exists add has requested check
+            user.hasRequested = true;
           } else {
-            const user = conversations.find(
-              (user) => user.userId === friend.userId
+            const conversations = await getConversations(socket.user.userId);
+            //check if searched user is already added.
+            const inConversation = conversations.find(
+              (convUser) => convUser.userId === user.userId
             );
-            if (user) {
-              friend.sentRequest = false;
-              friend.isAdded = true;
+            if (inConversation) {
+              user.sentRequest = false;
+              user.isAdded = true;
             } else {
-              friend.sentRequest = false;
-              friend.isAdded = false;
+              user.sentRequest = false;
+              user.isAdded = false;
             }
           }
         }
       }
-
-      socket.emit(socketEvents.SEARCH_FRIEND, friend);
+      callback({
+        result: true,
+        error: null,
+        data: user,
+      });
     } catch (error) {
-      throw error;
+      callback({
+        result: false,
+        error: new Error(error.message),
+        data: null,
+      });
     }
   } else {
     throw new Error("Invalid token.");
@@ -97,7 +107,7 @@ export async function addFriend(friend, callback) {
   try {
     const currentUser = socket.user;
     await FindFriends.AddFriend(currentUser, friend);
-    socket.to(friend.userId).emit("newRequest", currentUser);
+    socket.to(friend.userId).emit(socketEvents.NEW_REQUEST, currentUser);
     callback({
       result: true,
       error: null,
@@ -110,11 +120,25 @@ export async function addFriend(friend, callback) {
   }
 }
 
-export async function acceptRequest(friend) {
-  const currentUser = socket.user;
-  const ok = await FindFriends.AcceptFriendRequest(currentUser, friend);
-  friend.lastMessage = {};
-  socket.emit("newFriend", friend);
-  currentUser.lastMessage = {};
-  socket.to(friend.userId).emit("newFriend", currentUser);
+export async function acceptRequest(friend, callback) {
+  const isValid = decodeToken(socket.token);
+  if (isValid) {
+    try {
+      const currentUser = socket.user;
+      await FindFriends.AcceptFriendRequest(currentUser, friend);
+
+      socket.to(friend.userId).emit(socketEvents.NEW_FRIEND, currentUser);
+      callback({
+        result: true,
+        error: null,
+      });
+    } catch (error) {
+      callback({
+        result: false,
+        error: error.message,
+      });
+    }
+  } else {
+    throw new Error("Invalid token.");
+  }
 }

@@ -6,7 +6,7 @@ export default function friendsEvents() {
   try {
     socket.on(
       socketEvents.SEARCH_FRIEND,
-      async (email) => await searchFriend(email)
+      async (email, callback) => await searchFriend(email, callback)
     );
 
     socket.on(
@@ -14,7 +14,10 @@ export default function friendsEvents() {
       async (friend, callback) => await addFriend(friend, callback)
     );
 
-    socket.on("acceptRequest", async (friend) => await acceptRequest(friend));
+    socket.on(
+      socketEvents.ACCEPT_REQUEST,
+      async (friend, callback) => await acceptRequest(friend, callback)
+    );
   } catch (error) {
     socket.on(socketEvents.SERVER_ERROR, error.message);
   }
