@@ -59,9 +59,9 @@ const DirectMessage = ({
       from: loggedInUser.userId,
       sentOn: new Date(),
     };
+    setMessages([...messages, message]);
     socket.emit(SocketEvents.PRIVATE_MESSAGE, message, ({ result, error }) => {
       if (result) {
-        setMessages([...messages, message]);
         newDirectMessage(user.userId, false, message);
       }
       if (error) setMessages([...messageArr]);

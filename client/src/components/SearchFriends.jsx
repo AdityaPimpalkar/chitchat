@@ -10,35 +10,45 @@ import Search from "./common/Search";
 import Entity from "./common/Entity";
 import SocketEvents from "../events/constants";
 
-const SearchFriends = ({ selectFriend, openChat }) => {
+const SearchFriends = ({ selectFriend, selectedFriend, openChat }) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchResults, setsearchResults] = useState(false);
 
   useEffect(() => {
-    socket.on(SocketEvents.SEARCH_FRIEND, (friend) => searchedFriend(friend));
-    return () => {
-      socket.off(SocketEvents.SEARCH_FRIEND);
-    };
-  }, []);
-
-  const searchedFriend = (friend) => {
-    if (friend) setSearchedUsers([friend]);
-    else setSearchedUsers([]);
-  };
+    if (selectedFriend.sentRequest) {
+      console.log("useEffect");
+    }
+  }, [selectedFriend]);
 
   const addFriend = (friend) => {
-    searchedUsers.map((searchedUser) =>
+    const searchedArr = [...searchedUsers];
+    const searched = searchedUsers.map((searchedUser) =>
       searchedUser.userId === friend.userId
         ? (searchedUser.sentRequest = true)
         : null
     );
-    setSearchedUsers(searchedUsers);
-    socket.emit(SocketEvents.ADD_FRIEND, friend);
+    setSearchedUsers(searched);
+    // socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
+    //   if (!result) setSearchedUsers([...searchedArr]);
+    //   if (error) console.log(error);
+    // });
   };
 
   const onSearch = (value) => {
     setsearchResults(true);
-    socket.emit(SocketEvents.SEARCH_FRIEND, value);
+    socket.emit(
+      SocketEvents.SEARCH_FRIEND,
+      value,
+      ({ result, error, data }) => {
+        if (result) searchedFriend(data);
+        if (error) console.log(error);
+      }
+    );
+  };
+
+  const searchedFriend = (friend) => {
+    if (friend) setSearchedUsers([friend]);
+    else setSearchedUsers([]);
   };
 
   const isClear = () => {

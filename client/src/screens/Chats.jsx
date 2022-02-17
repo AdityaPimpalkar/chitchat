@@ -10,6 +10,7 @@ import Conversations from "../components/directMessage/Conversations";
 import DirectMessage from "../components/DirectMessage";
 import SearchFriends from "../components/SearchFriends";
 import UserDetails from "../components/UserDetails";
+import FriendRequests from "../components/FriendRequests";
 
 const Chats = (props) => {
   const [loggedInUser] = useState(props.user);
@@ -55,6 +56,14 @@ const Chats = (props) => {
     [selectedUser, chats, newChatMessage]
   );
 
+  const newRequest = useCallback(
+    (friend) => {
+      setNewFriendRequest(true);
+      setRequests([friend, ...requests]);
+    },
+    [requests]
+  );
+
   useEffect(() => {
     socket.on(SocketEvents.CONNECT, () => {
       setIsConnected(true);
@@ -93,10 +102,13 @@ const Chats = (props) => {
       newPrivateMessage(message)
     );
 
-    return () => {
-      socket.off(SocketEvents.PRIVATE_MESSAGE);
-    };
+    return () => socket.off(SocketEvents.PRIVATE_MESSAGE);
   }, [newPrivateMessage]);
+
+  useEffect(() => {
+    socket.on(SocketEvents.NEW_REQUEST, (request) => newRequest(request));
+    return () => socket.off(SocketEvents.NEW_REQUEST);
+  }, [newRequest]);
 
   const toggleNavigation = (tab) => {
     setNavigation(tab);
@@ -147,11 +159,25 @@ const Chats = (props) => {
       if (error) {
         setRequests([...requestsArr]);
         setUserDetail(friend);
+        console.log(error);
       }
     });
   };
 
-  const addFriend = (friend) => {};
+  const addFriend = (friend) => {
+    const user = { ...userDetail };
+    if (friend.userId === userDetail.userId) {
+      friend.sentRequest = true;
+      friend.isAdded = false;
+      setUserDetail({ ...friend });
+      socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
+        if (!result) {
+          setUserDetail({ ...user });
+        }
+        if (error) console.log(error);
+      });
+    }
+  };
 
   return (
     <Container>
@@ -171,9 +197,17 @@ const Chats = (props) => {
             selectUser={(user) => selectUser(user)}
           />
         )}
+        {navigation === "REQUESTS" && (
+          <FriendRequests
+            friendRequests={requests}
+            selectFriend={(user) => selectFriend(user)}
+            acceptRequest={(friend) => acceptRequest(friend)}
+          />
+        )}
         {navigation === "SEARCH" && (
           <SearchFriends
             selectFriend={(user) => selectFriend(user)}
+            selectedFriend={selectedUser}
             openChat={(user) => openChat(user)}
           />
         )}

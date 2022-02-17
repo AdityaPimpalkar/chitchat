@@ -14,7 +14,7 @@ const Navigation = ({
   newFriendRequest,
 }) => {
   return (
-    <div className="grid grid-cols-4 flex flex-row w-full postiton-relative bg-purple-800 py-2">
+    <div className="grid grid-cols-3 flex flex-row w-full postiton-relative bg-purple-800 py-2">
       <button onClick={() => toggleNavigation("CHATS")}>
         <div className="flex justify-center items-center">
           <div className="relative inline-block py-auto">
@@ -34,7 +34,7 @@ const Navigation = ({
           </div>
         </div>
       </button>
-      <button onClick={() => toggleNavigation("GROUPS")}>
+      {/* <button onClick={() => toggleNavigation("GROUPS")}>
         <div className="flex justify-center items-center">
           <div className="relative inline-block py-auto">
             <UserGroupIcon
@@ -52,7 +52,7 @@ const Navigation = ({
             )}
           </div>
         </div>
-      </button>
+      </button> */}
       <button onClick={() => toggleNavigation("REQUESTS")}>
         <div className="flex justify-center items-center">
           <div className="relative inline-block py-auto">

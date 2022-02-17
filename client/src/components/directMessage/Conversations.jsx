@@ -34,7 +34,7 @@ const Conversations = ({ loggedInUser, users, selectUser }) => {
           title={user.username}
           SubTitle={
             <React.Fragment>
-              {user.lastMessage.content ? (
+              {user.lastMessage?.content ? (
                 user.lastMessage.content
               ) : (
                 <span className="italic">No message</span>
@@ -44,7 +44,7 @@ const Conversations = ({ loggedInUser, users, selectUser }) => {
           Options={
             <React.Fragment>
               <span className="my-1 mx-2 lg:text-xxs truncate xl:text-xs 2xl:text-sm">
-                {user.lastMessage.sentOn &&
+                {user.lastMessage?.sentOn &&
                   new Date(user.lastMessage.sentOn).toLocaleString("en-IN", {
                     hour: "numeric",
                     minute: "numeric",
