@@ -1,5 +1,6 @@
 import { io, socket } from "../../socket.js";
 import socketEvents from "../config/socketEvents.js";
+import { decodeToken } from "../config/jwt.js";
 import { RedisSessionStorage } from "../services/session.js";
 import { RedisMessageStorage } from "../services/message.js";
 import { RedisGroupStorage } from "../services/group.js";
@@ -11,19 +12,27 @@ const groupStorage = new RedisGroupStorage();
 const FindFriends = new RedisFriendStorage();
 
 export async function disconnect() {
-  const matchingSockets = await io.in(socket.userId).allSockets();
-  const isDisconnected = matchingSockets.size === 0;
-  if (isDisconnected) {
-    //notify other users
-    const user = {
-      ...socket.user,
-      connected: false,
-      lastSeen: new Date(),
-    };
-
-    socket.broadcast.emit(socketEvents.USER_DISCONNECTED, user);
-    //update the connection status of the session
-    await sessionStorage.saveSession(socket.sessionId, user);
+  const isValid = decodeToken(socket.token);
+  if (isValid) {
+    try {
+      const matchingSockets = await io.in(socket.userId).allSockets();
+      const isDisconnected = matchingSockets.size === 0;
+      if (isDisconnected) {
+        const user = {
+          ...socket.user,
+          connected: false,
+          lastSeen: new Date(),
+        };
+        //notify other users
+        socket.broadcast.emit(socketEvents.USER_DISCONNECTED, user);
+        //update the connection status of the session
+        await sessionStorage.saveSession(socket.sessionId, user);
+      }
+    } catch (error) {
+      throw error;
+    }
+  } else {
+    throw new Error("Invalid token.");
   }
 }
 
