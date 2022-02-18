@@ -165,16 +165,19 @@ const Chats = (props) => {
   };
 
   const addFriend = (friend) => {
-    const user = { ...userDetail };
     if (friend.userId === userDetail.userId) {
       friend.sentRequest = true;
       friend.isAdded = false;
       setUserDetail({ ...friend });
       socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
         if (!result) {
-          setUserDetail({ ...user });
+          friend.sentRequest = false;
+          friend.isAdded = false;
+          setUserDetail(friend);
         }
-        if (error) console.log(error);
+        if (error) {
+          console.log(error);
+        }
       });
     }
   };
@@ -207,7 +210,6 @@ const Chats = (props) => {
         {navigation === "SEARCH" && (
           <SearchFriends
             selectFriend={(user) => selectFriend(user)}
-            selectedFriend={selectedUser}
             openChat={(user) => openChat(user)}
           />
         )}
@@ -228,7 +230,9 @@ const Chats = (props) => {
             user={userDetail}
             searchFriends={navigation === "SEARCH"}
             acceptRequest={(user) => acceptRequest(user)}
-            addFriend={(friend) => addFriend(friend)}
+            addFriend={(friend) => {
+              addFriend(friend);
+            }}
             openChat={(user) => openChat(user)}
           />
         )}

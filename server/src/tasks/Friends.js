@@ -106,8 +106,9 @@ async function getConversations(userId) {
 export async function addFriend(friend, callback) {
   try {
     const currentUser = socket.user;
-    await FindFriends.AddFriend(currentUser, friend);
-    socket.to(friend.userId).emit(socketEvents.NEW_REQUEST, currentUser);
+    // await FindFriends.AddFriend(currentUser, friend);
+    // socket.to(friend.userId).emit(socketEvents.NEW_REQUEST, currentUser);
+    throw new Error("error adding friend");
     callback({
       result: true,
       error: null,
@@ -115,7 +116,7 @@ export async function addFriend(friend, callback) {
   } catch (error) {
     callback({
       result: false,
-      error,
+      error: error.message,
     });
   }
 }

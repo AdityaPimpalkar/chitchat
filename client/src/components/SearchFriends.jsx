@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   BadgeCheckIcon,
   ClockIcon,
@@ -10,15 +10,9 @@ import Search from "./common/Search";
 import Entity from "./common/Entity";
 import SocketEvents from "../events/constants";
 
-const SearchFriends = ({ selectFriend, selectedFriend, openChat }) => {
+const SearchFriends = ({ selectFriend, openChat }) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchResults, setsearchResults] = useState(false);
-
-  useEffect(() => {
-    if (selectedFriend.sentRequest) {
-      console.log("useEffect");
-    }
-  }, [selectedFriend]);
 
   const addFriend = (friend) => {
     const searchedArr = [...searchedUsers];
@@ -28,10 +22,10 @@ const SearchFriends = ({ selectFriend, selectedFriend, openChat }) => {
         : null
     );
     setSearchedUsers(searched);
-    // socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
-    //   if (!result) setSearchedUsers([...searchedArr]);
-    //   if (error) console.log(error);
-    // });
+    socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
+      if (!result) setSearchedUsers([...searchedArr]);
+      if (error) console.log("error", error);
+    });
   };
 
   const onSearch = (value) => {
