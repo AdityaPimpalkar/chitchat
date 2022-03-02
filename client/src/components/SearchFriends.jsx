@@ -10,22 +10,27 @@ import Search from "./common/Search";
 import Entity from "./common/Entity";
 import SocketEvents from "../events/constants";
 
-const SearchFriends = ({ selectFriend, openChat }) => {
+const SearchFriends = ({ selectFriend, addFriend, openChat }) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchResults, setsearchResults] = useState(false);
 
-  const addFriend = (friend) => {
+  const addNewFriend = (friend) => {
     const searchedArr = [...searchedUsers];
-    const searched = searchedUsers.map((searchedUser) =>
+    searchedUsers.map((searchedUser) =>
       searchedUser.userId === friend.userId
         ? (searchedUser.sentRequest = true)
         : null
     );
-    setSearchedUsers(searched);
-    socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
-      if (!result) setSearchedUsers([...searchedArr]);
-      if (error) console.log("error", error);
-    });
+    console.log(searchedUsers);
+    setSearchedUsers(searchedUsers);
+    // socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
+    //   if (!result) {
+    //     console.log("error", result, error);
+    //     setSearchedUsers([...searchedArr]);
+    //   }
+    //   if (error) console.log("error", result, error);
+    // });
+    addFriend(friend);
   };
 
   const onSearch = (value) => {
@@ -51,6 +56,7 @@ const SearchFriends = ({ selectFriend, openChat }) => {
   };
 
   const RenderSearchedUsers = ({ searchedUsers }) => {
+    console.log(searchedUsers);
     return searchedUsers.length > 0 ? (
       searchedUsers.map((user, index) => (
         <Entity
@@ -74,7 +80,7 @@ const SearchFriends = ({ selectFriend, openChat }) => {
               {user.sentRequest === false && user.isAdded === false && (
                 <PlusIcon
                   className="lg:h-5 lg:w-5 xl:h-9 xl:w-9 2xl:h-12 2xl:w-12"
-                  onClick={() => addFriend(user)}
+                  onClick={() => addNewFriend(user)}
                 />
               )}
               {user.sentRequest === true && user.isAdded === false && (

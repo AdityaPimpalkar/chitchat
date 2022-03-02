@@ -173,7 +173,7 @@ const Chats = (props) => {
         if (!result) {
           friend.sentRequest = false;
           friend.isAdded = false;
-          setUserDetail(friend);
+          setUserDetail({ ...friend });
         }
         if (error) {
           console.log(error);
@@ -210,6 +210,7 @@ const Chats = (props) => {
         {navigation === "SEARCH" && (
           <SearchFriends
             selectFriend={(user) => selectFriend(user)}
+            addFriend={(friend) => addFriend(friend)}
             openChat={(user) => openChat(user)}
           />
         )}
