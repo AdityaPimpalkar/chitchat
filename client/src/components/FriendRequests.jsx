@@ -25,7 +25,7 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
 
   const RenderFriendRequest = ({ requests }) => {
     return requests.length > 0 ? (
-      requests.map((friend, index) => {
+      requests.map((friend, index) => (
         <Entity
           key={index}
           entity={friend}
@@ -49,8 +49,8 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
               </button>
             </React.Fragment>
           }
-        />;
-      })
+        />
+      ))
     ) : (
       <div className="d-flex h-100 text-center">No new requests.</div>
     );
@@ -66,7 +66,7 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
         <div className="w-full">
           {searchResults === true &&
             (searchedRequests.length > 0 ? (
-              <RenderFriendRequest requests={requests} />
+              <RenderFriendRequest requests={searchedRequests} />
             ) : (
               <div className="d-flex h-100 text-center">Not found!</div>
             ))}

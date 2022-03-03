@@ -10,28 +10,9 @@ import Search from "./common/Search";
 import Entity from "./common/Entity";
 import SocketEvents from "../events/constants";
 
-const SearchFriends = ({ selectFriend, addFriend, openChat }) => {
+const SearchFriends = ({ selectFriend, openChat }) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchResults, setsearchResults] = useState(false);
-
-  const addNewFriend = (friend) => {
-    const searchedArr = [...searchedUsers];
-    searchedUsers.map((searchedUser) =>
-      searchedUser.userId === friend.userId
-        ? (searchedUser.sentRequest = true)
-        : null
-    );
-    console.log(searchedUsers);
-    setSearchedUsers(searchedUsers);
-    // socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
-    //   if (!result) {
-    //     console.log("error", result, error);
-    //     setSearchedUsers([...searchedArr]);
-    //   }
-    //   if (error) console.log("error", result, error);
-    // });
-    addFriend(friend);
-  };
 
   const onSearch = (value) => {
     setsearchResults(true);
@@ -56,7 +37,6 @@ const SearchFriends = ({ selectFriend, addFriend, openChat }) => {
   };
 
   const RenderSearchedUsers = ({ searchedUsers }) => {
-    console.log(searchedUsers);
     return searchedUsers.length > 0 ? (
       searchedUsers.map((user, index) => (
         <Entity
@@ -77,12 +57,12 @@ const SearchFriends = ({ selectFriend, addFriend, openChat }) => {
           }
           Options={
             <React.Fragment>
-              {user.sentRequest === false && user.isAdded === false && (
+              {/* {user.sentRequest === false && user.isAdded === false && (
                 <PlusIcon
                   className="lg:h-5 lg:w-5 xl:h-9 xl:w-9 2xl:h-12 2xl:w-12"
                   onClick={() => addNewFriend(user)}
                 />
-              )}
+              )} */}
               {user.sentRequest === true && user.isAdded === false && (
                 <ClockIcon className="text-yellow-500 lg:h-5 lg:w-5 xl:h-9 xl:w-9 2xl:h-12 2xl:w-12" />
               )}

@@ -168,6 +168,7 @@ const Chats = (props) => {
     if (friend.userId === userDetail.userId) {
       friend.sentRequest = true;
       friend.isAdded = false;
+      setUserDetail({});
       setUserDetail({ ...friend });
       socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
         if (!result) {
@@ -231,9 +232,6 @@ const Chats = (props) => {
             user={userDetail}
             searchFriends={navigation === "SEARCH"}
             acceptRequest={(user) => acceptRequest(user)}
-            addFriend={(friend) => {
-              addFriend(friend);
-            }}
             openChat={(user) => openChat(user)}
           />
         )}
