@@ -11,7 +11,7 @@ export async function searchFriend(email, callback) {
     try {
       const user = await searchedFriend(email);
       //if searched email exists in database
-      if (user) {
+      if (user?.userId !== socket.user.userId) {
         const sentRequests = await getSentRequests(socket.user.userId);
         //check if sender has already sent a request to the searched user.
         const request = sentRequests.find(
@@ -45,12 +45,18 @@ export async function searchFriend(email, callback) {
             }
           }
         }
+        callback({
+          result: true,
+          error: null,
+          data: user,
+        });
+      } else {
+        callback({
+          result: true,
+          error: null,
+          data: null,
+        });
       }
-      callback({
-        result: true,
-        error: null,
-        data: user,
-      });
     } catch (error) {
       callback({
         result: false,
@@ -106,12 +112,28 @@ async function getConversations(userId) {
 export async function addFriend(friend, callback) {
   try {
     const currentUser = socket.user;
-    await FindFriends.AddFriend(currentUser, friend);
-    socket.to(friend.userId).emit(socketEvents.NEW_REQUEST, currentUser);
-    callback({
-      result: true,
-      error: null,
-    });
+    const [conversations, requests] = await Promise.all([
+      getConversations(currentUser.userId),
+      getFriendRequests(currentUser.userId),
+    ]);
+    const isAdded = conversations.find((user) => user.userId === friend.userId);
+    const hasRequested = requests.find((user) => user.userId === friend.userId);
+    if (isAdded === undefined && hasRequested === undefined) {
+      await FindFriends.AddFriend(currentUser, friend);
+      socket.to(friend.userId).emit(socketEvents.NEW_REQUEST, currentUser);
+      callback({
+        result: true,
+        error: null,
+      });
+    } else {
+      callback({
+        result: false,
+        error:
+          isAdded != undefined
+            ? "This user is already added. "
+            : "You have already requested this user.",
+      });
+    }
   } catch (error) {
     callback({
       result: false,
@@ -125,13 +147,37 @@ export async function acceptRequest(friend, callback) {
   if (isValid) {
     try {
       const currentUser = socket.user;
-      await FindFriends.AcceptFriendRequest(currentUser, friend);
+      const [conversations, requests] = await Promise.all([
+        getConversations(currentUser.userId),
+        getFriendRequests(currentUser.userId),
+      ]);
+      const isAdded = conversations.find(
+        (user) => user.userId === friend.userId
+      );
+      const hasRequested = requests.find(
+        (user) => user.userId === friend.userId
+      );
 
-      socket.to(friend.userId).emit(socketEvents.NEW_FRIEND, currentUser);
-      callback({
-        result: true,
-        error: null,
-      });
+      if (isAdded === undefined && hasRequested != undefined) {
+        // await FindFriends.AcceptFriendRequest(currentUser, friend);
+        // socket.to(friend.userId).emit(socketEvents.NEW_FRIEND, currentUser);
+        callback({
+          result: true,
+          error: null,
+        });
+      } else {
+        if (isAdded != undefined) {
+          callback({
+            result: false,
+            error: "This user is already added.",
+          });
+        } else {
+          callback({
+            result: false,
+            error: "This request dosent exists.",
+          });
+        }
+      }
     } catch (error) {
       callback({
         result: false,

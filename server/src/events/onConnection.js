@@ -2,7 +2,7 @@ import { getUsers, getGroups, getFriendRequests } from "../tasks/connection.js";
 import socketEvents from "../config/socketEvents.js";
 import { socket } from "../../socket.js";
 
-export default async function onConnectionEvents() {
+export default async function onConnection() {
   try {
     const [users, groups, friendRequests] = await Promise.all([
       getUsers(socket.userId),

@@ -2,7 +2,7 @@ import { socket } from "../../socket.js";
 import socketEvents from "../config/socketEvents.js";
 import { searchFriend, addFriend, acceptRequest } from "../tasks/friends.js";
 
-export default function friendsEvents() {
+export default function friends() {
   try {
     socket.on(
       socketEvents.SEARCH_FRIEND,

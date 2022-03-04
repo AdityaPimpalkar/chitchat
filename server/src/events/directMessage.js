@@ -2,7 +2,7 @@ import { socket } from "../../socket.js";
 import socketEvents from "../config/socketEvents.js";
 import { privateMessages, userMessages } from "../tasks/directMessage.js";
 
-export default function directMessageEvents() {
+export default function directMessage() {
   try {
     socket.on(
       socketEvents.USER_MESSAGES,

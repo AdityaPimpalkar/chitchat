@@ -4,11 +4,13 @@ import Search from "./common/Search";
 import Entity from "./common/Entity";
 
 const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
-  const [requests] = useState(friendRequests);
+  const [requests, setRequests] = useState(friendRequests);
   const [searchedRequests, setSearchedRequests] = useState([]);
   const [searchResults, setsearchResults] = useState(false);
 
-  useEffect(() => {}, [friendRequests]);
+  useEffect(() => {
+    setRequests(friendRequests);
+  }, [friendRequests]);
 
   const onSearch = (value) => {
     setsearchResults(true);
@@ -30,7 +32,10 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
           key={index}
           entity={friend}
           image={friend.image}
-          selectEntity={(entity) => selectFriend(entity)}
+          selectEntity={(entity) => {
+            entity.hasRequested = true;
+            selectFriend(entity);
+          }}
           title={friend.username}
           SubTitle={
             <React.Fragment>

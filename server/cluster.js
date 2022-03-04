@@ -7,7 +7,7 @@ import { io, socket } from "./socket.js";
 
 const WORKERS_COUNT = 4;
 
-if (cluster.isMaster) {
+if (cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
 
   for (let i = 0; i < WORKERS_COUNT; i++) {

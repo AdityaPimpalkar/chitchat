@@ -4,11 +4,11 @@ import { createAdapter } from "socket.io-redis";
 import { auth } from "./src/middleware/auth.js";
 import { socketConnection } from "./src/middleware/socketConnection.js";
 import redis from "./src/config/ioredis.js";
-import onConnectionEvents from "./src/events/onConnection.js";
-import onDisconnectEvents from "./src/events/onDisconnect.js";
-import directMessageEvents from "./src/events/directMessage.js";
-import groupMessageEvents from "./src/events/groupMessage.js";
-import friendsEvents from "./src/events/friends.js";
+import onConnection from "./src/events/onConnection.js";
+import onDisconnect from "./src/events/onDisconnect.js";
+import directMessage from "./src/events/directMessage.js";
+import groupMessage from "./src/events/groupMessage.js";
+import friends from "./src/events/friends.js";
 
 const httpServer = createServer();
 const clientUrl = "http://localhost:3006";
@@ -31,11 +31,11 @@ let socket = null;
 
 io.on("connection", (socketObj) => {
   socket = socketObj;
-  onConnectionEvents();
-  onDisconnectEvents();
-  directMessageEvents();
-  groupMessageEvents();
-  friendsEvents();
+  onConnection();
+  onDisconnect();
+  directMessage();
+  groupMessage();
+  friends();
 });
 
 export { io, socket };

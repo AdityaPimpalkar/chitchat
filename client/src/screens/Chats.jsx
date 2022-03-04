@@ -211,7 +211,6 @@ const Chats = (props) => {
         {navigation === "SEARCH" && (
           <SearchFriends
             selectFriend={(user) => selectFriend(user)}
-            addFriend={(friend) => addFriend(friend)}
             openChat={(user) => openChat(user)}
           />
         )}
@@ -231,6 +230,7 @@ const Chats = (props) => {
           <UserDetails
             user={userDetail}
             searchFriends={navigation === "SEARCH"}
+            addFriend={(friend) => addFriend(friend)}
             acceptRequest={(user) => acceptRequest(user)}
             openChat={(user) => openChat(user)}
           />
