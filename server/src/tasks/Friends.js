@@ -159,8 +159,9 @@ export async function acceptRequest(friend, callback) {
       );
 
       if (isAdded === undefined && hasRequested != undefined) {
-        // await FindFriends.AcceptFriendRequest(currentUser, friend);
-        // socket.to(friend.userId).emit(socketEvents.NEW_FRIEND, currentUser);
+        await FindFriends.AcceptFriendRequest(currentUser, friend);
+        socket.to(friend.userId).emit(socketEvents.NEW_FRIEND, currentUser);
+        socket.emit(socketEvents.NEW_FRIEND, friend);
         callback({
           result: true,
           error: null,

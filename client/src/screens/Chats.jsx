@@ -64,6 +64,11 @@ const Chats = (props) => {
     [requests]
   );
 
+  const newFriend = useCallback((friend) => {
+    if (navigation === "CHATS") {
+    }
+  }, []);
+
   useEffect(() => {
     socket.on(SocketEvents.CONNECT, () => {
       setIsConnected(true);
@@ -107,8 +112,12 @@ const Chats = (props) => {
 
   useEffect(() => {
     socket.on(SocketEvents.NEW_REQUEST, (request) => newRequest(request));
-    return () => socket.off(SocketEvents.NEW_REQUEST);
-  }, [newRequest]);
+    socket.on(SocketEvents.NEW_FRIEND, (friend) => newFriend(friend));
+    return () => {
+      socket.off(SocketEvents.NEW_REQUEST);
+      socket.off(SocketEvents.NEW_FRIEND);
+    };
+  }, [newRequest, newFriend]);
 
   const toggleNavigation = (tab) => {
     setNavigation(tab);

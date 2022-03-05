@@ -9,6 +9,7 @@ const SocketEvents = {
   ADD_FRIEND: "add_friend",
   ACCEPT_REQUEST: "accept_request",
   NEW_REQUEST: "new_request",
+  NEW_FRIEND: "new_friend",
   USER_CONNECTED: "user_connected",
   USER_DISCONNECTED: "user_disconnected",
   PRIVATE_MESSAGE: "private_message",
