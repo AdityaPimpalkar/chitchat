@@ -64,10 +64,14 @@ const Chats = (props) => {
     [requests]
   );
 
-  const newFriend = useCallback((friend) => {
-    if (navigation === "CHATS") {
-    }
-  }, []);
+  const newFriend = useCallback(
+    (friend) => {
+      if (navigation != "CHATS") setNewChatMessage(true);
+      friend.hasNewMessage = true;
+      setChats([friend, ...chats]);
+    },
+    [navigation, chats]
+  );
 
   useEffect(() => {
     socket.on(SocketEvents.CONNECT, () => {
