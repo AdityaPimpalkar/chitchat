@@ -1,5 +1,7 @@
 client/node_modules
 
+client/build
+
 client/src/config.js
 
 server/node_modules

@@ -2,7 +2,7 @@ import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import { createAdapter } from "socket.io-redis";
 import { auth } from "./src/middleware/auth.js";
-import { socketConnection } from "./src/middleware/socketConnection.js";
+import initConnect from "./src/middleware/initConnect.js";
 import redis from "./src/config/ioredis.js";
 import onConnection from "./src/events/onConnection.js";
 import onDisconnect from "./src/events/onDisconnect.js";
@@ -11,7 +11,7 @@ import groupMessage from "./src/events/groupMessage.js";
 import friends from "./src/events/friends.js";
 
 const httpServer = createServer();
-const clientUrl = "http://localhost:3006";
+const clientUrl = process.env.clientUrl || "http://localhost:3006";
 
 const io = new Server(httpServer, {
   cors: {
@@ -25,7 +25,7 @@ const io = new Server(httpServer, {
 });
 
 io.use((socket, next) => auth(socket, next));
-io.use((socket, next) => socketConnection(socket, next));
+io.use((socket, next) => initConnect(socket, next));
 
 let socket = null;
 

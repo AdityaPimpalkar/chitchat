@@ -4,7 +4,7 @@ import { RedisSessionStorage } from "../services/session.js";
 const redisClient = new Redis();
 const sessionStorage = new RedisSessionStorage(redisClient);
 
-export async function socketConnection(socket, next) {
+export default async function initConnect(socket, next) {
   try {
     const { user, sessionId, userId } = socket;
     await sessionStorage.saveSession(sessionId, {
