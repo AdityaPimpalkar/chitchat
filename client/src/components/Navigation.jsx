@@ -1,7 +1,7 @@
 import React from "react";
 import {
   AnnotationIcon,
-  UserGroupIcon,
+  // UserGroupIcon,
   UserAddIcon,
   ZoomInIcon,
 } from "@heroicons/react/outline";
@@ -10,7 +10,7 @@ const Navigation = ({
   navigation,
   toggleNavigation,
   newChatMessage,
-  newGroupMessage,
+  // newGroupMessage,
   newFriendRequest,
 }) => {
   return (

@@ -15,11 +15,11 @@ import FriendRequests from "../components/FriendRequests";
 const Chats = (props) => {
   const [loggedInUser] = useState(props.user);
   const [chats, setChats] = useState(props.users);
-  const [groups, setGroups] = useState(props.groups);
+  // const [groups, setGroups] = useState(props.groups);
   const [requests, setRequests] = useState(props.friendRequests);
   const [isConnected, setIsConnected] = useState(props.isConnected);
   const [selectedUser, setSelectedUser] = useState({});
-  const [selectedGroup, setSelectedGroup] = useState({});
+  // const [selectedGroup, setSelectedGroup] = useState({});
   const [userDetail, setUserDetail] = useState({});
   const [navigation, setNavigation] = useState("CHATS");
   const [newChatMessage, setNewChatMessage] = useState(false);
@@ -66,7 +66,7 @@ const Chats = (props) => {
 
   const newFriend = useCallback(
     (friend) => {
-      if (navigation != "CHATS") setNewChatMessage(true);
+      if (navigation !== "CHATS") setNewChatMessage(true);
       friend.hasNewMessage = true;
       setChats([friend, ...chats]);
     },
@@ -126,7 +126,7 @@ const Chats = (props) => {
   const toggleNavigation = (tab) => {
     setNavigation(tab);
     setSelectedUser({});
-    setSelectedGroup({});
+    // setSelectedGroup({});
     setUserDetail({});
     if (tab === "CHATS") setNewChatMessage(false);
     else if (tab === "GROUPS") setNewGroupMessage(false);
