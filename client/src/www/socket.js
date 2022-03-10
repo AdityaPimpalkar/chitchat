@@ -1,4 +1,5 @@
 import { io } from "socket.io-client";
-const serverUrl = process.env.serverUrl || "http://localhost:4000";
-const socket = io(serverUrl);
+import config from "../config";
+
+const socket = io(config.serverUrl);
 export default socket;
