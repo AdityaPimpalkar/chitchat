@@ -11,7 +11,7 @@ export async function searchFriend(email, callback) {
     try {
       const user = await searchedFriend(email);
       //if searched email exists in database
-      if (user?.userId !== socket.user.userId) {
+      if (user !== null && user?.userId !== socket.user.userId) {
         const sentRequests = await getSentRequests(socket.user.userId);
         //check if sender has already sent a request to the searched user.
         const request = sentRequests.find(
@@ -60,7 +60,7 @@ export async function searchFriend(email, callback) {
     } catch (error) {
       callback({
         result: false,
-        error: new Error(error.message),
+        error,
         data: null,
       });
     }
