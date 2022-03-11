@@ -1,8 +1,7 @@
-import Redis from "ioredis";
+import redis from "../config/ioredis.js";
 import { RedisSessionStorage } from "../services/session.js";
 
-const redisClient = new Redis();
-const sessionStorage = new RedisSessionStorage(redisClient);
+const sessionStorage = new RedisSessionStorage(redis);
 
 export default async function initConnect(socket, next) {
   try {

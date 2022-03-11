@@ -1,10 +1,9 @@
-import Redis from "ioredis";
+import redis from "../config/ioredis.js";
 import { v4 as uuidv4 } from "uuid";
 import { createToken, decodeToken } from "../config/jwt.js";
 import { RedisSessionStorage } from "../services/session.js";
 
-const redisClient = new Redis();
-const sessionStorage = new RedisSessionStorage(redisClient);
+const sessionStorage = new RedisSessionStorage(redis);
 
 export async function auth(socket, next) {
   try {
