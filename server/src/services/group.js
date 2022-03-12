@@ -1,4 +1,4 @@
-import redis from "../config/ioredis.js";
+import redis from "../config/redis.js";
 import { socket } from "../../socket.js";
 class GroupStorage {
   saveGroup(socket, group) {}
@@ -73,21 +73,28 @@ export class RedisGroupStorage extends GroupStorage {
   }
 
   async getGroups(sessionId) {
-    return await this.redisClient
-      .lrange(`group:${sessionId}`, 0, -1)
-      .then((results) => {
-        return {
-          result: true,
-          error: null,
-          data: results.map((result) => JSON.parse(result)),
-        };
-      })
-      .catch((error) => {
-        return {
-          result: false,
-          error: new Error(error),
-          data: null,
-        };
+    try {
+      return new Promise((resolve, reject) => {
+        this.redisClient.lrange(
+          `group:${sessionId}`,
+          0,
+          -1,
+          (error, results) => {
+            if (error) throw error;
+            return resolve({
+              result: true,
+              error: null,
+              data: results.map((result) => JSON.parse(result)),
+            });
+          }
+        );
       });
+    } catch (error) {
+      return {
+        result: false,
+        error,
+        data: null,
+      };
+    }
   }
 }

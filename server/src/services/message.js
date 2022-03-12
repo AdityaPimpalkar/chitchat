@@ -1,4 +1,4 @@
-import redis from "../config/ioredis.js";
+import redis from "../config/redis.js";
 
 class MessageStorage {
   saveMessage(message) {}
@@ -31,37 +31,70 @@ export class RedisMessageStorage extends MessageStorage {
   }
 
   async saveMessage(message) {
-    const value = JSON.stringify(message);
-    return await this.redisClient
-      .multi()
-      .rpush(`messages:${message.from}`, value)
-      .rpush(`messages:${message.to}`, value)
-      .exec((error, [[fromError], [toError]]) => {
-        if (fromError) throw new Error("Error saving message in sender list");
-        if (toError) throw new Error("Error saving message in receipient list");
-      })
-      .catch((error) => {
-        throw error;
+    try {
+      const value = JSON.stringify(message);
+      return new Promise((resolve, reject) => {
+        const result = this.redisClient
+          .multi()
+          .rpush(`messages:${message.from}`, value)
+          .rpush(`messages:${message.to}`, value)
+          .exec((result) => console.log("saveMessage", result));
+        if (result) resolve(result);
+        else reject(result);
       });
+    } catch (error) {
+      throw error;
+    }
+    // return await this.redisClient
+    //   .multi()
+    //   .rpush(`messages:${message.from}`, value)
+    //   .rpush(`messages:${message.to}`, value)
+    //   .exec((error, [[fromError], [toError]]) => {
+    //     if (fromError) throw new Error("Error saving message in sender list");
+    //     if (toError) throw new Error("Error saving message in receipient list");
+    //   });
   }
 
   async findMessagesForUser(userId) {
-    return await this.redisClient
-      .lrange(`messages:${userId}`, 0, -1)
-      .then((results) => {
-        return {
-          result: true,
-          error: null,
-          data: results.map((res) => JSON.parse(res)),
-        };
-      })
-      .catch((error) => {
-        return {
-          result: false,
-          error: new Error(error),
-          data: null,
-        };
+    try {
+      return new Promise((resolve, reject) => {
+        this.redisClient.lrange(
+          `messages:${userId}`,
+          0,
+          -1,
+          (error, results) => {
+            if (error) throw error;
+            return resolve({
+              result: true,
+              error: null,
+              data: results.map((result) => JSON.parse(result)),
+            });
+          }
+        );
       });
+    } catch (error) {
+      return {
+        result: false,
+        error,
+        data: null,
+      };
+    }
+    // return await this.redisClient
+    //   .lrange(`messages:${userId}`, 0, -1)
+    //   .then((results) => {
+    //     return {
+    //       result: true,
+    //       error: null,
+    //       data: results.map((res) => JSON.parse(res)),
+    //     };
+    //   })
+    //   .catch((error) => {
+    //     return {
+    //       result: false,
+    //       error: new Error(error),
+    //       data: null,
+    //     };
+    //   });
   }
 
   async saveGroupMessage(groupId, message) {

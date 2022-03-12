@@ -1,4 +1,4 @@
-import redis from "../config/ioredis.js";
+import redis from "../config/redis.js";
 
 class SessionStorage {
   saveSession(sessionId, user) {}
@@ -35,46 +35,49 @@ export class RedisSessionStorage extends SessionStorage {
   }
 
   async saveSession(sessionId, user) {
-    const value = JSON.stringify(user);
-    const { userId, email, lastSeen } = user;
-    return await this.redisClient
-      .multi()
-      .hset(`session:${sessionId}`, "session", value)
-      .hset(
-        `lastSeen:${userId}`,
-        "lastSeen",
-        JSON.stringify({ lastSeen: lastSeen })
-      )
-      .hset(
-        `sessionId:${userId}`,
-        "sessionId",
-        JSON.stringify({ userId, sessionId })
-      )
-      .hset(`user:${email}`, "user", value)
-      .exec()
-      .then(([[session], [lastSeen], [sessionId], [user]]) => {
-        if (session != null) throw new Error(`Error saving session`);
-        if (lastSeen != null) throw new Error(`Error saving last seen`);
-        if (sessionId != null) throw new Error(`Error saving session Id`);
-        if (user != null) throw new Error(`Error saving user`);
-      })
-      .catch((error) => {
-        throw new Error(error.message);
-      });
+    try {
+      const value = JSON.stringify(user);
+      const { userId, email, lastSeen } = user;
+      const [sessionResult, lastSeenResult, sessionIdResult, userResult] =
+        await Promise.all([
+          this.redisClient.hset(`session:${sessionId}`, "session", value),
+          this.redisClient.hset(
+            `lastSeen:${userId}`,
+            "lastSeen",
+            JSON.stringify({ lastSeen })
+          ),
+          this.redisClient.hset(
+            `sessionId:${userId}`,
+            "sessionId",
+            JSON.stringify({ userId, sessionId })
+          ),
+          this.redisClient.hset(`user:${email}`, "user", value),
+        ]);
+      if (!sessionResult) throw new Error(`Error saving session`);
+      if (!lastSeenResult) throw new Error(`Error saving last seen`);
+      if (!sessionIdResult) throw new Error(`Error saving session Id`);
+      if (!userResult) throw new Error(`Error saving user`);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findSession(userId) {
     if (userId) {
-      return await this.redisClient
-        .multi()
-        .hget(`sessionId:${userId}`, "sessionId")
-        .exec()
-        .then(([[err, result]]) => {
-          return JSON.parse(result);
-        })
-        .catch((error) => {
-          throw new Error(error);
+      try {
+        return new Promise((resolve, reject) => {
+          this.redisClient.hget(
+            `sessionId:${userId}`,
+            "sessionId",
+            (error, session) => {
+              if (error) throw error;
+              return resolve(JSON.parse(session));
+            }
+          );
         });
+      } catch (error) {
+        throw error;
+      }
     } else {
       throw new Error("No userId was passed");
     }
@@ -94,74 +97,69 @@ export class RedisSessionStorage extends SessionStorage {
       .catch((error) => console.log(error));
   }
 
-  async findAllSessions() {
-    const keys = new Set();
-    let nextIndex = 0;
-    do {
-      const [nextIndexAsStr, results] = await this.redisClient.scan(
-        nextIndex,
-        "MATCH",
-        "session:*",
-        "COUNT",
-        "100"
-      );
-      nextIndex = parseInt(nextIndexAsStr, 10);
-      results.forEach((s) => keys.add(s));
-    } while (nextIndex !== 0);
-
-    const commands = [];
-    keys.forEach((key) => {
-      commands.push(["hget", key, "session"]);
-    });
-    return this.redisClient
-      .multi(commands)
-      .exec()
-      .then((results) => {
-        return results.map(([err, session]) => JSON.parse(session));
-      });
-  }
-
   async getLastSeen(userId) {
-    return await this.redisClient
-      .multi()
-      .hget(`lastSeen:${userId}`, "lastSeen")
-      .exec()
-      .then(([[error, result]]) => {
-        if (error != null) throw new Error(error);
-        return {
-          result: true,
-          error: null,
-          data: JSON.parse(result),
-        };
-      })
-      .catch((error) => {
-        return {
-          result: false,
-          error,
-          data: null,
-        };
+    try {
+      return new Promise((resolve, reject) => {
+        this.redisClient.hget(
+          `lastSeen:${userId}`,
+          "lastSeen",
+          (error, result) => {
+            if (error) throw error;
+            return resolve(JSON.parse(result));
+          }
+        );
       });
+    } catch (error) {
+      return {
+        result: false,
+        error,
+        data: null,
+      };
+    }
+    // return await this.redisClient
+    //   .multi()
+    //   .hget(`lastSeen:${userId}`, "lastSeen")
+    //   .exec()
+    //   .then(([[error, result]]) => {
+    //     if (error != null) throw new Error(error);
+    //     return {
+    //       result: true,
+    //       error: null,
+    //       data: JSON.parse(result),
+    //     };
+    //   })
+    //   .catch((error) => {
+    //     return {
+    //       result: false,
+    //       error,
+    //       data: null,
+    //     };
+    //   });
   }
 
   async getConversations(userId) {
-    return await this.redisClient
-      .multi()
-      .lrange(`conversation:${userId}`, 0, -1)
-      .exec()
-      .then(([[error, results]]) => {
-        if (error != null) throw new Error(error);
-        return {
-          result: true,
-          error: null,
-          data: results.map((result) => JSON.parse(result)),
-        };
-      })
-      .catch((error) => {
-        return {
-          result: false,
-          error,
-          data: null,
-        };
+    try {
+      return new Promise((resolve, reject) => {
+        this.redisClient.lrange(
+          `conversation:${userId}`,
+          0,
+          -1,
+          (error, results) => {
+            if (error) throw error;
+            return resolve({
+              result: true,
+              error: null,
+              data: results.map((result) => JSON.parse(result)),
+            });
+          }
+        );
       });
+    } catch (error) {
+      return {
+        result: false,
+        error,
+        data: null,
+      };
+    }
   }
 }
