@@ -18,6 +18,6 @@ export default async function onConnection() {
 
     socket.broadcast.emit(socketEvents.USER_CONNECTED, socket.user);
   } catch (error) {
-    socket.emit(socketEvents.SERVER_ERROR, error.message);
+    socket.emit(socketEvents.SERVER_ERROR, error.message + error.stack);
   }
 }

@@ -1,4 +1,4 @@
-import redis from "../config/ioredis.js";
+import redis from "../config/redis.js";
 import { RedisSessionStorage } from "../services/session.js";
 
 const sessionStorage = new RedisSessionStorage(redis);

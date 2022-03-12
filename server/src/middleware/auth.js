@@ -1,4 +1,4 @@
-import redis from "../config/ioredis.js";
+import redis from "../config/redis.js";
 import { v4 as uuidv4 } from "uuid";
 import { createToken, decodeToken } from "../config/jwt.js";
 import { RedisSessionStorage } from "../services/session.js";
