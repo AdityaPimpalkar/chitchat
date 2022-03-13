@@ -6,6 +6,6 @@ client/src/config.js
 
 server/node_modules
 
-server/jwtRS256.key
+server/config.js
 
 server/jwtRS256.key.pub

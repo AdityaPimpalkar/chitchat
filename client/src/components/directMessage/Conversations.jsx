@@ -61,7 +61,9 @@ const Conversations = ({ loggedInUser, users, selectUser }) => {
         />
       ))
     ) : (
-      <div className="d-flex h-100 text-center">No users connected</div>
+      <div className="flex h-full items-center justify-center">
+        No users added
+      </div>
     );
   };
 
@@ -71,13 +73,15 @@ const Conversations = ({ loggedInUser, users, selectUser }) => {
         onKeyPress={(value) => onSearch(value)}
         isClear={() => isClear()}
       />
-      <div className="flex flex-row overflow-y-auto w-full">
-        <div className="w-full">
+      <div className="flex flex-row flex-1 overflow-y-auto w-full ">
+        <div className="w-full h-full">
           {searchResults === true &&
             (searchedChats.length > 0 ? (
               <RenderUsers users={searchedChats} />
             ) : (
-              <div className="d-flex h-100 text-center">No users found!</div>
+              <div className="flex h-full text-center items-center justify-center">
+                No users found!
+              </div>
             ))}
           {searchResults === false && <RenderUsers users={chats} />}
         </div>

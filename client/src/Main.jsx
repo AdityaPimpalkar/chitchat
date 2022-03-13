@@ -73,8 +73,8 @@ const Main = () => {
     socket.connect();
   };
 
-  const onLoginFailure = () => {
-    console.log("Login Failed!");
+  const onLoginFailure = (err) => {
+    console.log("Login Failed!", err);
   };
 
   return (
@@ -91,7 +91,7 @@ const Main = () => {
       {!loggedInUser.userId && (
         <Login
           onSuccess={(response) => onLoginSuccess(response)}
-          onFailure={() => onLoginFailure()}
+          onFailure={(err) => onLoginFailure(err)}
           isLoading={isLoading}
           LoadWidth={loadWidth}
         />

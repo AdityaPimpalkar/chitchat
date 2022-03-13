@@ -8,18 +8,21 @@ import {
 import socket from "../www/socket";
 import Search from "./common/Search";
 import Entity from "./common/Entity";
+import SpinnerIcon from "./common/SpinnerIcon";
 import SocketEvents from "../events/constants";
 
 const SearchFriends = ({ selectFriend, openChat }) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchResults, setsearchResults] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const onSearch = (value) => {
+    setIsLoading(true);
     setsearchResults(true);
     socket.emit(
       SocketEvents.SEARCH_FRIEND,
       value,
       ({ result, error, data }) => {
+        setIsLoading(false);
         if (result) searchedFriend(data);
         if (error) console.log(error);
       }
@@ -80,7 +83,9 @@ const SearchFriends = ({ selectFriend, openChat }) => {
         />
       ))
     ) : (
-      <div className="d-flex h-100 text-center">No results found.</div>
+      <div className="flex h-full items-center justify-center">
+        No results found.
+      </div>
     );
   };
 
@@ -90,16 +95,26 @@ const SearchFriends = ({ selectFriend, openChat }) => {
         onKeyPress={(value) => onSearch(value)}
         isClear={() => isClear()}
       />
-      <div className="flex flex-row overflow-y-auto w-full">
-        <div className="w-full">
+      <div className="flex flex-row flex-1 overflow-y-auto w-full">
+        <div className="w-full h-full">
           {searchResults === true &&
-            (searchedUsers.length > 0 ? (
-              <RenderSearchedUsers searchedUsers={searchedUsers} />
+            (isLoading === false ? (
+              searchedUsers.length > 0 ? (
+                <RenderSearchedUsers searchedUsers={searchedUsers} />
+              ) : (
+                <div className="flex h-full items-center justify-center">
+                  No users found!
+                </div>
+              )
             ) : (
-              <div className="d-flex h-100 text-center">No users found!</div>
+              <div className="flex h-full items-center justify-center">
+                <SpinnerIcon />
+              </div>
             ))}
           {searchResults === false && (
-            <div className="d-flex h-100 text-center">Search a Friend!</div>
+            <div className="flex h-full items-center justify-center">
+              Search a friend by Email Id
+            </div>
           )}
         </div>
       </div>

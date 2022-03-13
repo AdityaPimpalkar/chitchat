@@ -57,7 +57,9 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
         />
       ))
     ) : (
-      <div className="d-flex h-100 text-center">No new requests.</div>
+      <div className="flex h-full items-center justify-center">
+        No new requests.
+      </div>
     );
   };
 
@@ -67,13 +69,15 @@ const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
         onKeyPress={(value) => onSearch(value)}
         isClear={() => isClear()}
       />
-      <div className="flex flex-row overflow-y-auto w-full">
+      <div className="flex flex-row flex-1 overflow-y-auto w-full">
         <div className="w-full">
           {searchResults === true &&
             (searchedRequests.length > 0 ? (
               <RenderFriendRequest requests={searchedRequests} />
             ) : (
-              <div className="d-flex h-100 text-center">Not found!</div>
+              <div className="flex h-full items-center justify-center">
+                Not found!
+              </div>
             ))}
           {searchResults === false && (
             <RenderFriendRequest requests={requests} />
