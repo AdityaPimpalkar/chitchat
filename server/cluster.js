@@ -1,6 +1,7 @@
 import cluster from "cluster";
-import http from "http";
+import express from "express";
 import { cpus } from "os";
+import http from "http";
 import process from "process";
 import { setupMaster, setupWorker } from "@socket.io/sticky";
 import { io, socket } from "./socket.js";
@@ -19,14 +20,15 @@ if (cluster.isPrimary) {
     cluster.fork();
   });
 
-  const httpServer = http.createServer();
-  setupMaster(httpServer, {
+  const expressServer = express();
+  const server = http.createServer(expressServer);
+  setupMaster(server, {
     loadBalancingMethod: "least-connection", // random, robin-robin
   });
 
   const PORT = process.env.PORT || 4000;
 
-  httpServer.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`Server listening at port ${PORT}`);
   });
 } else {
