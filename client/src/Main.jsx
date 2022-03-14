@@ -18,6 +18,7 @@ const Main = () => {
     if (token) {
       socket.auth = { token };
       socket.connect();
+      setLoadWidth("w-96");
     } else {
       setLoadWidth("w-96");
       setIsLoading(false);
@@ -62,8 +63,9 @@ const Main = () => {
       socket.off(SocketEvents.CONNECT);
       socket.off(SocketEvents.DISCONNECT);
       socket.off(SocketEvents.CONNECT_ERROR);
+      socket.off(SocketEvents.SERVER_ERROR);
       socket.off(SocketEvents.SESSION);
-      socket.off(SocketEvents.USERS);
+      socket.off(SocketEvents.LOAD_DATA);
     };
   }, []);
 
