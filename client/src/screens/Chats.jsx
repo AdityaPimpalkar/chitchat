@@ -4,13 +4,13 @@ import SocketEvents from "../events/constants";
 import Container from "../layouts/Container";
 import Sidebar from "../layouts/Sidebar";
 import Content from "../layouts/Content";
-import Header from "../components/Header";
-import Navigation from "../components/Navigation";
-import Conversations from "../components/directMessage/Conversations";
-import DirectMessage from "../components/DirectMessage";
-import SearchFriends from "../components/SearchFriends";
-import UserDetails from "../components/UserDetails";
-import FriendRequests from "../components/FriendRequests";
+import Header from "../components/sidebar/Header";
+import Navigation from "../components/sidebar/Navigation";
+import Conversations from "../components/sidebar/entities/Conversations";
+import SearchFriends from "../components/sidebar/entities/SearchFriends";
+import FriendRequests from "../components/sidebar/entities/FriendRequests";
+import DirectMessage from "../components/content/DirectMessage";
+import UserDetails from "../components/content/UserDetails";
 
 const Chats = (props) => {
   const [loggedInUser] = useState(props.user);

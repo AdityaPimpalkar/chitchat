@@ -5,11 +5,11 @@ import {
   // PlusIcon,
   AnnotationIcon,
 } from "@heroicons/react/solid";
-import socket from "../www/socket";
-import Search from "./common/Search";
-import Entity from "./common/Entity";
-import SpinnerIcon from "./common/SpinnerIcon";
-import SocketEvents from "../events/constants";
+import socket from "../../../www/socket";
+import Entity from "../../common/Entity";
+import Search from "../../common/Search";
+import SpinnerIcon from "../../common/SpinnerIcon";
+import SocketEvents from "../../../events/constants";
 
 const SearchFriends = ({ selectFriend, openChat }) => {
   const [searchedUsers, setSearchedUsers] = useState([]);

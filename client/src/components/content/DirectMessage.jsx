@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import SocketEvents from "../events/constants";
-import ChatHeader from "./ChatHeader";
-import Messages from "../components/common/Messages";
-import ChatInput from "./common/ChatInput";
-import socket from "../www/socket";
+import SocketEvents from "../../events/constants";
+import ChatHeader from "../common/ChatHeader";
+import Messages from "../common/Messages";
+import ChatInput from "../common/ChatInput";
+import socket from "../../www/socket";
 
 const DirectMessage = ({
   selectedUser,

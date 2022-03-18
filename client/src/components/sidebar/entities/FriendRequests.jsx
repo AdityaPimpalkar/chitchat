@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BadgeCheckIcon, CheckIcon } from "@heroicons/react/solid";
-import Search from "./common/Search";
-import Entity from "./common/Entity";
+import Search from "../../common/Search";
+import Entity from "../../common/Entity";
 
 const FriendRequests = ({ friendRequests, selectFriend, acceptRequest }) => {
   const [requests, setRequests] = useState(friendRequests);

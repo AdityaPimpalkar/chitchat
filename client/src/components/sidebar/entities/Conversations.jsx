@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Entity from "../common/Entity";
-import Search from "../common/Search";
+import Entity from "../../common/Entity";
+import Search from "../../common/Search";
 const Conversations = ({ loggedInUser, users, selectUser }) => {
   const [chats] = useState(users);
   const [searchedChats, setSearchedChats] = useState([]);
