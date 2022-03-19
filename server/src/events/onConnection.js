@@ -9,12 +9,11 @@ export default async function onConnection() {
       getGroups(socket.sessionId),
       getFriendRequests(socket.userId),
     ]);
-    socket.emit(socketEvents.LOAD_DATA, { users, groups, friendRequests });
-
     socket.emit(socketEvents.SESSION, {
       ...socket.user,
       token: socket.token,
     });
+    socket.emit(socketEvents.LOAD_DATA, { users, groups, friendRequests });
 
     socket.broadcast.emit(socketEvents.USER_CONNECTED, socket.user);
   } catch (error) {
