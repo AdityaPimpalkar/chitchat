@@ -19,9 +19,9 @@ const slice = createSlice({
       if (content) chats[userIndex].lastMessage = { content, from, to, sentOn };
     },
     messageSent: (chats, action) => {
-      const { content, from, to, sentOn } = action.payload;
-      const userIndex = chats.findIndex((u) => u.userId === from);
-      if (content) chats[userIndex].lastMessage = { content, from, to, sentOn };
+      const { userId } = action.payload.user;
+      const userIndex = chats.findIndex((u) => u.userId === userId);
+      chats[userIndex].lastMessage = { ...action.payload.content };
     },
     messageSeen: (chats, action) => {
       const from = action.payload;
@@ -31,6 +31,11 @@ const slice = createSlice({
   },
 });
 
-export const { chatsLoaded, chatAdded, messageReceived, messageSeen } =
-  slice.actions;
+export const {
+  chatsLoaded,
+  chatAdded,
+  messageReceived,
+  messageSent,
+  messageSeen,
+} = slice.actions;
 export default slice.reducer;
