@@ -10,16 +10,16 @@ const slice = createSlice({
   },
   reducers: {
     chatSelected: (entity, action) => {
-      entity.chat = action.payload;
+      entity.chat = { ...action.payload };
     },
     groupSelected: (entity, action) => {
-      entity.group = action.payload;
+      entity.group = { ...action.payload };
     },
     userSelected: (entity, action) => {
-      entity.user = action.payload;
+      entity.user = { ...action.payload };
     },
     entityCleared: (entity, action) => {
-      entity.user = {};
+      entity.chat = {};
       entity.group = {};
       entity.user = {};
     },
@@ -28,6 +28,16 @@ const slice = createSlice({
     },
     actionEnded: (entity, action) => {
       entity.actionLoading = false;
+    },
+    chatConnected: (entity, action) => {
+      entity.chat = { ...entity.chat, connected: true, lastSeen: null };
+    },
+    chatDisconnected: (entity, action) => {
+      entity.chat = {
+        ...entity.chat,
+        connected: false,
+        lastSeen: action.payload,
+      };
     },
   },
 });
@@ -39,5 +49,7 @@ export const {
   entityCleared,
   actionStarted,
   actionEnded,
+  chatConnected,
+  chatDisconnected,
 } = slice.actions;
 export default slice.reducer;
