@@ -5,7 +5,7 @@ const slice = createSlice({
   initialState: [],
   reducers: {
     chatsLoaded: (chats, action) => {
-      chats = action.payload.chats;
+      chats = [...action.payload];
       return chats;
     },
     chatAdded: (chats, action) => {
@@ -18,7 +18,13 @@ const slice = createSlice({
       const { content, from, to, sentOn } = action.payload;
       const userIndex = chats.findIndex((u) => u.userId === from);
       chats[userIndex].hasNewMessage = true;
-      if (content) chats[userIndex].lastMessage = { content, from, to, sentOn };
+      if (content)
+        chats[userIndex].lastMessage = {
+          content,
+          from,
+          to,
+          sentOn: sentOn.toString(),
+        };
       return chats;
     },
     messageSent: (chats, action) => {

@@ -105,7 +105,11 @@ export class RedisSessionStorage extends SessionStorage {
           "lastSeen",
           (error, result) => {
             if (error) throw error;
-            return resolve(JSON.parse(result));
+            return resolve({
+              result: true,
+              error: null,
+              data: JSON.parse(result),
+            });
           }
         );
       });
