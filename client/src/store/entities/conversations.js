@@ -5,14 +5,12 @@ const slice = createSlice({
   initialState: [],
   reducers: {
     chatsLoaded: (chats, action) => {
-      chats = [...action.payload];
-      return chats;
+      chats = action.payload;
     },
     chatAdded: (chats, action) => {
       const chat = { ...action.payload };
       chat.hasNewMessage = true;
       chats = [chat, ...chats];
-      return chats;
     },
     messageReceived: (chats, action) => {
       const { content, from, to, sentOn } = action.payload;
@@ -25,19 +23,16 @@ const slice = createSlice({
           to,
           sentOn: sentOn.toString(),
         };
-      return chats;
     },
     messageSent: (chats, action) => {
       const { userId } = action.payload.user;
       const userIndex = chats.findIndex((u) => u.userId === userId);
       chats[userIndex].lastMessage = { ...action.payload.content };
-      return chats;
     },
     messageSeen: (chats, action) => {
       const from = action.payload;
       const userIndex = chats.findIndex((u) => u.userId === from);
       chats[userIndex].hasNewMessage = false;
-      return chats;
     },
   },
 });
@@ -50,3 +45,6 @@ export const {
   messageSeen,
 } = slice.actions;
 export default slice.reducer;
+
+export const loadChats = (chats) => (dispatch, action) =>
+  dispatch(chatsLoaded(chats));

@@ -5,14 +5,70 @@ import {
   PlusIcon,
   AnnotationIcon,
 } from "@heroicons/react/solid";
+import { useSelector, useDispatch } from "react-redux";
+import socket from "../../www/socket";
+import SocketEvents from "../../events/constants";
+import { navigatedToChats } from "../../store/navigation";
+import {
+  actionStarted,
+  actionEnded,
+  userSelected,
+  chatSelected,
+  entityCleared,
+} from "../../store/entity";
+import { requestAccepted } from "../../store/entities/requests";
+import { messageSeen } from "../../store/entities/conversations";
+import { addedAsFriend } from "../../store/entities/search";
+import SpinnerIcon from "../common/SpinnerIcon";
 
-const UserDetails = ({
-  user,
-  addFriend,
-  acceptRequest,
-  openChat,
-  searchFriends,
-}) => {
+const UserDetails = () => {
+  const user = useSelector((state) => state.entity.user);
+  const isLoading = useSelector((state) => state.entity.actionLoading);
+  const navigation = useSelector((state) => state.navigation.currentTab);
+
+  const searchFriends = navigation === "SEARCH";
+  const dispatch = useDispatch();
+
+  const openChat = (user) => {
+    dispatch(entityCleared());
+    dispatch(navigatedToChats());
+    dispatch(chatSelected(user));
+    socket.emit(SocketEvents.USER_MESSAGES, user);
+    dispatch(messageSeen(user.userId));
+  };
+
+  const acceptRequest = (friend) => {
+    dispatch(actionStarted());
+    socket.emit(SocketEvents.ACCEPT_REQUEST, friend, ({ result, error }) => {
+      if (result) {
+        dispatch(requestAccepted(friend));
+        dispatch(entityCleared());
+      }
+      if (error) {
+        console.log(error);
+      }
+      dispatch(actionEnded());
+    });
+  };
+
+  const addFriend = (friend) => {
+    dispatch(actionStarted());
+    socket.emit(SocketEvents.ADD_FRIEND, friend, ({ result, error }) => {
+      if (result) {
+        const updateFriend = { ...friend };
+        updateFriend.sentRequest = true;
+        updateFriend.isAdded = false;
+        dispatch(userSelected(updateFriend));
+        dispatch(addedAsFriend());
+        dispatch(actionEnded());
+      }
+      if (error) {
+        console.log(error);
+      }
+      dispatch(actionEnded());
+    });
+  };
+
   return (
     <div className="h-full bg-purple-700 text-left">
       <div className="w-full h-full text-center flex flex-col justify-center items-center">
@@ -29,7 +85,7 @@ const UserDetails = ({
           <div className="flex justify-center items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="text-blue-400 ml-1 lg:h-3 lg:w-3 xl:h-5 xl:w-5 2xl:h-8 2xl:w-8"
+              className="text-blue-400 ml-1 lg:h-3 lg:w-3 xl:h-6 xl:w-6 2xl:h-8 2xl:w-8"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -52,7 +108,7 @@ const UserDetails = ({
             className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
             onClick={() => openChat(user)}
           >
-            <AnnotationIcon className="mr-2 lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14" />
+            <AnnotationIcon className="mr-2 lg:h-6 lg:w-6 xl:h-8 xl:w-8 2xl:h-9 2xl:w-9 m-2" />
             Open Chat
           </button>
         )}
@@ -60,14 +116,14 @@ const UserDetails = ({
           user.isAdded === false &&
           searchFriends === true && (
             <div className="flex flex-row justify-center items-center bg-yellow-600 rounded-full">
-              <ClockIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14" />
+              <ClockIcon className="lg:h-6 lg:w-6 xl:h-8 xl:w-8 2xl:h-9 2xl:w-9 m-2" />
               <span className="mr-2">Waiting for approval</span>
             </div>
           )}
 
         {user.hasRequested === true && searchFriends === true && (
           <div className="flex flex-row justify-center items-center text-black bg-white rounded-full">
-            <ClockIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14" />
+            <ClockIcon className="lg:h-6 lg:w-6 xl:h-8 xl:w-8 2xl:h-9 2xl:w-9 m-2" />
             <span className="mr-2">Please check your friend requests</span>
           </div>
         )}
@@ -77,7 +133,11 @@ const UserDetails = ({
             className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
             onClick={() => acceptRequest(user)}
           >
-            <CheckIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14" />
+            {isLoading ? (
+              <SpinnerIcon className="lg:h-6 lg:w-6 xl:h-8 xl:w-8 2xl:h-9 2xl:w-9 m-2" />
+            ) : (
+              <CheckIcon className="lg:h-6 lg:w-6 xl:h-8 xl:w-8 2xl:h-9 2xl:w-9 m-2" />
+            )}
             Accept request
           </button>
         )}
@@ -86,7 +146,11 @@ const UserDetails = ({
             className="border-2 pr-2 rounded-lg flex flex-fill justify-center items-center text-semibold hover:bg-yellow-500 hover:shadow-xl"
             onClick={() => addFriend(user)}
           >
-            <PlusIcon className="lg:h-5 lg:w-5 xl:h-8 xl:w-8 2xl:h-14 2xl:w-14" />
+            {isLoading ? (
+              <SpinnerIcon className="lg:h-6 lg:w-6 xl:h-8 xl:w-8 2xl:h-9 2xl:w-9 m-2" />
+            ) : (
+              <PlusIcon className="lg:h-6 lg:w-6 xl:h-8 xl:w-8 2xl:h-9 2xl:w-9 m-2" />
+            )}
             Add as friend
           </button>
         )}

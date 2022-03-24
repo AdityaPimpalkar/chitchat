@@ -24,7 +24,7 @@ const Entity = ({ entity, image, title, SubTitle, Options, selectEntity }) => {
               {SubTitle}
             </span>
           </div>
-          <div className="flex flex-col items-center border-b border-purple-400 flex-1">
+          <div className="flex flex-col items-center justify-center border-b border-purple-400 flex-1">
             {Options}
           </div>
         </div>

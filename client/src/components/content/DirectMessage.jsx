@@ -1,55 +1,67 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import socket from "../../www/socket";
 import SocketEvents from "../../events/constants";
+import { messageSent } from "../../store/entities/conversations";
+import { chatConnected, chatDisconnected } from "../../store/entity";
+
 import ChatHeader from "../common/ChatHeader";
 import Messages from "../common/Messages";
 import ChatInput from "../common/ChatInput";
-import socket from "../../www/socket";
 
-const DirectMessage = ({
-  selectedUser,
-  loggedInUser,
-  newDirectMessage,
-  isConnected,
-}) => {
-  const [user, setUser] = useState(selectedUser);
+const DirectMessage = () => {
+  const loggedInUser = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.entity.chat);
   const [messages, setMessages] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket.on(SocketEvents.USER_CONNECTED, (connected) => {
+      if (user.userId === connected.userId) dispatch(chatConnected());
+    });
+    socket.on(SocketEvents.USER_DISCONNECTED, (disconnected) => {
+      if (user.userId === disconnected.userId)
+        dispatch(chatDisconnected(disconnected.lastSeen));
+    });
+    return () => {
+      socket.off(SocketEvents.USER_CONNECTED);
+      socket.off(SocketEvents.USER_DISCONNECTED);
+    };
+  }, [user, dispatch]);
 
   useEffect(() => {
     socket.on(
       SocketEvents.USER_MESSAGES,
-      ({ userId, username, connected, messages, lastSeen }) => {
-        setUser({ ...user, userId, username, connected, lastSeen });
+      ({ connected, messages, lastSeen }) => {
+        if (connected) dispatch(chatConnected());
+        else dispatch(chatDisconnected(lastSeen));
         setMessages(messages);
       }
     );
 
-    return () => {
-      socket.off(SocketEvents.USER_MESSAGES);
-    };
-  }, [user]);
-
-  useEffect(() => {
     socket.on(SocketEvents.PRIVATE_MESSAGE, ({ content, from, to, sentOn }) => {
-      const newMessage = {
+      console.log(from);
+      const message = {
         content,
         from,
         to,
         sentOn,
       };
       if (user.userId === from) {
-        setMessages([...messages, newMessage]);
-        newDirectMessage(user.userId, false, newMessage);
+        setMessages([...messages, message]);
+        dispatch(messageSent({ user, content: message }));
       }
     });
 
     return () => {
+      socket.off(SocketEvents.USER_MESSAGES);
       socket.off(SocketEvents.PRIVATE_MESSAGE);
     };
-  }, [user, messages, newDirectMessage]);
+  }, [user, messages, dispatch]);
 
-  useEffect(() => {
-    setUser(selectedUser);
-  }, [selectedUser]);
+  // useEffect(() => {
+  //   setUser(selectedUser);
+  // }, [selectedUser]);
 
   const sendMessage = (value) => {
     const messageArr = [...messages];
@@ -57,12 +69,12 @@ const DirectMessage = ({
       content: value,
       to: user.userId,
       from: loggedInUser.userId,
-      sentOn: new Date(),
+      sentOn: new Date().toString(),
     };
     setMessages([...messages, message]);
     socket.emit(SocketEvents.PRIVATE_MESSAGE, message, ({ result, error }) => {
       if (result) {
-        newDirectMessage(user.userId, false, message);
+        dispatch(messageSent({ user, content: message }));
       }
       if (error) setMessages([...messageArr]);
     });
@@ -71,10 +83,7 @@ const DirectMessage = ({
     <React.Fragment>
       <ChatHeader user={user} />
       <Messages messages={messages} user={loggedInUser} />
-      <ChatInput
-        sendMessage={(value) => sendMessage(value)}
-        isConnected={isConnected}
-      />
+      <ChatInput sendMessage={(value) => sendMessage(value)} />
     </React.Fragment>
   );
 };

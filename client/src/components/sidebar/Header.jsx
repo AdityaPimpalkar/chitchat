@@ -1,8 +1,9 @@
 import React from "react";
-
 import { ChatAlt2Icon, ExclamationIcon } from "@heroicons/react/solid";
-
-const Navigation = ({ user, isConnected }) => {
+import { useSelector } from "react-redux";
+const Navigation = () => {
+  const user = useSelector((state) => state.auth.user);
+  const isConnected = useSelector((state) => state.auth.connected);
   return (
     <div className="grid grid-cols-2 flex flex-row w-full bg-purple-900 shadow-xl  lg:h-12 xl:h-16 2xl:h-20">
       <div className="flex flex-row items-center">

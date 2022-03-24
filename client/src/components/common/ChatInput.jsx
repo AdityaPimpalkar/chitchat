@@ -3,10 +3,12 @@ import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
+import { useSelector } from "react-redux";
 
-const ChatInput = ({ sendMessage, isConnected }) => {
+const ChatInput = ({ sendMessage }) => {
   const [message, setMessage] = useState("");
   const [emojiPicker, setEmojiPicker] = useState(false);
+  const isConnected = useSelector((state) => state.auth.connected);
 
   const onChangeInput = (value) => {
     setMessage(value);

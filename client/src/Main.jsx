@@ -3,15 +3,16 @@ import socket from "./www/socket";
 import Login from "./screens/Login";
 import Chats from "./screens/Chats";
 import SocketEvents from "./events/constants";
+import { useSelector, useDispatch } from "react-redux";
+import { userLoggedIn, userConnected, userDisConnected } from "./store/auth";
+import { chatsLoaded, loadChats } from "./store/entities/conversations";
+import { requestsLoaded } from "./store/entities/requests";
 
 const Main = () => {
-  const [loggedInUser, setLoggedInUser] = useState({});
-  const [users, setUsers] = useState([]);
-  const [groups, setGroups] = useState([]);
-  const [friendRequests, setFriendRequests] = useState([]);
+  const loggedInUser = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [loadWidth, setLoadWidth] = useState("w-32");
-  const [isConnected, setIsConnected] = useState(false);
 
   const userExists = () => {
     const token = localStorage.getItem("token");
@@ -28,17 +29,11 @@ const Main = () => {
   useEffect(() => {
     userExists();
 
-    socket.on(SocketEvents.CONNECT, () => {
-      setIsConnected(true);
-    });
+    socket.on(SocketEvents.CONNECT, () => dispatch(userConnected()));
 
-    socket.on(SocketEvents.DISCONNECT, () => {
-      setIsConnected(false);
-    });
+    socket.on(SocketEvents.DISCONNECT, () => dispatch(userDisConnected()));
 
-    socket.on(SocketEvents.CONNECT_ERROR, function (err) {
-      setIsConnected(false);
-    });
+    socket.on(SocketEvents.CONNECT_ERROR, dispatch(userDisConnected()));
 
     socket.on(SocketEvents.SERVER_ERROR, (err) => {
       console.log(err);
@@ -49,13 +44,14 @@ const Main = () => {
       localStorage.setItem("token", token);
       setLoadWidth("w-96");
       setIsLoading(false);
-      setLoggedInUser({ userId, username, image });
+      dispatch(userLoggedIn({ user: { userId, username, image } }));
     });
 
     socket.on(SocketEvents.LOAD_DATA, ({ users, groups, friendRequests }) => {
-      setUsers(users);
-      setGroups(groups);
-      setFriendRequests(friendRequests);
+      dispatch(loadChats(users));
+      dispatch(chatsLoaded(users));
+      //setGroups(groups);
+      dispatch(requestsLoaded(friendRequests));
       setLoadWidth("w-64");
     });
 
@@ -67,7 +63,7 @@ const Main = () => {
       socket.off(SocketEvents.SESSION);
       socket.off(SocketEvents.LOAD_DATA);
     };
-  }, []);
+  }, [dispatch]);
 
   const onLoginSuccess = (response) => {
     const { profileObj, tokenId } = response;
@@ -81,15 +77,7 @@ const Main = () => {
 
   return (
     <main>
-      {loggedInUser.userId && (
-        <Chats
-          user={loggedInUser}
-          users={users}
-          groups={groups}
-          friendRequests={friendRequests}
-          isConnected={isConnected}
-        />
-      )}
+      {loggedInUser.userId && <Chats />}
       {!loggedInUser.userId && (
         <Login
           onSuccess={(response) => onLoginSuccess(response)}
